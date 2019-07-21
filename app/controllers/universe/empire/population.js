@@ -4,9 +4,8 @@ export default Controller.extend({
   actions: {
     async popGeneration(event) {
       event.preventDefault();
-      let empire = await this.model.get('mainEmpire')
-      empire.set('population', empire.population + 1)
-      await empire.save()
+      this.model.set('population', this.model.get('population') + 1)
+      await this.model.save()
     },
   },
 });
