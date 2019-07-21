@@ -1,0 +1,32 @@
+General navbar, tab navbar, subtab selection, game area
+
+Incremental Empire     Population 190    Happiness 55%                                   Mana 12 Culture 15 Money 10 Science 150        <<< This is the general bar, always displayed
+================================================================================================================================
+Population?    *Ressources*   Rebirth   Upgrades    Achievements  Settings                                                              <<< This is the navigation bar, always displayed, tabs clickable
+------------+-------------------------------------------------------------------------------------------------------------------
+Food        |
+Material    |
+Metal       |
+Oil         |
+Energy      |
+            |
+            |
+            |
+            |
+            |
+            |                           Game area
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+            |
+
+^^^^^^^^^^^^^
+This is the subtab, clickable, let you choose the ressource focus (for ressource main tab)

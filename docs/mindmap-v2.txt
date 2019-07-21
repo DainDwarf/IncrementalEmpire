@@ -1,0 +1,52 @@
+New plan for the game.
+
+Base idea: Turn-based incremental with various choices and evolving gameplay
+
+=========================
+
+Turn-based: Production happen when you click for next turn, no idle gaming
+
+Incremental: You can "rebirth" which gives some rebirth ressource in exchange for starting again.
+
+Choices: You have a rebirth template, with more choices unlockes with achievements and upgrades. And of course can choose what production to start at each turn
+
+Evolving: Different strategies and new ways to build your empire given more upgrades.
+
+==========================
+
+Production: You have different base ressources, and for each base ressources you have buildings, workers and tools.
+
+Next turn: Each worker produces its production, in a "top-down" way. Multi-turn productions, or not?
+
+No idle gaming: No timer, except maybe for achivements
+
+Rebirth: Uses a formula to tell how much rebirth ressource is gained given the state of the empire.
+
+Rebirth ressource: Mana, Culture, Money, Science. Do you choose at the start of empire or at the end? I prefer start.
+
+Start again: Rebirth template gives the state of the new empire.
+
+Achievements: Need to do things, often with a turn limit, to unlock "template points" or template possibilities
+
+Upgrades: Cost rebirth ressources to give various effects. 4 categories corresponding to the ressources? (cross upgrades maybe as well?) Upgrade tree, need to unlock A to get B?
+
+Evolving: Given the upgrades, templates and rebirth choices, you have different ways of handling how to produce more?
+
+
+==========================
+Base ressources:
+    * Population
+    * Food
+    * Construction material (wood and stone)
+    * Metals
+    * Oil
+    * Energy
+    * ???
+
+Buildings: Increases worker limit
+Worker: Produce "something" (base ressources, workers, buildings, tools)
+Tools: Boost worker production
+
+Top-down production: If worker A produces tool for worker B, worker A is done first and aids the production of worker B in the same turn. Need some graph topology?
+
+TODO continue lvl 3 mind map
