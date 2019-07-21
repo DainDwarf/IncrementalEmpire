@@ -7,7 +7,9 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('universe');
+  this.route('universe', function() {
+    this.route('empire');
+  });
 });
 
 export default Router;

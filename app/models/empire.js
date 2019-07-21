@@ -3,5 +3,5 @@ const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   universe: belongsTo('universe', {async: true, autoSave: true}),
-  population: attr('number'),
+  population: attr('number', { defaultValue: 0}),
 });
