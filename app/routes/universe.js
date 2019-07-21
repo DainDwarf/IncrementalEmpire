@@ -17,5 +17,5 @@ export default Route.extend({
 
   redirect() {
     this.transitionTo('universe.empire');
-  }
+  },
 });
