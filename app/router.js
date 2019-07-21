@@ -8,7 +8,14 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('universe', function() {
-    this.route('empire');
+    this.route('empire', function() {
+      this.route('population');
+      this.route('ressources');
+    });
+    this.route('upgrades');
+    this.route('templates');
+    this.route('achievements');
+    this.route('settings');
   });
 });
 
