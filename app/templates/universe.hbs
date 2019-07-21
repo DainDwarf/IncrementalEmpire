@@ -16,5 +16,28 @@
       <li class="nav-item mx-2"><FaIcon @icon="flask" /> {{model.science}}</li>
     </ul>
   </div>
-  {{outlet}}
 </nav>
+<div class="container-fluid">
+  <ul class="nav nav-tabs">
+    <!-- TODO: Link each tab to its route -->
+    <li class="nav-item">
+      <a class="nav-link" href="#">Population</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Ressources</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Upgrades</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Templates</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Achievements</a>
+    </li>
+    <li class="nav-item ml-auto">
+      <a class="nav-link" href="#">Settings</a>
+    </li>
+  </ul>
+</div>
+{{outlet}}
