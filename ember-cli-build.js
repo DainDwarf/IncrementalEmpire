@@ -2,9 +2,17 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+
 module.exports = function(defaults) {
+  let env = EmberApp.env();
+  let isProductionLikeBuild = ['production'].indexOf(env) > -1;
+
   let app = new EmberApp(defaults, {
     // Add options here
+    fingerprint: {
+      enabled: isProductionLikeBuild,
+      prepend: 'https://daindwarf.github.io/',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
