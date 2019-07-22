@@ -3,5 +3,7 @@ const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   universe: belongsTo('universe', {async: true, autoSave: true}),
-  population: attr('number', { defaultValue: 0}),
+  turn: attr('number', {defaultValue: 0}),
+  population: attr('number', { defaultValue: 1}),
+  food: attr('number', { defaultValue: 0 }),
 });
