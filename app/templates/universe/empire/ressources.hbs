@@ -1,1 +1,24 @@
-{{outlet}}
+<div class="container-fluid">
+  <div class="row">
+    <nav class="nav nav-pills flex-column border-right">
+      {{#link-to "universe.empire.ressources.food" class="nav-link"}}
+        Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+      {{/link-to}}
+      {{#link-to "universe.empire.ressources.wood" class="nav-link"}}
+        Wood
+      {{/link-to}}
+      {{#link-to "universe.empire.ressources.stone" class="nav-link"}}
+        Stone
+      {{/link-to}}
+      {{#link-to "universe.empire.ressources.metal" class="nav-link"}}
+        Metal
+      {{/link-to}}
+      {{#link-to "universe.empire.ressources.energy" class="nav-link"}}
+        Energy
+      {{/link-to}}
+    </nav>
+    <div class="ml-2 mt-2">
+      {{outlet}}
+    </div>
+  </div>
+</div>
