@@ -6,4 +6,8 @@ export default Model.extend({
   turn: attr('number', {defaultValue: 0}),
   population: attr('number', { defaultValue: 1}),
   food: attr('number', { defaultValue: 0 }),
+  wood: attr('number', { defaultValue: 0 }),
+  stone: attr('number', { defaultValue: 0 }),
+  metal: attr('number', { defaultValue: 0 }),
+  energy: attr('number', { defaultValue: 0 }),
 });
