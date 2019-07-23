@@ -17,4 +17,21 @@ export default Service.extend({
       this.universe = universes.get('firstObject')
     }
   },
+
+  async nextTurn() {
+    // Ok, this does not feel right:
+    // We should delegate the logic the sub-objects as much as possible (like a Population object)
+    let emp = await this.universe.get('mainEmpire')
+    let population = await emp.get('population')
+    let food = await emp.get('food')
+    //Pop eats food or die.
+    if (food >= population) {
+      emp.set('food', food-population)
+    } else {
+      emp.set('food', 0)
+      emp.set('population', food)
+    }
+    emp.set('turn', emp.get('turn') + 1)
+    await emp.save()
+  },
 });
