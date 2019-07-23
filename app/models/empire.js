@@ -10,4 +10,5 @@ export default Model.extend({
   stone: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
   energy: attr('number', { defaultValue: 0 }),
+  lastPopGenerationTurn: attr('number', {defaultValue: undefined}),
 });
