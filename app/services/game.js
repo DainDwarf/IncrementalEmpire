@@ -34,4 +34,15 @@ export default Service.extend({
     emp.set('turn', emp.get('turn') + 1)
     await emp.save()
   },
+
+  async rebirth() {
+    let manaPoints = this.universe.nextManaPoints
+    let oldEmpire = await this.universe.get('mainEmpire')
+    oldEmpire.destroyRecord()
+    let newEmpire = await this.store.createRecord('empire');
+    await newEmpire.save();
+    this.universe.set('mainEmpire', newEmpire)
+    this.universe.set('mana', this.universe.get('mana') + manaPoints)
+    await this.universe.save()
+  }
 });
