@@ -11,8 +11,6 @@ export default Service.extend({
     this.universe = all.get('firstObject');
     all = await this.store.findAll('empire')
     this.empire = all.get('firstObject')
-    console.log(this.universe)
-    console.log(this.empire)
     if (this.universe == undefined) {
       this.universe = await this.store.createRecord('universe');
       await this.universe.save();

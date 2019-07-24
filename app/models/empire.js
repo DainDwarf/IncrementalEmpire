@@ -29,8 +29,8 @@ export default Model.extend({
     if (this.food >= this.population) {
       this.set('food', this.food-this.population)
     } else {
-      this.set('food', 0)
       this.set('population', this.food)
+      this.set('food', 0)
     }
     this.set('turn', this.turn + 1)
     await this.save()
