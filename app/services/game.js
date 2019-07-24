@@ -23,22 +23,6 @@ export default Service.extend({
     }
   },
 
-  async nextTurn() {
-    // Ok, this does not feel right:
-    // We should delegate the logic the sub-objects as much as possible (like a Population object)
-    let population = await this.empire.population
-    let food = await this.empire.food
-    //Pop eats food or die.
-    if (food >= population) {
-      this.empire.set('food', food-population)
-    } else {
-      this.empire.set('food', 0)
-      this.empire.set('population', food)
-    }
-    this.empire.set('turn', this.empire.turn + 1)
-    await this.empire.save()
-  },
-
   async rebirth() {
     let manaPoints = this.empire.nextManaPoints
     this.empire.destroyRecord()

@@ -10,7 +10,7 @@ export default Controller.extend({
   actions: {
     async nextTurn(event) {
       event.preventDefault();
-      this.game.nextTurn()
+      this.game.empire.nextTurn()
     },
   },
 });

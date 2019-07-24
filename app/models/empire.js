@@ -23,4 +23,16 @@ export default Model.extend({
       return 0
     }
   }),
+
+  async nextTurn() {
+    //Pop eats food or die.
+    if (this.food >= this.population) {
+      this.set('food', this.food-this.population)
+    } else {
+      this.set('food', 0)
+      this.set('population', this.food)
+    }
+    this.set('turn', this.turn + 1)
+    await this.save()
+  },
 });
