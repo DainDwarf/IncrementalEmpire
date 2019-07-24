@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default Service.extend({
   store: service('store'),
+  gameTemplate: service('game-template'),
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
@@ -22,13 +23,39 @@ export default Service.extend({
 
   async consolidateSave() {
     // Helper function to add models if missing after loading.
+    await this.gameTemplate.generate()
     if (this.universe == undefined) {
-      this.universe = await this.store.createRecord('universe');
+      this.universe = this.gameTemplate.universe
       await this.universe.save();
     }
     if (this.empire == undefined) {
-      this.empire = await this.store.createRecord('empire');
+      this.empire = this.gameTemplate.empire
       await this.empire.save();
+    }
+    for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
+      let u = this.gameTemplate.upgrades[i]
+      let savedU = this.upgrades[u.name]
+      if (savedU == undefined) {
+        this.upgrades[u.name] = u
+        await u.save()
+      } else {
+        if (savedU.manaCost != u.manaCost) {
+          savedU.set('manaCost', u.manaCost)
+          await savedU.save()
+        }
+        if (savedU.cultureCost != u.cultureCost) {
+          savedU.set('cultureCost', u.cultureCost)
+          await savedU.save()
+        }
+        if (savedU.moneyCost != u.moneyCost) {
+          savedU.set('moneyCost', u.moneyCost)
+          await savedU.save()
+        }
+        if (savedU.scienceCost != u.scienceCost) {
+          savedU.set('scienceCost', u.scienceCost)
+          await savedU.save()
+        }
+      }
     }
   },
 
