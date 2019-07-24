@@ -36,11 +36,15 @@ module('Unit | Service | game', function(hooks) {
     let game = this.owner.lookup('service:game');
     store.createRecord('universe', {mana: 5})
     store.createRecord('empire', {population: 6})
+    store.createRecord('upgrade', {name: 'dummy upgrade'})
     await game.load()
     assert.ok(game.universe)
     assert.ok(game.empire)
+    assert.ok(game.upgrades)
+    assert.ok(game.upgrades['dummy upgrade'])
     assert.equal(game.universe.mana, 5)
     assert.equal(game.empire.population, 6)
+    assert.equal(game.upgrades['dummy upgrade'].name, 'dummy upgrade')
   });
 
   test('Consolidate universe', async function(assert) {
