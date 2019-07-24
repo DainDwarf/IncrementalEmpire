@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  beforeModel() {
-    this.transitionTo('universe');
+  async model() {
+    await this.game.load()
+    return this.game.universe
   }
 });
