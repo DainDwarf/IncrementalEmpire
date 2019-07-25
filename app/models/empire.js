@@ -10,7 +10,7 @@ export default Model.extend({
   stone: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
   energy: attr('number', { defaultValue: 0 }),
-  lastPopGenerationTurn: attr('number', {defaultValue: undefined}),
+  lastGenPopulationTurn: attr('number', {defaultValue: undefined}),
 
   nextManaPoints: computed('population', 'turn', function(){
     let pop = this.population
@@ -24,13 +24,13 @@ export default Model.extend({
     }
   }),
 
-  async popGeneration() {
+  async genPopulation() {
     this.set('population', this.population + 1)
-    this.set('lastPopGenerationTurn', this.turn)
+    this.set('lastGenPopulationTurn', this.turn)
     await this.save()
   },
 
-  async popRessource(r) {
+  async genRessource(r) {
     let incr = 1
     if (this.game.upgrades.get('Click Power').isActive
       && this.game.universe.mana > 0

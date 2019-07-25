@@ -38,15 +38,15 @@ module('Unit | Model | empire', function(hooks) {
     store.createRecord('upgrade', {name: 'Click Power', isActive: true})
     await game.load()
     assert.equal(game.empire.food, 0)
-    await game.empire.popRessource('food')
+    await game.empire.genRessource('food')
     assert.equal(game.empire.food, 1)
     game.universe.set('mana', 1)
     await game.universe.save()
-    await game.empire.popRessource('food')
+    await game.empire.genRessource('food')
     assert.equal(game.empire.food, 2)
     game.universe.set('mana', 10)
     await game.universe.save()
-    await game.empire.popRessource('food')
+    await game.empire.genRessource('food')
     assert.equal(game.empire.food, 12)
   });
 });

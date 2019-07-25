@@ -1,12 +1,17 @@
 import Route from '@ember/routing/route';
 import { A } from '@ember/array';
+import { computed } from '@ember/object';
 
 export default Route.extend({
-  model() {
-    let upgradeArray = A();
+  upgradesModel: computed('this.game.upgrades', function() {
+    let ret = A();
     for (var u of this.game.upgrades.values()) {
-      upgradeArray.pushObject(u)
+      ret.pushObject(u)
     }
-    return upgradeArray
+    return ret
+  }),
+
+  model() {
+    return this.upgradesModel
   },
 });
