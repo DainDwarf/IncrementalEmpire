@@ -2,10 +2,9 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
-    async popFood(event) {
+    async genFood(event) {
       event.preventDefault();
-      this.model.set('food', this.model.get('food') + 1)
-      await this.model.save()
+      await this.model.genRessource('food')
     },
   },
 });

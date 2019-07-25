@@ -2,16 +2,14 @@ import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 
 export default Controller.extend({
-  isPopGenerationOnCooldown: computed('model.{lastPopGenerationTurn,turn}', function () {
-    return this.model.lastPopGenerationTurn == this.model.get('turn')
+  isGenPopulationOnCooldown: computed('model.{lastGenPopulationTurn,turn}', function () {
+    return this.model.lastGenPopulationTurn == this.model.get('turn')
   }),
 
   actions: {
-    async popGeneration(event) {
+    async genPopulation(event) {
       event.preventDefault();
-      this.model.set('population', this.model.get('population') + 1)
-      this.model.set('lastPopGenerationTurn', this.model.get('turn'))
-      await this.model.save()
+      await this.model.genPopulation()
     },
   },
 });
