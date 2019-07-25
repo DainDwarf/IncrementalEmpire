@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import resetStorages from 'ember-local-storage/test-support/reset-storage';
 
-module('Unit | Model | empire', function(hooks) {
+module('Unit | Model | upgrade', function(hooks) {
   setupTest(hooks);
 
   hooks.beforeEach(function() {
@@ -28,25 +28,25 @@ module('Unit | Model | empire', function(hooks) {
   // Replace this with your real tests.
   test('it exists', function(assert) {
     let store = this.owner.lookup('service:store');
-    let model = store.createRecord('empire', {});
+    let model = store.createRecord('upgrade', {});
     assert.ok(model);
   });
 
-  test('Click Power', async function(assert) {
+  test('Cannot buy', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('upgrade', {name: 'Click Power', isActive: true})
+    store.createRecord('universe', {mana: 0})
+    let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
     await game.load()
-    assert.equal(game.empire.food, 0)
-    await game.empire.genRessource('food')
-    assert.equal(game.empire.food, 1)
-    game.universe.set('mana', 1)
-    await game.universe.save()
-    await game.empire.genRessource('food')
-    assert.equal(game.empire.food, 2)
-    game.universe.set('mana', 10)
-    await game.universe.save()
-    await game.empire.genRessource('food')
-    assert.equal(game.empire.food, 12)
+    assert.ok(upgrade.cannotBuy)
+  });
+
+  test('Can buy', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+    store.createRecord('universe', {mana: 12})
+    let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
+    await game.load()
+    assert.notOk(upgrade.cannotBuy)
   });
 });

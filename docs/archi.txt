@@ -1,0 +1,39 @@
+How to separate responsabilities:
+
+Models
+======
+Models contain everything that needs to be saved. Simple fields should always have default values, for forward compatibility.
+
+Models handle state changing actions that only modify there own state. Example: empire.nextTurn()
+
+Models relationships: Through belongs/many? Through game service? Both? Like, accessing current empire from universe, should it be done through relationship or through this.game.empire ?
+
+Method      | Pros                        | Cons
+------------+-----------------------------+---------------------------------
+ember-data  | Access without going through| Is it realistic, for most formulas
+            | service every damn time     | can be modified by upgrades?
+------------+-----------------------------+---------------------------------
+service     | Loosely related, can always | Does it work nicely with routes?
+            | aacces something else, like | We can always make unrelated routes
+            | checking updates for formula| if objects become unrelated.
+            |                             | Example: empire not subroute of universe anymore
+            |                             | Also: main navbar is not part of universe (rooturl instead)
+------------+-----------------------------+---------------------------------
+both        | We are sure both routing and| Needs to sync all the time,
+            | access to unrelated modif-  | especially when objects are destroy
+            | -iers works.                | or replaced. Error prone.
+
+I think dropping ember-data relations in favor of service-based access might be easier:
+While it breaks the object composition principle, it somehow nicely fits with the game having many links through different places.
+And since all data will be loaded from local storage at startup and hold into memory, I think it's not a performance issue imo.
+Also, since everything will be maintained in memory, it fits to *not* have async links between objects.
+
+Service:game
+============
+The game service handle cross-object computation, and loading game data, adding missing objects (updates, achivements) for forward compatibility.
+It is also used by models to access other models state, but should not modify them. If you need to modify the state of several objects, do it in service.
+Best example of service-based action: rebirth. We need to destroy the `empire` object, and create a new one from one of the available templates.
+
+Controllers
+===========
+Controllers' actions that modify the state of the game are redirected to subfunctions, either on service or on models.
