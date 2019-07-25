@@ -104,4 +104,19 @@ module('Unit | Service | game', function(hooks) {
     assert.notEqual(game.upgrades.get('Click Power').description, 'Bad description')
     assert.equal(game.upgrades.get('Click Power').isActive, true)
   });
+
+  test('buyUpgrade', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+    store.createRecord('universe', {mana: 5, culture: 5, money: 5, science: 5})
+    let upgrade = store.createRecord('upgrade', {name: 'test upgrade', manaCost: 1, cultureCost: 2, moneyCost: 3, scienceCost: 4, isActive: false})
+    await game.load()
+    assert.notOk(upgrade.cannotBuy)
+    await game.buyUpgrade(upgrade)
+    assert.ok(upgrade.isActive)
+    assert.equal(game.universe.mana, 4)
+    assert.equal(game.universe.culture, 3)
+    assert.equal(game.universe.money, 2)
+    assert.equal(game.universe.science, 1)
+  });
 });
