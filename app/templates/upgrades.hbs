@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
           <p class="card-text">{{upgrade.description}}</p>
-          <button type="button" class="btn btn-primary" disabled={{upgrade.cannotBuy}}>
+          <button type="button" class="btn btn-primary" disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}
               <FaIcon @icon="dot-circle" /> {{upgrade.manaCost}}

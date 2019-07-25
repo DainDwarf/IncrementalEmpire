@@ -72,4 +72,24 @@ export default Service.extend({
     this.universe.set('mana', this.universe.mana + manaPoints)
     await this.universe.save()
   },
+
+  async buyUpgrade(upgrade) {
+    if (! upgrade.cannotBuy && ! upgrade.isActive) {
+      upgrade.set('isActive', true)
+      await upgrade.save()
+      if (upgrade.manaCost > 0) {
+        this.universe.set('mana', this.universe.mana - upgrade.manaCost)
+      }
+      if (upgrade.cultureCost > 0) {
+        this.universe.set('culture', this.universe.culture - upgrade.cultureCost)
+      }
+      if (upgrade.moneyCost > 0) {
+        this.universe.set('money', this.universe.money - upgrade.moneyCost)
+      }
+      if (upgrade.scienceCost > 0) {
+        this.universe.set('science', this.universe.science - upgrade.scienceCost)
+      }
+      await this.universe.save()
+    }
+  },
 });

@@ -23,16 +23,4 @@ export default Model.extend({
         ||  this.scienceCost > this.game.universe.science
     )
   }),
-
-  async buy() {
-    if ( this.game.universe.mana    >= this.manaCost
-      && this.game.universe.culture >= this.cultureCost
-      && this.game.universe.money   >= this.moneyCost
-      && this.game.universe.science >= this.scienceCost
-      && ! this.isActive
-    ) {
-      this.isActive = true
-      await this.save()
-    }
-  },
 });
