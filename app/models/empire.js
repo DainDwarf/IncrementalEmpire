@@ -24,6 +24,12 @@ export default Model.extend({
     }
   }),
 
+  async popGeneration() {
+    this.set('population', this.population + 1)
+    this.set('lastPopGenerationTurn', this.turn)
+    await this.save()
+  },
+
   async nextTurn() {
     //Pop eats food or die.
     if (this.food >= this.population) {
