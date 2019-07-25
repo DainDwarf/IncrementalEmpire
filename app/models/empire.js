@@ -32,7 +32,9 @@ export default Model.extend({
 
   async popRessource(r) {
     let incr = 1
-    if (this.game.upgrades.get('Click Power').isActive) {
+    if (this.game.upgrades.get('Click Power').isActive
+      && this.game.universe.mana > 0
+    ) {
       incr = this.game.universe.mana
     }
     this.set(r, this.get(r) + incr)
