@@ -2,7 +2,8 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 
 export default Service.extend({
-  store: service('store'),
+  store: service(),
+  notify: service(),
   gameTemplate: service('game-template'),
   universe: undefined,
   empire: undefined,
@@ -119,6 +120,7 @@ export default Service.extend({
     for (var achievement of this.achievements.values()) {
       if (! achievement.isActive && achievement.condition) {
         achievement.set('isActive', true)
+        this.notify.success(achievement.name, {radius: true})
         await achievement.save()
       }
     }
