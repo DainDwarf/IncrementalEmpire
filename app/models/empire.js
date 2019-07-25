@@ -30,6 +30,15 @@ export default Model.extend({
     await this.save()
   },
 
+  async popRessource(r) {
+    let incr = 1
+    if (this.game.upgrades.get('Click Power').isActive) {
+      incr = this.game.universe.mana
+    }
+    this.set(r, this.get(r) + incr)
+    await this.save()
+  },
+
   async nextTurn() {
     //Pop eats food or die.
     if (this.food >= this.population) {
