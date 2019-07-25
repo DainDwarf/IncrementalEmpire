@@ -7,7 +7,6 @@ export default Model.extend({
   culture: attr('number', { defaultValue: 0}),
   money: attr('number', { defaultValue: 0}),
   science: attr('number', { defaultValue: 0}),
-  templatePoint: attr('number', {defaultValue:0}),
 
   //Values to know if rebirth points should be displayed
   manaUnlocked: attr('boolean', { defaultValue: false}),
