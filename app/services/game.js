@@ -70,6 +70,9 @@ export default Service.extend({
     this.set('empire', newEmpire);
     await this.empire.save();
     this.universe.set('mana', this.universe.mana + manaPoints)
+    if (this.universe.mana > 0 && ! this.universe.manaUnlocked) {
+      this.universe.set('manaUnlocked', true)
+    }
     await this.universe.save()
   },
 
