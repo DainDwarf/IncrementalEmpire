@@ -4,12 +4,14 @@ const { Model, attr } = DS;
 
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),
-  description: attr('string', {defaultValue: ''}),
-  manaCost: attr('number', {defaultValue: 0}),
-  cultureCost: attr('number', {defaultValue: 0}),
-  moneyCost: attr('number', {defaultValue: 0}),
-  scienceCost: attr('number', {defaultValue: 0}),
   isActive: attr('boolean', {defaultValue: false}),
+
+  // Set in game-template service
+  description: '',
+  manaCost: 0,
+  cultureCost: 0,
+  moneyCost: 0,
+  scienceCost: 0,
 
   globalCost: computed('manaCost', 'cultureCost', 'moneyCost', 'scienceCost', function() {
     return this.manaCost + this.cultureCost + this.moneyCost + this.scienceCost
