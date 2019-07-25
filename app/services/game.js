@@ -14,8 +14,8 @@ export default Service.extend({
     all = await this.store.findAll('empire')
     this.empire = all.get('firstObject')
     this.upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
-      let loadedUpgrades = {}
-      upgrades.forEach(u => loadedUpgrades[u.name] = u)
+      let loadedUpgrades = new Map()
+      upgrades.forEach(u => loadedUpgrades.set(u.name, u))
       return loadedUpgrades
     });
     await this.consolidateSave()
@@ -34,9 +34,9 @@ export default Service.extend({
     }
     for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
       let u = this.gameTemplate.upgrades[i]
-      let savedU = this.upgrades[u.name]
+      let savedU = this.upgrades.get(u.name)
       if (savedU == undefined) {
-        this.upgrades[u.name] = u
+        this.upgrades.set(u.name, u)
         await u.save()
       } else {
         if (savedU.manaCost != u.manaCost) {
@@ -53,6 +53,10 @@ export default Service.extend({
         }
         if (savedU.scienceCost != u.scienceCost) {
           savedU.set('scienceCost', u.scienceCost)
+          await savedU.save()
+        }
+        if (savedU.description != u.description) {
+          savedU.set('description', u.description)
           await savedU.save()
         }
       }

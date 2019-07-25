@@ -1,1 +1,30 @@
+<div class="row mx-2 my-2">
+  {{#each model as |upgrade|}}
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-header">
+          {{upgrade.name}}
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{upgrade.description}}</p>
+          <button type="button" class="btn btn-primary" disabled={{upgrade.cannotBuy}}>
+            Buy for
+            {{#if upgrade.manaCost}}
+              <FaIcon @icon="dot-circle" /> {{upgrade.manaCost}}
+            {{/if}}
+            {{#if upgrade.cultureCost}}
+              <FaIcon @icon="dot-circle" /> {{upgrade.cultureCost}}
+            {{/if}}
+            {{#if upgrade.moneyCost}}
+              <FaIcon @icon="dot-circle" /> {{upgrade.moneyCost}}
+            {{/if}}
+            {{#if upgrade.scienceCost}}
+              <FaIcon @icon="dot-circle" /> {{upgrade.scienceCost}}
+            {{/if}}
+          </button>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
 {{outlet}}

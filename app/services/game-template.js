@@ -15,7 +15,9 @@ export default Service.extend({
     this.empire = await this.store.createRecord('empire');
     // Ember array not needed, the whole class is "const".
     this.upgrades = [
-      await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 1}),
+      await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 1,
+        description: 'Your god powers for generating ressources is multiplied by your current mana'
+      }),
     ]
   },
 });
