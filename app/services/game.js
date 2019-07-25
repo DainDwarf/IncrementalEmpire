@@ -114,4 +114,13 @@ export default Service.extend({
       await this.universe.save()
     }
   },
+
+  async checkAchievements() {
+    for (var achievement of this.achievements.values()) {
+      if (! achievement.isActive && achievement.condition) {
+        achievement.set('isActive', true)
+        await achievement.save()
+      }
+    }
+  }
 });
