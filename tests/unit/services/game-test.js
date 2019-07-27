@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import resetStorages from 'ember-local-storage/test-support/reset-storage';
+import { gte } from '@ember/object/computed';
 
 module('Unit | Service | game', function(hooks) {
   setupTest(hooks);
@@ -118,5 +119,17 @@ module('Unit | Service | game', function(hooks) {
     assert.equal(game.universe.culture, 3)
     assert.equal(game.universe.money, 2)
     assert.equal(game.universe.science, 1)
+  });
+
+  test('checkAchievements', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+    store.createRecord('empire', {turn: 10})
+    let firstAchievement = await store.createRecord('achievement', {name: 'Eden is Working!', templatePoint: 1, description: 'Time to create Eve'})
+    firstAchievement.reopen({condition: gte('game.empire.turn', 10)})
+    await game.load()
+    assert.notOk(firstAchievement.isActive)
+    await game.checkAchievements()
+    assert.ok(firstAchievement.isActive)
   });
 });
