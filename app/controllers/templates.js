@@ -17,9 +17,15 @@ export default Controller.extend({
   templatePoints: sum('templatePointsArray'),
 
   actions: {
-    async rebirth(event) {
+    // async rebirth(event) {
+    //   event.preventDefault()
+    //   await this.game.rebirth()
+    // },
+    async newTemplate(event) {
       event.preventDefault()
-      await this.game.rebirth()
+      let t = await this.store.createRecord('template')
+      this.game.templates.pushObject(t)
+      await t.save()
     },
   },
 });

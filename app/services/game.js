@@ -26,7 +26,8 @@ export default Service.extend({
       achievements.forEach(a => loadedAchievement.set(a.name, a))
       return loadedAchievement
     });
-    this.templates = await this.store.findAll('template') //No need to consolidate afaik.
+    let query = await this.store.findAll('template')
+    this.templates = query.toArray() //No need to consolidate afaik.
     await this.consolidateSave()
   },
 

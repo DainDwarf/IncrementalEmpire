@@ -1,5 +1,18 @@
 <div class="container-fluid">
-  You have {{templatePoints}} template points.
-  <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>End Empire for {{game.empire.nextManaPoints}} mana points</button>
+  <div class="row">
+    <nav class="nav nav-pills flex-column border-right">
+      {{#each model as |template|}}
+        {{#link-to "templates.template" template.id class="nav-link"}}
+          {{template.name}}
+        {{/link-to}}
+      {{/each}}
+      <button typ="button" class="btn" onclick={{action "newTemplate"}}>Add new template</button>
+    </nav>
+    <div class="ml-2 mt-2">
+      {{outlet}}
+    </div>
+  </div>
 </div>
-{{outlet}}
+
+  <!-- You have {{templatePoints}} template points. -->
+  <!-- <button type="button" class="btn btn&#45;outline&#45;danger my&#45;2" onclick={{action "rebirth"}}>End Empire for {{game.empire.nextManaPoints}} mana points</button> -->
