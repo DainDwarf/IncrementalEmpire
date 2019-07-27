@@ -1,13 +1,20 @@
 <div class="row mx-2 my-2">
   {{#each model as |achievement|}}
     <div class="col-sm-3">
-      <div class="card">
-        <div class="card-header">
+      <div class="card {{unless achievement.isActive "text-muted"}}">
+        <div class="card-header {{if achievement.isActive "bg-success"}}">
           {{achievement.name}}
         </div>
         <div class="card-body">
           <p class="card-text">{{achievement.description}}</p>
         </div>
+        {{#if achievement.templatePoint}}
+          <footer class="mx-1 text-right">
+            <small>
+              Reward: {{achievement.templatePoint}} Template Point
+            </small>
+          </footer>
+        {{/if}}
       </div>
     </div>
   {{/each}}
