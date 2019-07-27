@@ -55,7 +55,11 @@ export default Controller.extend({
     },
     async rebirth(event) {
       event.preventDefault()
-      await this.game.rebirth()
+      let newEmpire = await this.store.createRecord('empire', {
+        population: this.rebirthPop,
+        food: this.rebirthFood,
+      })
+      await this.game.rebirth(newEmpire)
     },
   },
 });

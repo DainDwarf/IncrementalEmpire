@@ -86,10 +86,9 @@ export default Service.extend({
     }
   },
 
-  async rebirth() {
+  async rebirth(newEmpire) {
     let manaPoints = this.empire.nextManaPoints
     this.empire.destroyRecord()
-    let newEmpire = await this.store.createRecord('empire')
     this.set('empire', newEmpire);
     await this.empire.save();
     this.universe.set('mana', this.universe.mana + manaPoints)
