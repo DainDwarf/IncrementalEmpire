@@ -18,8 +18,8 @@ Router.map(function() {
     });
   });
   this.route('upgrades');
-  this.route('templates', { path: ':id' }, function() {
-    this.route('template');
+  this.route('templates', function() {
+    this.route('template', { path: ':id' });
   });
   this.route('achievements');
   this.route('settings');
