@@ -9,6 +9,7 @@ export default Service.extend({
   empire: undefined,
   upgrades: undefined,
   achievements: undefined,
+  templates: undefined,
 
   async load() {
     let all = await this.store.findAll('universe')
@@ -25,6 +26,7 @@ export default Service.extend({
       achievements.forEach(a => loadedAchievement.set(a.name, a))
       return loadedAchievement
     });
+    this.templates = await this.store.findAll('template') //No need to consolidate afaik.
     await this.consolidateSave()
   },
 
