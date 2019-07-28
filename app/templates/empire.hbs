@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <nav class="nav nav-pills flex-column border-right">
+    <nav class="nav nav-pills flex-column border-right w-15">
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
       {{/link-to}}
@@ -17,7 +17,14 @@
         Energy <span class="badge badge-pill badge-light">{{model.energy}}</span>
       {{/link-to}}
     </nav>
-    <div class="ml-2 mt-2">
+    <div class="w-85">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item mx-2"><FaIcon @icon="users" /> {{model.population}}</li>
+          <li class="nav-item mx-2"><FaIcon @icon="smile" /> 67%</li>
+        </ul>
+        <button type="button" class="btn btn-secondary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
+      </nav>
       {{outlet}}
     </div>
   </div>
