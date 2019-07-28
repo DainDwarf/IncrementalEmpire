@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 const { Model, attr } = DS;
 
 export default Model.extend({
+  name: attr('string', {defaultValue: 'Empire'}),
   turn: attr('number', {defaultValue: 0}),
   population: attr('number', { defaultValue: 1}),
   food: attr('number', { defaultValue: 0 }),
