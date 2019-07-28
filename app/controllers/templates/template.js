@@ -21,7 +21,11 @@ export default Controller.extend({
   }),
 
   rebirthPop: computed('model.popTP', function() {
-    return 1+this.model.popTP
+    let TPratio = 1
+    if (this.game.achievements.get('Have 5 population').isActive) {
+      TPratio = TPratio * 4
+    }
+    return 1+this.model.popTP*TPratio
   }),
 
   rebirthFood: computed('model.foodTP', function() {

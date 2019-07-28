@@ -1,5 +1,6 @@
 <button type="button"
         class="btn btn-outline-success"
+        hidden={{isGenPopulationUnavailable}}
         disabled={{isGenPopulationOnCooldown}}
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <small><FaIcon @icon="magic" /> 5</small>

@@ -17,7 +17,10 @@ export default Service.extend({
     this.empire = await this.store.createRecord('empire');
     // Ember array not needed, the whole class is "const".
     this.upgrades = [
-      await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 1,
+      await this.store.createRecord('upgrade', {name: 'Spontaneous Generation', manaCost: 1,
+        description: 'You can now create more humans'
+      }),
+      await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 5,
         description: 'Your god powers for generating ressources is multiplied by your current mana'
       }),
     ]
@@ -25,6 +28,9 @@ export default Service.extend({
     var ach
     ach = await this.store.createRecord('achievement', {name: 'Eden is Working!', templatePoint: 1, description: 'Time to create Eve'})
     ach.reopen({condition: gte('game.empire.turn', 10)})
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 5 population', templatePoint: 1, description: 'Template Point gives 4x more population'})
+    ach.reopen({condition: gte('game.empire.population', 5)})
     this.achievements.push(ach)
   },
 });

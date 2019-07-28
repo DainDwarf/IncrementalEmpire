@@ -1,7 +1,12 @@
 import Controller from '@ember/controller';
-import { lt } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { not, lt } from '@ember/object/computed';
 
 export default Controller.extend({
+  genPopUpgrade: computed('this.game.upgrades', function() {
+    return this.game.upgrades.get('Spontaneous Generation')
+  }),
+  isGenPopulationUnavailable: not('genPopUpgrade.isActive'),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
 
   actions: {
