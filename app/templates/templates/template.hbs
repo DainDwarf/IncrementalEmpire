@@ -13,6 +13,11 @@
   {{fa-icon "plus-circle" class="click-icon" click=(action "moreFood")}}
 </div>
 <div class="container">
-  <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>Restart with this empire and gain <FaIcon @icon="dot-circle" /> {{game.empire.nextManaPoints}}</button>
+  <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
+    Restart with this empire and gain <FaIcon @icon="dot-circle" /> {{game.empire.nextManaPoints}}
+  </button>
+</div>
+<div class="container small">
+Religious empires produces more <FaIcon @icon="dot-circle" /> if you have more population and spend more turns. You need at least 2 population and 21 turns to start producing <FaIcon @icon="dot-circle" />
 </div>
 {{outlet}}
