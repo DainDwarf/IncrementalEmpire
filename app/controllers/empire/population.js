@@ -1,15 +1,15 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
+import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
-  isGenPopulationOnCooldown: computed('model.{lastGenPopulationTurn,turn}', function () {
-    return this.model.lastGenPopulationTurn == this.model.get('turn')
-  }),
+  isGenPopulationOnCooldown: lt('model.spellPoints', 5),
 
   actions: {
     async genPopulation(event) {
       event.preventDefault();
-      await this.model.genPopulation()
+        this.model.set('population', this.model.population + 1)
+        this.model.set('spellPoints', this.model.spellPoints - 5)
+        await this.model.save()
     },
   },
 });
