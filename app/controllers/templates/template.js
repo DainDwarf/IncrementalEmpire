@@ -29,6 +29,10 @@ export default Controller.extend({
   }),
 
   actions: {
+    async updateTemplateName(newName) {
+      this.model.set('name', newName)
+      await this.model.save()
+    },
     async lessPop(event) {
       event.preventDefault()
       if (this.model.popTP > 0) {

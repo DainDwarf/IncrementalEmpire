@@ -1,5 +1,5 @@
 <div class="container-fluid bg-light">
-  <Input @value={{model.name}} />
+  <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/>
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
 <div class="container">
