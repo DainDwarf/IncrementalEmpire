@@ -2,11 +2,20 @@
   <div class="row">
     <nav class="ml-2 nav nav-pills flex-column border-right w-15">
       {{#each model as |template|}}
-        {{#link-to "templates.template" template.id class="nav-link"}}
-          {{template.name}}
-        {{/link-to}}
+        <div class="row">
+          <div class="col">
+            {{#link-to "templates.template" template.id class="nav-link"}}
+              {{template.name}}
+            {{/link-to}}
+          </div>
+          <div class="col mr-1">
+            <button type="button" class="close" onclick={{action "deleteTemplate" template.id}}>&times;</button>
+          </div>
+        </div>
       {{/each}}
-      <button typ="button" class="btn" onclick={{action "newTemplate"}}>Add new template</button>
+      {{#if canAddTemplate}}
+        <button typ="button" class="btn" onclick={{action "newTemplate"}}>Add new template</button>
+      {{/if}}
     </nav>
     <div class="border w-80">
       {{outlet}}

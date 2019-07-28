@@ -12,23 +12,42 @@ export default Service.extend({
   templates: undefined,
 
   async load() {
-    let all = await this.store.findAll('universe')
-    this.universe = all.get('firstObject');
-    all = await this.store.findAll('empire')
+    await this.loadUniverse()
+    await this.loadEmpire()
+    await this.loadUpgrades()
+    await this.loadAchievements()
+    await this.loadTemplates()
+    await this.consolidateSave()
+  },
+
+  async loadUniverse() {
+    this.universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+  },
+
+  async loadEmpire() {
+    let all = await this.store.findAll('empire')
     this.empire = all.get('firstObject')
+  },
+
+  async loadUpgrades() {
     this.upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
       let loadedUpgrades = new Map()
       upgrades.forEach(u => loadedUpgrades.set(u.name, u))
       return loadedUpgrades
     });
+  },
+
+  async loadAchievements() {
     this.achievements = await this.store.findAll('achievement').then(function (achievements) {
       let loadedAchievement = new Map()
       achievements.forEach(a => loadedAchievement.set(a.name, a))
       return loadedAchievement
     });
+  },
+
+  async loadTemplates() {
     let query = await this.store.findAll('template')
     this.templates = query.toArray() //No need to consolidate afaik.
-    await this.consolidateSave()
   },
 
   async consolidateSave() {

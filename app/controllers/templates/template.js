@@ -30,24 +30,28 @@ export default Controller.extend({
 
   actions: {
     async lessPop(event) {
+      event.preventDefault()
       if (this.model.popTP > 0) {
         this.model.set('popTP', this.model.popTP-1)
         await this.model.save()
       }
     },
     async morePop(event) {
+      event.preventDefault()
       if (this.remainingTemplatePoints > 0) {
         this.model.set('popTP', this.model.popTP+1)
         await this.model.save()
       }
     },
     async lessFood(event) {
+      event.preventDefault()
       if (this.model.foodTP > 0) {
         this.model.set('foodTP', this.model.foodTP-1)
         await this.model.save()
       }
     },
     async moreFood(event) {
+      event.preventDefault()
       if (this.remainingTemplatePoints > 0) {
         this.model.set('foodTP', this.model.foodTP+1)
         await this.model.save()
