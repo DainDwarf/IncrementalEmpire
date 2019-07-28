@@ -29,5 +29,8 @@ export default Service.extend({
     ach = await this.store.createRecord('achievement', {name: 'Eden is Working!', templatePoint: 1, description: 'Time to create Eve'})
     ach.reopen({condition: gte('game.empire.turn', 10)})
     this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 5 population', templatePoint: 1, description: 'Template Point gives 4x more population'})
+    ach.reopen({condition: gte('game.empire.population', 5)})
+    this.achievements.push(ach)
   },
 });
