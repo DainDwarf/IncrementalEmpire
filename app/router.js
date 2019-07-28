@@ -9,13 +9,10 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('empire', function() {
     this.route('population');
-    this.route('ressources', function() {
-      this.route('food');
-      this.route('wood');
-      this.route('stone');
-      this.route('metal');
-      this.route('energy');
-    });
+    this.route('food');
+    this.route('material');
+    this.route('metal');
+    this.route('energy');
   });
   this.route('upgrades');
   this.route('templates', function() {

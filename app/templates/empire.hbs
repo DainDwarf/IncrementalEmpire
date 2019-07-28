@@ -1,1 +1,24 @@
-{{outlet}}
+<div class="container-fluid">
+  <div class="row">
+    <nav class="nav nav-pills flex-column border-right">
+      {{#link-to "empire.population" class="nav-link"}}
+        Population <span class="badge badge-pill badge-light">{{model.population}}</span>
+      {{/link-to}}
+      {{#link-to "empire.food" class="nav-link"}}
+        Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+      {{/link-to}}
+      {{#link-to "empire.material" class="nav-link"}}
+        Material <span class="badge badge-pill badge-light">{{model.material}}</span>
+      {{/link-to}}
+      {{#link-to "empire.metal" class="nav-link"}}
+        Metal <span class="badge badge-pill badge-light">{{model.metal}}</span>
+      {{/link-to}}
+      {{#link-to "empire.energy" class="nav-link"}}
+        Energy <span class="badge badge-pill badge-light">{{model.energy}}</span>
+      {{/link-to}}
+    </nav>
+    <div class="ml-2 mt-2">
+      {{outlet}}
+    </div>
+  </div>
+</div>
