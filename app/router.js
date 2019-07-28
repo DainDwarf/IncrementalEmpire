@@ -18,7 +18,9 @@ Router.map(function() {
     });
   });
   this.route('upgrades');
-  this.route('templates');
+  this.route('templates', function() {
+    this.route('template', { path: ':id' });
+  });
   this.route('achievements');
   this.route('settings');
 });
