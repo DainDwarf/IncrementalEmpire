@@ -1,5 +1,5 @@
 <div class="row mx-2 my-2">
-  {{#each model as |achievement|}}
+  {{#each displayedAchievements as |achievement|}}
     <div class="col-sm-3">
       <div class="card {{unless achievement.isActive "text-muted"}}">
         <div class="card-header {{if achievement.isActive "bg-success"}}">

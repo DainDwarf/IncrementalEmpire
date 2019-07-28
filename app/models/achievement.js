@@ -4,6 +4,7 @@ const { Model, attr } = DS;
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),
   isActive: attr('boolean', {defaultValue: false}),
+  isHidden: attr('boolean', {defaultValue: false}),
 
   // Set in game-template service
   templatePoint: 0,

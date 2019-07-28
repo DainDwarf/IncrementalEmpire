@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
-import { gte } from '@ember/object/computed';
+import { gte, equal } from '@ember/object/computed';
 
 export default Service.extend({
   // This is the game plan: Everything that should exist on the start.
@@ -31,6 +31,9 @@ export default Service.extend({
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {name: 'Have 5 population', templatePoint: 1, description: 'Template Point gives 4x more population'})
     ach.reopen({condition: gte('game.empire.population', 5)})
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: true, name: 'Lose an empire', templatePoint: 1, description: 'You let all the population die, you monster!'})
+    ach.reopen({condition: equal('game.empire.population', 0)})
     this.achievements.push(ach)
   },
 });
