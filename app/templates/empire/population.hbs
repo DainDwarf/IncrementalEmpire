@@ -1,4 +1,7 @@
-<div class="container-fluid">
-  <button type="button" class="btn btn-outline-success my-2" disabled={{isGenPopulationOnCooldown}} onclick={{action "genPopulation"}}>Spontaneous Generation</button>
-</div>
+<button type="button"
+        class="btn btn-outline-success"
+        disabled={{isGenPopulationOnCooldown}}
+        onclick={{action "genPopulation"}}>
+  Spontaneous Generation <small><FaIcon @icon="magic" /> 5</small>
+</button>
 {{outlet}}

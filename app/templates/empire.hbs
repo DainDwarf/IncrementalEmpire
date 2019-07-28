@@ -22,10 +22,15 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item mx-2"><FaIcon @icon="users" /> {{model.population}}</li>
           <li class="nav-item mx-2"><FaIcon @icon="smile" /> 67%</li>
+          {{#if spellPointsDisplayed}}
+            <FaIcon @icon="magic" /> {{model.spellPoints}}/{{model.maxSpellPoints}}
+          {{/if}}
         </ul>
         <button type="button" class="btn btn-secondary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
       </nav>
-      {{outlet}}
+      <div class="container">
+        {{outlet}}
+      </div>
     </div>
   </div>
 </div>
