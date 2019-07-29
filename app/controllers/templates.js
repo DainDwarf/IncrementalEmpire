@@ -10,6 +10,7 @@ export default Controller.extend({
       let t = await this.store.createRecord('template')
       this.game.templates.pushObject(t)
       await t.save()
+      this.transitionToRoute('templates.template', t.id)
     },
 
     async deleteTemplate(id) {
