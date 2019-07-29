@@ -101,7 +101,7 @@ module('Unit | Service | game', function(hooks) {
     assert.ok(game.upgrades)
     // Cost has been reviewed, isActive is not changed
     assert.equal(game.upgrades.get('Click Power').name, 'Click Power')
-    assert.equal(game.upgrades.get('Click Power').manaCost, 1)
+    assert.equal(game.upgrades.get('Click Power').manaCost, 5)
     assert.notEqual(game.upgrades.get('Click Power').description, 'Bad description')
     assert.equal(game.upgrades.get('Click Power').isActive, true)
   });
