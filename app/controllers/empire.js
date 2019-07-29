@@ -9,6 +9,14 @@ export default Controller.extend({
       event.preventDefault();
       await this.game.empire.nextTurn()
       await this.game.checkAchievements()
+      if (this.model.population == 0) {
+        // You lose!
+        $('#empireLostModal').modal()
+        let newEmpire = await this.store.createRecord('empire')
+        this.set('model', newEmpire)
+        await this.game.rebirth(newEmpire)
+        this.transitionToRoute('empire')
+      }
     },
   },
 });
