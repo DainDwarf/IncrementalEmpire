@@ -73,6 +73,7 @@ export default Controller.extend({
         food: this.rebirthFood,
       })
       await this.game.rebirth(newEmpire)
+      this.transitionToRoute('empire')
     },
   },
 });

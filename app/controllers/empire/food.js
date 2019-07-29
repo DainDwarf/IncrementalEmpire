@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
-  isLowFood: computed('model.food', 'model.population', function() {
+  isLowFood: computed('model.{food,population}', function() {
     return this.model.food < this.model.population
   }),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
