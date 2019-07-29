@@ -1,13 +1,13 @@
 <div class="row mx-2 my-2">
-  {{#each displayedUpgrades as |upgrade|}}
+  {{#each model as |upgrade|}}
     <div class="col-sm-3">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header {{if upgrade.isActive "bg-success"}}">
           {{upgrade.name}}
         </div>
         <div class="card-body">
           <p class="card-text">{{upgrade.description}}</p>
-          <button type="button" class="btn btn-primary" disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
+          <button type="button" class="btn btn-primary" hidden={{upgrade.isActive}} disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}
               <FaIcon @icon="dot-circle" /> {{upgrade.manaCost}}
