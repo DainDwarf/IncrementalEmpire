@@ -2,36 +2,78 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 
 export default Service.extend({
-  store: service('store'),
+  store: service(),
+  notify: service(),
   gameTemplate: service('game-template'),
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
+  achievements: undefined,
+  templates: undefined,
 
   async load() {
-    let all = await this.store.findAll('universe')
-    this.universe = all.get('firstObject');
-    all = await this.store.findAll('empire')
+    await this.loadUniverse()
+    await this.loadEmpire()
+    await this.loadUpgrades()
+    await this.loadAchievements()
+    await this.loadTemplates()
+    await this.consolidateSave()
+  },
+
+  async loadUniverse() {
+    this.universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+  },
+
+  async loadEmpire() {
+    let all = await this.store.findAll('empire')
     this.empire = all.get('firstObject')
+  },
+
+  async loadUpgrades() {
     this.upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
       let loadedUpgrades = new Map()
       upgrades.forEach(u => loadedUpgrades.set(u.name, u))
       return loadedUpgrades
     });
-    await this.consolidateSave()
+  },
+
+  async loadAchievements() {
+    this.achievements = await this.store.findAll('achievement').then(function (achievements) {
+      let loadedAchievement = new Map()
+      achievements.forEach(a => loadedAchievement.set(a.name, a))
+      return loadedAchievement
+    });
+  },
+
+  async loadTemplates() {
+    let query = await this.store.findAll('template')
+    this.templates = query.toArray() //No need to consolidate afaik.
   },
 
   async consolidateSave() {
     // Helper function to add models if missing after loading.
     await this.gameTemplate.generate()
+    await this.consolidateUniverse()
+    await this.consolidateEmpire()
+    await this.consolidateUpgrades()
+    await this.consolidateAchievements()
+  },
+
+  async consolidateUniverse() {
     if (this.universe == undefined) {
       this.universe = this.gameTemplate.universe
       await this.universe.save();
     }
+  },
+
+  async consolidateEmpire() {
     if (this.empire == undefined) {
       this.empire = this.gameTemplate.empire
       await this.empire.save();
     }
+  },
+
+  async consolidateUpgrades() {
     for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
       let u = this.gameTemplate.upgrades[i]
       let savedU = this.upgrades.get(u.name)
@@ -39,34 +81,33 @@ export default Service.extend({
         this.upgrades.set(u.name, u)
         await u.save()
       } else {
-        if (savedU.manaCost != u.manaCost) {
-          savedU.set('manaCost', u.manaCost)
-          await savedU.save()
-        }
-        if (savedU.cultureCost != u.cultureCost) {
-          savedU.set('cultureCost', u.cultureCost)
-          await savedU.save()
-        }
-        if (savedU.moneyCost != u.moneyCost) {
-          savedU.set('moneyCost', u.moneyCost)
-          await savedU.save()
-        }
-        if (savedU.scienceCost != u.scienceCost) {
-          savedU.set('scienceCost', u.scienceCost)
-          await savedU.save()
-        }
-        if (savedU.description != u.description) {
-          savedU.set('description', u.description)
-          await savedU.save()
-        }
+        savedU.set('manaCost', u.manaCost)
+        savedU.set('cultureCost', u.cultureCost)
+        savedU.set('moneyCost', u.moneyCost)
+        savedU.set('scienceCost', u.scienceCost)
+        savedU.set('description', u.description)
       }
     }
   },
 
-  async rebirth() {
+  async consolidateAchievements() {
+    for (var i=0; i<this.gameTemplate.achievements.length; i++) {
+      let a = this.gameTemplate.achievements[i]
+      let savedA = this.achievements.get(a.name)
+      if (savedA == undefined) {
+        this.achievements.set(a.name, a)
+        await a.save()
+      } else {
+        savedA.set('templatePoint', a.templatePoint)
+        savedA.set('description', a.description)
+        savedA.reopen({condition: a.condition})
+      }
+    }
+  },
+
+  async rebirth(newEmpire) {
     let manaPoints = this.empire.nextManaPoints
     this.empire.destroyRecord()
-    let newEmpire = await this.store.createRecord('empire')
     this.set('empire', newEmpire);
     await this.empire.save();
     this.universe.set('mana', this.universe.mana + manaPoints)
@@ -95,4 +136,14 @@ export default Service.extend({
       await this.universe.save()
     }
   },
+
+  async checkAchievements() {
+    for (var achievement of this.achievements.values()) {
+      if (! achievement.isActive && achievement.condition) {
+        achievement.set('isActive', true)
+        this.notify.success(achievement.name, {radius: true})
+        await achievement.save()
+      }
+    }
+  }
 });

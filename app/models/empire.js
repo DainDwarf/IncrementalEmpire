@@ -3,14 +3,15 @@ import { computed } from '@ember/object';
 const { Model, attr } = DS;
 
 export default Model.extend({
+  name: attr('string', {defaultValue: 'Empire'}),
   turn: attr('number', {defaultValue: 0}),
   population: attr('number', { defaultValue: 1}),
   food: attr('number', { defaultValue: 0 }),
-  wood: attr('number', { defaultValue: 0 }),
-  stone: attr('number', { defaultValue: 0 }),
+  material: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
   energy: attr('number', { defaultValue: 0 }),
-  lastGenPopulationTurn: attr('number', {defaultValue: undefined}),
+  spellPoints: attr('number', {defaultValue: 5}),
+  maxSpellPoints: attr('number', {defaultValue: 5}),
 
   nextManaPoints: computed('population', 'turn', function(){
     let pop = this.population
@@ -24,23 +25,6 @@ export default Model.extend({
     }
   }),
 
-  async genPopulation() {
-    this.set('population', this.population + 1)
-    this.set('lastGenPopulationTurn', this.turn)
-    await this.save()
-  },
-
-  async genRessource(r) {
-    let incr = 1
-    if (this.game.upgrades.get('Click Power').isActive
-      && this.game.universe.mana > 0
-    ) {
-      incr = this.game.universe.mana
-    }
-    this.set(r, this.get(r) + incr)
-    await this.save()
-  },
-
   async nextTurn() {
     //Pop eats food or die.
     if (this.food >= this.population) {
@@ -50,6 +34,7 @@ export default Model.extend({
       this.set('food', 0)
     }
     this.set('turn', this.turn + 1)
+    this.set('spellPoints', this.maxSpellPoints)
     await this.save()
   },
 });

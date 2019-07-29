@@ -1,0 +1,23 @@
+<div class="container-fluid bg-light">
+  <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/>
+  <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
+</div>
+<div class="container">
+  {{fa-icon "minus-circle" class="click-icon" click=(action "lessPop")}}
+  Population: {{rebirthPop}}
+  {{fa-icon "plus-circle" class="click-icon" click=(action "morePop")}}
+</div>
+<div class="container">
+  {{fa-icon "minus-circle" class="click-icon" click=(action "lessFood")}}
+  Food: {{rebirthFood}}
+  {{fa-icon "plus-circle" class="click-icon" click=(action "moreFood")}}
+</div>
+<div class="container">
+  <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
+    Restart with this empire and gain <FaIcon @icon="dot-circle" /> {{game.empire.nextManaPoints}}
+  </button>
+</div>
+<div class="container small">
+Religious empires produces more <FaIcon @icon="dot-circle" /> if you have more population and spend more turns. You need at least 2 population and 21 turns to start producing <FaIcon @icon="dot-circle" />
+</div>
+{{outlet}}

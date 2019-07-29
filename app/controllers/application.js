@@ -6,11 +6,4 @@ export default Controller.extend({
   isCultureHidden: not('model.cultureUnlocked'),
   isMoneyHidden: not('model.moneyUnlocked'),
   isScienceHidden: not('model.scienceUnlocked'),
-
-  actions: {
-    async nextTurn(event) {
-      event.preventDefault();
-      this.game.empire.nextTurn()
-    },
-  },
 });
