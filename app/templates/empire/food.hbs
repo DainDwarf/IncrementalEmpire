@@ -1,3 +1,11 @@
+<div>
+  {{model.name}} currently has {{model.food}} food.
+</div>
+{{#if isLowFood}}
+  <div>
+    You will lose some population next turn.
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success"
         disabled={{isGenFoodOnCooldown}}
