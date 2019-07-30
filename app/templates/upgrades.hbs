@@ -10,16 +10,16 @@
           <button type="button" class="btn btn-primary" hidden={{upgrade.isActive}} disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}
-              <FaIcon @icon="dot-circle" /> {{upgrade.manaCost}}
+              <IconPoint @tagName="span" @type="mana" @point={{upgrade.manaCost}} />
             {{/if}}
             {{#if upgrade.cultureCost}}
-              <FaIcon @icon="book" /> {{upgrade.cultureCost}}
+              <IconPoint @tagName="span" @type="culture" @point={{upgrade.cultureCost}} />
             {{/if}}
             {{#if upgrade.moneyCost}}
-              <FaIcon @icon="coins" /> {{upgrade.moneyCost}}
+              <IconPoint @tagName="span" @type="money" @point={{upgrade.moneyCost}} />
             {{/if}}
             {{#if upgrade.scienceCost}}
-              <FaIcon @icon="flask" /> {{upgrade.scienceCost}}
+              <IconPoint @tagName="span" @type="science" @point={{upgrade.scienceCost}} />
             {{/if}}
           </button>
         </div>

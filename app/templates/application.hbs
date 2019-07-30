@@ -23,10 +23,10 @@
     {{model.name}}
   {{/link-to}}
   <ul class="navbar-nav">
-    <li class="nav-item mx-2" hidden={{isManaHidden}}><FaIcon @icon="dot-circle" /> {{model.mana}}</li>
-    <li class="nav-item mx-2" hidden={{isCultureHidden}}><FaIcon @icon="book" /> {{model.culture}}</li>
-    <li class="nav-item mx-2" hidden={{isMoneyHidden}}><FaIcon @icon="coins" /> {{model.money}}</li>
-    <li class="nav-item mx-2" hidden={{isScienceHidden}}><FaIcon @icon="flask" /> {{model.science}}</li>
+    <li class="nav-item mx-2" hidden={{isManaHidden}}><IconPoint @type="mana" @point={{model.mana}} /></li>
+    <li class="nav-item mx-2" hidden={{isCultureHidden}}><IconPoint @type="culture" @point={{model.culture}} /></li>
+    <li class="nav-item mx-2" hidden={{isMoneyHidden}}><IconPoint @type="money" @point={{model.money}} /></li>
+    <li class="nav-item mx-2" hidden={{isScienceHidden}}><IconPoint @type="science" @point={{model.science}} /></li>
   </ul>
 </nav>
 <div class="container-fluid">
