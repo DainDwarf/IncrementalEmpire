@@ -5,13 +5,13 @@ export default Controller.extend({
 
   actions: {
     async importEverything(event) {
-      this.store.importData(this.saveData);
+      this.store.importData(atob(this.saveData));
       await this.game.load()
     },
     exportEverything() {
       this.store.exportData
         (['universes', 'empires', 'upgrades', 'achievements', 'templates'])
-        .then(data => this.set('saveData', data))
+        .then(data => this.set('saveData', btoa(data)))
     },
     async destroyEverything(event) {
       event.preventDefault();
