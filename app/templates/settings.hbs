@@ -1,4 +1,9 @@
 <div class="container-fluid">
-  <button type="button" class="btn btn-outline-danger my-2 mx-auto" onclick={{action "destroyEverything"}}>Clear save data</button>
+  <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "exportEverything"}}>Export save data</button>
+  <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "importEverything"}}>Import save data</button>
+  <button type="button" class="btn btn-danger my-2" onclick={{action "destroyEverything"}}>Clear save data</button>
+</div>
+<div class="container w-100">
+  <Textarea class="w-100" @value={{saveData}} rows="8" placeholder="Copy your save data here."/>
 </div>
 {{outlet}}
