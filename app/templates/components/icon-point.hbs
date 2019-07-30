@@ -1,2 +1,6 @@
-<FaIcon @icon={{icon}} /> {{@point}}
+{{#if game.settings.displayText}}
+  {{capitalize type}}: {{@point}}
+{{else}}
+  <FaIcon @icon={{icon}} /> {{@point}}
+{{/if}}
 {{yield}}
