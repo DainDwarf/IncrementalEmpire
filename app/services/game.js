@@ -21,33 +21,36 @@ export default Service.extend({
   },
 
   async loadUniverse() {
-    this.universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+    let universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+    this.set('universe', universe)
   },
 
   async loadEmpire() {
-    let all = await this.store.findAll('empire')
-    this.empire = all.get('firstObject')
+    let empire = await this.store.findAll('empire').then(e => e.get('firstObject'))
+    this.set('empire', empire)
   },
 
   async loadUpgrades() {
-    this.upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
+    let upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
       let loadedUpgrades = new Map()
       upgrades.forEach(u => loadedUpgrades.set(u.name, u))
       return loadedUpgrades
-    });
+    })
+    this.set('upgrades', upgrades)
   },
 
   async loadAchievements() {
-    this.achievements = await this.store.findAll('achievement').then(function (achievements) {
+    let achievements = await this.store.findAll('achievement').then(function (achievements) {
       let loadedAchievement = new Map()
       achievements.forEach(a => loadedAchievement.set(a.name, a))
       return loadedAchievement
     });
+    this.set('achievements', achievements)
   },
 
   async loadTemplates() {
     let query = await this.store.findAll('template')
-    this.templates = query.toArray() //No need to consolidate afaik.
+    this.set('templates', query.toArray()) //No need to consolidate afaik.
   },
 
   async consolidateSave() {
@@ -61,14 +64,14 @@ export default Service.extend({
 
   async consolidateUniverse() {
     if (this.universe == undefined) {
-      this.universe = this.gameTemplate.universe
+      this.set('universe', this.gameTemplate.universe)
       await this.universe.save();
     }
   },
 
   async consolidateEmpire() {
     if (this.empire == undefined) {
-      this.empire = this.gameTemplate.empire
+      this.set('empire', this.gameTemplate.empire)
       await this.empire.save();
     }
   },
