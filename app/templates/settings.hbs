@@ -1,4 +1,7 @@
 <div class="container-fluid">
+  <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleDisplay"}}>Display {{if model.displayText "text" "icon"}}</button>
+</div>
+<div class="container-fluid">
   <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "exportEverything"}}>Export save data</button>
   <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "importEverything"}}>Import save data</button>
   <button type="button" class="btn btn-danger my-2" onclick={{action "destroyEverything"}}>Clear save data</button>

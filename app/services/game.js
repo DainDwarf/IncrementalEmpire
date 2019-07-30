@@ -5,6 +5,7 @@ export default Service.extend({
   store: service(),
   notify: service(),
   gameTemplate: service('game-template'),
+  settings: undefined,
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
@@ -12,12 +13,18 @@ export default Service.extend({
   templates: undefined,
 
   async load() {
+    await this.loadSettings()
     await this.loadUniverse()
     await this.loadEmpire()
     await this.loadUpgrades()
     await this.loadAchievements()
     await this.loadTemplates()
     await this.consolidateSave()
+  },
+
+  async loadSettings() {
+    let settings = await this.store.findAll('setting').then(u => u.get('firstObject'))
+    this.set('settings', settings)
   },
 
   async loadUniverse() {
@@ -48,10 +55,18 @@ export default Service.extend({
   async consolidateSave() {
     // Helper function to add models if missing after loading.
     await this.gameTemplate.generate()
+    await this.consolidateSettings()
     await this.consolidateUniverse()
     await this.consolidateEmpire()
     await this.consolidateUpgrades()
     await this.consolidateAchievements()
+  },
+
+  async consolidateSettings() {
+    if (this.settings == undefined) {
+      this.set('settings', this.gameTemplate.settings)
+      await this.settings.save();
+    }
   },
 
   async consolidateUniverse() {

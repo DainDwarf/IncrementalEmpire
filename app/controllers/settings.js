@@ -4,6 +4,10 @@ export default Controller.extend({
   saveData: '',
 
   actions: {
+    async toggleDisplay() {
+      this.model.set('displayText', ! this.model.displayText)
+      await this.model.save()
+    },
     async importEverything() {
       await this.store.importData(atob(this.saveData))
       await this.game.load()
