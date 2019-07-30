@@ -26,7 +26,7 @@
             <DisplayValue @type="magic" @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
           {{/if}}
         </ul>
-        <button type="button" class="btn btn-secondary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
+        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
       </nav>
       <div class="container">
         {{outlet}}

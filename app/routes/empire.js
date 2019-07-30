@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { EKMixin, keyDown } from 'ember-keyboard';
+import { EKMixin, keyUp } from 'ember-keyboard';
 import { on } from '@ember/object/evented';
 
 export default Route.extend(EKMixin, {
@@ -8,7 +8,7 @@ export default Route.extend(EKMixin, {
     return this.game.empire
   },
 
-  nextTurnShortcut: on(keyDown('Enter'), function() {
+  nextTurnShortcut: on(keyUp('Space'), function() {
     this.controller.send('nextTurn')
   }),
 
