@@ -13,6 +13,7 @@ export default Service.extend({
   achievements: undefined,
 
   async generate() {
+    this.settings = await this.store.createRecord('settings');
     this.universe = await this.store.createRecord('universe');
     this.empire = await this.store.createRecord('empire');
     // Ember array not needed, the whole class is "const".
