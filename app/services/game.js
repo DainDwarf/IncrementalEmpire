@@ -31,19 +31,21 @@ export default Service.extend({
   },
 
   async loadUpgrades() {
-    this.set('upgrades', await this.store.findAll('upgrade').then(function (upgrades) {
+    let upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
       let loadedUpgrades = new Map()
       upgrades.forEach(u => loadedUpgrades.set(u.name, u))
       return loadedUpgrades
-    }));
+    })
+    this.set('upgrades', upgrades)
   },
 
   async loadAchievements() {
-    this.set('achievements', await this.store.findAll('achievement').then(function (achievements) {
+    let achievements = await this.store.findAll('achievement').then(function (achievements) {
       let loadedAchievement = new Map()
       achievements.forEach(a => loadedAchievement.set(a.name, a))
       return loadedAchievement
-    }));
+    });
+    this.set('achievements', achievements)
   },
 
   async loadTemplates() {
