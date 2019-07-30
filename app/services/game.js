@@ -23,7 +23,7 @@ export default Service.extend({
   },
 
   async loadSettings() {
-    let settings = await this.store.findAll('settings').then(u => u.get('firstObject'))
+    let settings = await this.store.findAll('setting').then(u => u.get('firstObject'))
     this.set('settings', settings)
   },
 

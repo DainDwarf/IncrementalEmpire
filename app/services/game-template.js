@@ -7,13 +7,14 @@ export default Service.extend({
   // It is also used to consolidate the save for forward compatibility
   // Like adding new upgrades and achievements
   store: service('store'),
+  settings: undefined,
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
   achievements: undefined,
 
   async generate() {
-    this.settings = await this.store.createRecord('settings');
+    this.settings = await this.store.createRecord('setting');
     this.universe = await this.store.createRecord('universe');
     this.empire = await this.store.createRecord('empire');
     // Ember array not needed, the whole class is "const".
