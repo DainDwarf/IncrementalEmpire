@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { gt } from '@ember/object/computed';
 
 export default Controller.extend({
+  tabRoute: 'empire.population',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
 
   actions: {
