@@ -7,7 +7,6 @@ export default Controller.extend({
     async importEverything() {
       await this.store.importData(atob(this.saveData))
       await this.game.load()
-      this.transitionToRoute('index')
     },
     async exportEverything() {
       await this.store.exportData(['universes', 'empires', 'upgrades', 'achievements', 'templates'])
@@ -20,7 +19,6 @@ export default Controller.extend({
         // TODO: I don't know why this does not work. :(
         await window.localStorage.clear();
         await this.game.load()
-        this.transitionToRoute('index')
       }
     },
   },
