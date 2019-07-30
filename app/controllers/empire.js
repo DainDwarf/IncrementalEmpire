@@ -7,8 +7,7 @@ export default Controller.extend({
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
 
   actions: {
-    async nextTurn(event) {
-      event.preventDefault();
+    async nextTurn() {
       await this.game.empire.nextTurn()
       await this.game.checkAchievements()
       if (this.model.population == 0) {
