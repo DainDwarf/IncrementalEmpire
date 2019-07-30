@@ -1,18 +1,9 @@
 import Controller from '@ember/controller';
-import { A } from '@ember/array';
 import { computed } from '@ember/object';
 import { sum, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
-  achievementsModel: computed('game.achievements', function() {
-    let ret = A();
-    for (var u of this.game.achievements.values()) {
-      ret.pushObject(u)
-    }
-    return ret
-  }),
-
-  activeAchievements: filterBy('achievementsModel', 'isActive', true),
+  activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
   remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP}', function() {
@@ -20,9 +11,9 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP)
   }),
 
-  rebirthPop: computed('model.popTP', function() {
+  rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
-    if (this.game.achievements.get('Have 5 population').isActive) {
+    if (this.game.getAchievement('Have 5 population').isActive) {
       TPratio = TPratio * 4
     }
     return 1+this.model.popTP*TPratio

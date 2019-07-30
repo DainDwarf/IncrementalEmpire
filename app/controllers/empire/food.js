@@ -12,7 +12,7 @@ export default Controller.extend({
     async genFood(event) {
       event.preventDefault();
       let incr = 1
-      if (this.game.upgrades.get('Click Power').isActive
+      if (this.game.getUpgrade('Click Power').isActive
         && this.game.universe.mana > 0
       ) {
         incr = this.game.universe.mana
