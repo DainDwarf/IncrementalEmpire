@@ -14,10 +14,10 @@
 </div>
 <div class="container">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
-    Restart with this empire and gain <IconPoint @tagName="span" @type="mana" @point={{game.empire.nextManaPoints}} />
+    Restart with this empire and gain <DisplayValue @tagName="span" @type="mana" @value={{game.empire.nextManaPoints}} />
   </button>
 </div>
 <div class="container small">
-  Religious empires produces more <IconPoint @tagName="span" @type="mana" @point="" /> if you have more population and spend more turns. You need at least 2 population and 21 turns to start producing <IconPoint @tagName="span" @type="mana" @point="" />
+  Religious empires produces more <DisplayValue @tagName="span" @type="mana" @value="" /> if you have more population and spend more turns. You need at least 2 population and 21 turns to start producing <DisplayValue @tagName="span" @type="mana" @value="" />
 </div>
 {{outlet}}
