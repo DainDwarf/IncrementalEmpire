@@ -21,11 +21,13 @@ export default Service.extend({
   },
 
   async loadUniverse() {
-    this.set('universe', await this.store.findAll('universe').then(u => u.get('firstObject')))
+    let universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+    this.set('universe', universe)
   },
 
   async loadEmpire() {
-    this.set('empire', await this.store.findAll('empire').then(e => e.get('firstObject')))
+    let empire = await this.store.findAll('empire').then(e => e.get('firstObject'))
+    this.set('empire', empire)
   },
 
   async loadUpgrades() {
