@@ -31,21 +31,13 @@ export default Service.extend({
   },
 
   async loadUpgrades() {
-    let upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
-      let loadedUpgrades = new Map()
-      upgrades.forEach(u => loadedUpgrades.set(u.name, u))
-      return loadedUpgrades
-    })
-    this.set('upgrades', upgrades)
+    let upgrades = await this.store.findAll('upgrade')
+    this.set('upgrades', upgrades.toArray())
   },
 
   async loadAchievements() {
-    let achievements = await this.store.findAll('achievement').then(function (achievements) {
-      let loadedAchievement = new Map()
-      achievements.forEach(a => loadedAchievement.set(a.name, a))
-      return loadedAchievement
-    });
-    this.set('achievements', achievements)
+    let achievements = await this.store.findAll('achievement')
+    this.set('achievements', achievements.toArray())
   },
 
   async loadTemplates() {
@@ -79,9 +71,9 @@ export default Service.extend({
   async consolidateUpgrades() {
     for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
       let u = this.gameTemplate.upgrades[i]
-      let savedU = this.upgrades.get(u.name)
+      let savedU = this.getUpgrade(u.name)
       if (savedU == undefined) {
-        this.upgrades.set(u.name, u)
+        this.upgrades.pushObject(u)
         await u.save()
       } else {
         savedU.set('manaCost', u.manaCost)
@@ -96,9 +88,9 @@ export default Service.extend({
   async consolidateAchievements() {
     for (var i=0; i<this.gameTemplate.achievements.length; i++) {
       let a = this.gameTemplate.achievements[i]
-      let savedA = this.achievements.get(a.name)
+      let savedA = this.getAchievement(a.name)
       if (savedA == undefined) {
-        this.achievements.set(a.name, a)
+        this.achievements.pushObject(a)
         await a.save()
       } else {
         savedA.set('templatePoint', a.templatePoint)
@@ -106,6 +98,24 @@ export default Service.extend({
         savedA.reopen({condition: a.condition})
       }
     }
+  },
+
+  getUpgrade(name) {
+    for (var u of this.upgrades) {
+      if (u.name == name) {
+        return u
+      }
+    }
+    return undefined
+  },
+
+  getAchievement(name) {
+    for (var a of this.achievements) {
+      if (a.name == name) {
+        return a
+      }
+    }
+    return undefined
   },
 
   async rebirth(newEmpire) {

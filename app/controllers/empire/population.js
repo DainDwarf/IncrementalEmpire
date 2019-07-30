@@ -5,7 +5,7 @@ import { not, lt, gt } from '@ember/object/computed';
 export default Controller.extend({
   popPlural: gt('model.population', 1),
   genPopUpgrade: computed('this.game.upgrades', function() {
-    return this.game.upgrades.get('Spontaneous Generation')
+    return this.game.getUpgrade('Spontaneous Generation')
   }),
   isGenPopulationUnavailable: not('genPopUpgrade.isActive'),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
