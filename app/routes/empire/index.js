@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
   redirect() {
-    this.transitionTo('empire.food')
+    let route = this.controllerFor('empire').tabRoute
+    this.transitionTo(route)
   },
 });
