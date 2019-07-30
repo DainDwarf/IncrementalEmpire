@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  typeToIcon (type) {
+  type: '',
+  icon: computed('type', function() {
     let trans = {
       mana: 'dot-circle',
       culture: 'theater-masks',
@@ -12,12 +13,6 @@ export default Component.extend({
       happiness: 'smile',
       magic: 'magic',
     }
-    return trans[type]
-  },
-
-  type: '',
-  icon: computed('type', function() {
-    let ret = this.typeToIcon(this.type)
-    return ret
+    return trans[this.type]
   }),
 });
