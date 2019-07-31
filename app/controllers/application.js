@@ -1,9 +1,12 @@
 import Controller from '@ember/controller';
-import { not } from '@ember/object/computed';
+import { or } from '@ember/object/computed';
+import config from 'incremental-empire/config/environment';
 
 export default Controller.extend({
-  isManaHidden: not('model.manaUnlocked'),
-  isCultureHidden: not('model.cultureUnlocked'),
-  isMoneyHidden: not('model.moneyUnlocked'),
-  isScienceHidden: not('model.scienceUnlocked'),
+  debug: config.APP.DEBUG,
+
+  isManaDisplayed: or('model.manaUnlocked', 'debug'),
+  isCultureDisplayed: or('model.cultureUnlocked', 'debug'),
+  isMoneyDisplayed: or('model.moneyUnlocked', 'debug'),
+  isScienceDisplayed: or('model.scienceUnlocked', 'debug'),
 });
