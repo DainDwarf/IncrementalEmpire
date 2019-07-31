@@ -23,18 +23,10 @@
     {{model.name}}
   {{/link-to}}
   <ul class="navbar-nav">
-    {{#if isManaDisplayed}}
-      <DisplayValue @tagName="li" @class="nav-item mx-2 {{unless model.manaUnlocked "text-secondary"}}" @type="mana" @value={{model.mana}} />
-    {{/if}}
-    {{#if isCultureDisplayed}}
-      <DisplayValue @tagName="li" @class="nav-item mx-2 {{unless model.cultureUnlocked "text-secondary"}}" @type="culture" @value={{model.culture}} />
-    {{/if}}
-    {{#if isMoneyDisplayed}}
-      <DisplayValue @tagName="li" @class="nav-item mx-2 {{unless model.moneyUnlocked "text-secondary"}}" @type="money" @value={{model.money}} />
-    {{/if}}
-    {{#if isScienceDisplayed}}
-      <DisplayValue @tagName="li" @class="nav-item mx-2 {{unless model.scienceUnlocked "text-secondary"}}" @type="science" @value={{model.science}} />
-    {{/if}}
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.manaUnlocked}} @type="mana" @value={{model.mana}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.cultureUnlocked}} @type="culture" @value={{model.culture}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.moneyUnlocked}} @type="money" @value={{model.money}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.scienceUnlocked}} @type="science" @value={{model.science}} />
   </ul>
 </nav>
 <div class="container-fluid">

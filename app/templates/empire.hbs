@@ -22,9 +22,7 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item mx-2"><DisplayValue @type="population" @value={{model.population}} /></li>
           <li class="nav-item mx-2"><DisplayValue @type="happiness" @value="67%" /></li>
-          {{#if spellPointsDisplayed}}
-            <DisplayValue @type="magic" @class={{unless spellPointsUnlocked text-secondary}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
-          {{/if}}
+          <DisplayValue @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
         <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
       </nav>
