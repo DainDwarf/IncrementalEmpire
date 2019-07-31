@@ -17,7 +17,7 @@ export default Controller.extend({
       await this.game.load()
     },
     async exportEverything() {
-      await this.store.exportData(['universes', 'empires', 'upgrades', 'achievements', 'templates'])
+      await this.store.exportData(['universes', 'empires', 'upgrades', 'achievements', 'templates', 'settings'])
         .then(data => this.set('saveData', btoa(data)))
     },
     async destroyEverything(event) {

@@ -23,10 +23,10 @@
     {{model.name}}
   {{/link-to}}
   <ul class="navbar-nav">
-    <li class="nav-item mx-2" hidden={{isManaHidden}}><DisplayValue @type="mana" @value={{model.mana}} /></li>
-    <li class="nav-item mx-2" hidden={{isCultureHidden}}><DisplayValue @type="culture" @value={{model.culture}} /></li>
-    <li class="nav-item mx-2" hidden={{isMoneyHidden}}><DisplayValue @type="money" @value={{model.money}} /></li>
-    <li class="nav-item mx-2" hidden={{isScienceHidden}}><DisplayValue @type="science" @value={{model.science}} /></li>
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.manaUnlocked}} @type="mana" @value={{model.mana}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.cultureUnlocked}} @type="culture" @value={{model.culture}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.moneyUnlocked}} @type="money" @value={{model.money}} />
+    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.scienceUnlocked}} @type="science" @value={{model.science}} />
   </ul>
 </nav>
 <div class="container-fluid">
