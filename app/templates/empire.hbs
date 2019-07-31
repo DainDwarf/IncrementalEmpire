@@ -20,9 +20,9 @@
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item mx-2"><DisplayValue @type="population" @value={{model.population}} /></li>
-          <li class="nav-item mx-2"><DisplayValue @type="happiness" @value="67%" /></li>
-          <DisplayValue @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{model.population}} />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
         <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
       </nav>
