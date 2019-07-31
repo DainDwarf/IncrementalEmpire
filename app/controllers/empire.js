@@ -1,10 +1,13 @@
 import Controller from '@ember/controller';
 import $ from 'jquery';
-import { gt } from '@ember/object/computed';
+import { gt, or } from '@ember/object/computed';
+import config from 'incremental-empire/config/environment';
 
 export default Controller.extend({
+  debug: config.APP.DEBUG,
   tabRoute: 'empire.population',
-  spellPointsDisplayed: gt('model.maxSpellPoints', 0),
+  spellPointsUnlocked: gt('model.maxSpellPoints', 0),
+  spellPointsDisplayed: or('debug', 'spellPointsUnlocked'),
 
   actions: {
     async nextTurn() {
