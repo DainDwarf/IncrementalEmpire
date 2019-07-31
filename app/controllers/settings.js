@@ -4,6 +4,10 @@ export default Controller.extend({
   saveData: '',
 
   actions: {
+    async updateUniverseName(newName) {
+      this.game.universe.set('name', newName)
+      await this.game.universe.save()
+    },
     async toggleDisplay() {
       this.model.set('displayText', ! this.model.displayText)
       await this.model.save()
