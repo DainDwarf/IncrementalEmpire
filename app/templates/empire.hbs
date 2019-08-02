@@ -6,6 +6,9 @@
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+        {{#if isLowFood}}
+          <FaIcon class="float-right text-danger" @icon="exclamation" />
+        {{/if}}
       {{/link-to}}
       {{#link-to "empire.material" class="nav-link"}}
         Material <span class="badge badge-pill badge-light">{{model.material}}</span>
