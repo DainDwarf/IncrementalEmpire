@@ -26,7 +26,7 @@ export default Model.extend({
   foodProduction: computed('workerHunter', 'game.universe.money', 'game.upgrades.@each.isActive', 'type', function() {
     let prod = this.workerHunter
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      prod = prod * Math.floor(Math.log(this.game.universe.money))
+      prod = prod * Math.max(1, Math.floor(Math.log(this.game.universe.money)))
     }
     return prod
   }),
