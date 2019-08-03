@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { not, lt, gt } from '@ember/object/computed';
+import { or, not, lt, gt } from '@ember/object/computed';
 
 export default Controller.extend({
   popPlural: gt('model.population', 1),
@@ -9,6 +9,7 @@ export default Controller.extend({
   }),
   isGenPopulationUnavailable: not('genPopUpgrade.isActive'),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
+  isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead'),
 
   actions: {
     async genPopulation(event) {

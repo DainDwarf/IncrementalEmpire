@@ -27,9 +27,9 @@
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
-        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
+        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{model.dead}}>Turn {{model.turn}}</button>
       </nav>
-      <div class="container">
+      <div class="container h-100 {{if model.dead "bg-secondary"}}">
         {{outlet}}
       </div>
     </div>

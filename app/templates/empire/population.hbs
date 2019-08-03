@@ -4,7 +4,7 @@
 <button type="button"
         class="btn btn-outline-success"
         hidden={{isGenPopulationUnavailable}}
-        disabled={{isGenPopulationOnCooldown}}
+        disabled={{isGenPopulationDisabled}}
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>

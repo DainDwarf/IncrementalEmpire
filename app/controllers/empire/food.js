@@ -1,10 +1,11 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
-import { lt } from '@ember/object/computed';
+import { lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
+  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead'),
 
   actions: {
     async genFood(event) {

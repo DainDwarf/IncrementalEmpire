@@ -8,7 +8,7 @@
 {{/if}}
 <button type="button"
         class="btn btn-outline-success"
-        disabled={{isGenFoodOnCooldown}}
+        disabled={{isGenFoodDisabled}}
         onclick={{action "genFood"}}>
   Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
