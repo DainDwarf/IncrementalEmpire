@@ -13,7 +13,13 @@ export default Controller.extend({
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
-    if (this.game.getAchievement('Have 5 population').isActive) {
+    if (this.game.getAchievement('Have 10 population').isActive) {
+      TPratio = TPratio * 4
+    }
+    if (this.game.getAchievement('Have 100 population').isActive) {
+      TPratio = TPratio * 4
+    }
+    if (this.game.getAchievement('Have 1000 population').isActive) {
       TPratio = TPratio * 4
     }
     return 1+this.model.popTP*TPratio
