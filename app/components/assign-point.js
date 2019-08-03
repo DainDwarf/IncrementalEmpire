@@ -15,6 +15,13 @@ export default Component.extend({
       return "text-secondary"
     }
   }),
+  lessClickClass: computed('canBeLess', function() {
+    if (this.canBeLess) {
+      return "click-icon"
+    } else {
+      return "click-icon-disabled"
+    }
+  }),
   moreColor: computed('canBeMore', function() {
     if (this.canBeMore) {
       return "text-success"
@@ -22,13 +29,33 @@ export default Component.extend({
       return "text-secondary"
     }
   }),
+  moreClickClass: computed('canBeMore', function() {
+    if (this.canBeMore) {
+      return "click-icon"
+    } else {
+      return "click-icon-disabled"
+    }
+  }),
   actions: {
     lessAssign(event) {
-      //TODO: ctrl/maj modifiers or other modifiers
-      this.onLess(1)
+      let incr = 1
+      if (event.shiftKey) {
+        incr = incr*10
+      }
+      if (event.altKey) {
+        incr = incr*100
+      }
+      this.onLess(incr)
     },
     moreAssign(event) {
-      this.onMore(1)
+      let incr = 1
+      if (event.shiftKey) {
+        incr = incr*10
+      }
+      if (event.altKey) {
+        incr = incr*100
+      }
+      this.onMore(incr)
     },
   },
 });

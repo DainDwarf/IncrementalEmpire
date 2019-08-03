@@ -2,11 +2,11 @@
   <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/>
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
-<AssignPoint @onLess={{action "lessPop"}} @onMore={{action "morePop"}}
+<AssignPoint @class="ml-2" @onLess={{action "lessPop"}} @onMore={{action "morePop"}}
              @canBeLess={{gt model.popTP 0}} @canBeMore={{gt remainingTemplatePoints 0}}>
   Population: {{rebirthPop}} ({{model.popTP}} TP)
 </AssignPoint>
-<AssignPoint @onLess={{action "lessFood"}} @onMore={{action "moreFood"}}
+<AssignPoint @class="ml-2" @onLess={{action "lessFood"}} @onMore={{action "moreFood"}}
              @canBeLess={{gt model.foodTP 0}} @canBeMore={{gt remainingTemplatePoints 0}}>
   Food: {{rebirthFood}} ({{model.foodTP}} TP)
 </AssignPoint>
