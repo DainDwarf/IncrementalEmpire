@@ -48,6 +48,7 @@ export default Controller.extend({
       event.preventDefault()
       let newEmpire = await this.store.createRecord('empire', {
         name: this.model.name,
+        type: this.model.type,
         population: this.rebirthPop,
         food: this.rebirthFood,
       })

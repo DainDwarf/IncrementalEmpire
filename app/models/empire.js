@@ -4,6 +4,7 @@ const { Model, attr } = DS;
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
+  type: attr('string', {defaultValue: 'religious'}),
   turn: attr('number', {defaultValue: 0}),
   population: attr('number', { defaultValue: 1}),
   dead: attr('boolean', { defaultValue: false}),
