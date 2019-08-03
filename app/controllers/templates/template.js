@@ -28,33 +28,21 @@ export default Controller.extend({
       this.model.set('name', newName)
       await this.model.save()
     },
-    async lessPop(event) {
-      event.preventDefault()
-      if (this.model.popTP > 0) {
-        this.model.set('popTP', this.model.popTP-1)
-        await this.model.save()
-      }
+    async lessPop(qty) {
+      this.model.set('popTP', Math.max(this.model.popTP-qty, 0))
+      await this.model.save()
     },
-    async morePop(event) {
-      event.preventDefault()
-      if (this.remainingTemplatePoints > 0) {
-        this.model.set('popTP', this.model.popTP+1)
-        await this.model.save()
-      }
+    async morePop(qty) {
+      this.model.set('popTP', this.model.popTP+Math.min(qty, this.remainingTemplatePoints))
+      await this.model.save()
     },
-    async lessFood(event) {
-      event.preventDefault()
-      if (this.model.foodTP > 0) {
-        this.model.set('foodTP', this.model.foodTP-1)
-        await this.model.save()
-      }
+    async lessFood(qty) {
+      this.model.set('foodTP', Math.max(this.model.foodTP-qty, 0))
+      await this.model.save()
     },
-    async moreFood(event) {
-      event.preventDefault()
-      if (this.remainingTemplatePoints > 0) {
-        this.model.set('foodTP', this.model.foodTP+1)
-        await this.model.save()
-      }
+    async moreFood(qty) {
+      this.model.set('foodTP', this.model.foodTP+Math.min(qty, this.remainingTemplatePoints))
+      await this.model.save()
     },
     async rebirth(event) {
       event.preventDefault()

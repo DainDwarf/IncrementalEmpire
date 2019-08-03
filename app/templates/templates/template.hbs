@@ -2,16 +2,14 @@
   <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/>
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
-<div class="container">
-  {{fa-icon "minus-circle" class="click-icon" click=(action "lessPop")}}
-  Population: {{rebirthPop}}
-  {{fa-icon "plus-circle" class="click-icon" click=(action "morePop")}}
-</div>
-<div class="container">
-  {{fa-icon "minus-circle" class="click-icon" click=(action "lessFood")}}
-  Food: {{rebirthFood}}
-  {{fa-icon "plus-circle" class="click-icon" click=(action "moreFood")}}
-</div>
+<AssignPoint @class="ml-2" @onLess={{action "lessPop"}} @onMore={{action "morePop"}}
+             @canBeLess={{gt model.popTP 0}} @canBeMore={{gt remainingTemplatePoints 0}}>
+  Population: {{rebirthPop}} ({{model.popTP}} TP)
+</AssignPoint>
+<AssignPoint @class="ml-2" @onLess={{action "lessFood"}} @onMore={{action "moreFood"}}
+             @canBeLess={{gt model.foodTP 0}} @canBeMore={{gt remainingTemplatePoints 0}}>
+  Food: {{rebirthFood}} ({{model.foodTP}} TP)
+</AssignPoint>
 <div class="container">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
     Restart with this empire and gain <DisplayValue @tagName="span" @type="mana" @value={{game.empire.nextManaPoints}} />
