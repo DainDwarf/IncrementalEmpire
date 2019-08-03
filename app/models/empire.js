@@ -23,20 +23,23 @@ export default Model.extend({
   }),
 
   popProduction: alias('workerBreeder'),
-  foodProduction: computed('workerHunter', 'popProduction', 'population', function() {
-    return this.workerHunter-this.popProduction-this.population
-  }),
+  foodProduction: alias('workerHunter'),
 
   async nextTurn() {
-    //Order is important!!! Do the production in reverse order of dependancy
-    this.set('food', this.food + this.foodProduction) //Depends on pop production
-    this.set('population', this.population+this.popProduction)
-
-    //Pop eats food or die.
-    if (this.food < 0) {
-      this.set('population', this.population+this.food)
+    //Pop eat or die
+    if (this.food >= this.population) {
+      this.set('food', this.food-this.population)
+    } else {
+      this.set('population', this.food)
       this.set('food', 0)
+      // TODO: worker destruction?
     }
+
+    if (this.population > 0) {
+      this.set('food', this.food + this.foodProduction)
+      this.set('population', this.population+this.popProduction)
+    }
+
     this.set('turn', this.turn + 1)
     this.set('spellPoints', this.maxSpellPoints)
     await this.save()
