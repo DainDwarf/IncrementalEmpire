@@ -1,5 +1,10 @@
 <div>
   {{model.name}} currently has {{model.food}} food.
+  {{#if (gte model.foodProduction 0)}}
+    You generate {{model.foodProduction}} food per turn.
+  {{else}}
+    You are losing {{model.foodProduction}} food per turn.
+  {{/if}}
 </div>
 {{#if empireCtl.isLowFood}}
   <div>

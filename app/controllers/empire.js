@@ -16,7 +16,7 @@ export default Controller.extend({
     async nextTurn() {
       await this.model.nextTurn()
       await this.game.checkAchievements()
-      if (this.model.population == 0) {
+      if (this.model.population <= 0) {
         this.set('deadModal', true)
         this.model.set('dead', true)
         await this.model.save()

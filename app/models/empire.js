@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -21,12 +22,19 @@ export default Model.extend({
     return this.population - this.workerHunter - this.workerBreeder
   }),
 
+  popProduction: alias('workerBreeder'),
+  foodProduction: computed('workerHunter', 'popProduction', 'population', function() {
+    return this.workerHunter-this.popProduction-this.population
+  }),
+
   async nextTurn() {
+    //Order is important!!! Do the production in reverse order of dependancy
+    this.set('food', this.food + this.foodProduction) //Depends on pop production
+    this.set('population', this.population+this.popProduction)
+
     //Pop eats food or die.
-    if (this.food >= this.population) {
-      this.set('food', this.food-this.population)
-    } else {
-      this.set('population', this.food)
+    if (this.food < 0) {
+      this.set('population', this.population+this.food)
       this.set('food', 0)
     }
     this.set('turn', this.turn + 1)

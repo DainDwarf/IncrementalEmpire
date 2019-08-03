@@ -1,5 +1,5 @@
 <div>
-  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}. {{if popPlural "They" "It"}} will need {{model.population}} food to survive next turn.
+  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}. {{if popPlural "They" "It"}} will need {{model.population}} food to survive next turn. {{#if model.popProduction}}You birth {{model.popProduction}} human{{if (gt model.popProduction 1) "s"}} per turn.{{/if}}
 </div>
 <button type="button"
         class="btn btn-outline-success"
