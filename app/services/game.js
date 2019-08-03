@@ -85,8 +85,7 @@ export default Service.extend({
   },
 
   async consolidateUpgrades() {
-    for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
-      let u = this.gameTemplate.upgrades[i]
+    for (let u of this.gameTemplate.upgrades) {
       let savedU = this.getUpgrade(u.name)
       if (savedU == undefined) {
         this.upgrades.pushObject(u)
@@ -99,19 +98,45 @@ export default Service.extend({
         savedU.set('description', u.description)
       }
     }
+    for (let savedU of this.upgrades) {
+      let found = false
+      for (let u of this.gameTemplate.upgrades) {
+        if (u.name == savedU.name) {
+          found=true
+          break
+        }
+      }
+      if (! found) {
+        this.upgrades.removeObject(savedU)
+        savedU.destroyRecord()
+      }
+    }
   },
 
   async consolidateAchievements() {
-    for (var i=0; i<this.gameTemplate.achievements.length; i++) {
-      let a = this.gameTemplate.achievements[i]
+    for (let a of this.gameTemplate.achievements) {
       let savedA = this.getAchievement(a.name)
       if (savedA == undefined) {
+        a.conditionFactory(a)
         this.achievements.pushObject(a)
         await a.save()
       } else {
         savedA.set('templatePoint', a.templatePoint)
         savedA.set('description', a.description)
-        savedA.reopen({condition: a.condition})
+        a.conditionFactory(savedA)
+      }
+    }
+    for (let savedA of this.achievements) {
+      let found = false
+      for (let a of this.gameTemplate.achievements) {
+        if (a.name == savedA.name) {
+          found=true
+          break
+        }
+      }
+      if (! found) {
+        this.achievements.removeObject(savedA)
+        savedA.destroyRecord()
       }
     }
   },
@@ -147,6 +172,7 @@ export default Service.extend({
     this.set('empire', newEmpire);
     await this.empire.save();
     await this.universe.save()
+    await this.checkAchievements()
   },
 
   async buyUpgrade(upgrade) {

@@ -1,1 +1,5 @@
-Click "Add new template" to design a new empire.
+{{#if templatesCtl.canAddTemplate}}
+  Click "Add new template" to design a new empire.
+{{else}}
+  Select one of your template to restart with a new empire, or delete a template to design a new empire.
+{{/if}}

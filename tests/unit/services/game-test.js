@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import resetStorages from 'ember-local-storage/test-support/reset-storage';
-import { gte } from '@ember/object/computed';
 
 module('Unit | Service | game', function(hooks) {
   setupTest(hooks);
@@ -37,15 +36,14 @@ module('Unit | Service | game', function(hooks) {
     let game = this.owner.lookup('service:game');
     store.createRecord('universe', {mana: 5})
     store.createRecord('empire', {population: 6})
-    store.createRecord('upgrade', {name: 'dummy upgrade'})
     await game.load()
     assert.ok(game.universe)
     assert.ok(game.empire)
     assert.ok(game.upgrades)
-    assert.ok(game.getUpgrade('dummy upgrade'))
+    assert.ok(game.achievements)
+    assert.ok(game.settings)
     assert.equal(game.universe.mana, 5)
     assert.equal(game.empire.population, 6)
-    assert.equal(game.getUpgrade('dummy upgrade').name, 'dummy upgrade')
   });
 
   test('Consolidate universe', async function(assert) {
@@ -111,24 +109,23 @@ module('Unit | Service | game', function(hooks) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
     store.createRecord('universe', {mana: 5, culture: 5, money: 5, science: 5})
-    let upgrade = store.createRecord('upgrade', {name: 'test upgrade', manaCost: 1, cultureCost: 2, moneyCost: 3, scienceCost: 4, isActive: false})
     await game.load()
+    let upgrade = game.getUpgrade('Spontaneous Generation') //Should cost 1 mana
     assert.notOk(upgrade.cannotBuy)
     await game.buyUpgrade(upgrade)
     assert.ok(upgrade.isActive)
     assert.equal(game.universe.mana, 4)
-    assert.equal(game.universe.culture, 3)
-    assert.equal(game.universe.money, 2)
-    assert.equal(game.universe.science, 1)
+    assert.equal(game.universe.culture, 5)
+    assert.equal(game.universe.money, 5)
+    assert.equal(game.universe.science, 5)
   });
 
   test('checkAchievements', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
     store.createRecord('empire', {turn: 10})
-    let firstAchievement = await store.createRecord('achievement', {name: 'Eden is Working!', templatePoint: 1, description: 'Time to create Eve'})
-    firstAchievement.reopen({condition: gte('game.empire.turn', 10)})
     await game.load()
+    let firstAchievement = game.getAchievement('Reach turn 10')
     assert.notOk(firstAchievement.isActive)
     await game.checkAchievements()
     assert.ok(firstAchievement.isActive)
