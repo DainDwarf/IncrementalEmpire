@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { or, not, lt, gt } from '@ember/object/computed';
+import { or, lt, gt } from '@ember/object/computed';
 
 export default Controller.extend({
   popPlural: gt('model.population', 1),
