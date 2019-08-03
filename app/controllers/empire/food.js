@@ -11,7 +11,7 @@ export default Controller.extend({
     return this.model.type == "religious"
   }),
   workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return this.model.type == "economical" && this.game.getUpgrade('Hunting').isActive
+    return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
 
   actions: {
