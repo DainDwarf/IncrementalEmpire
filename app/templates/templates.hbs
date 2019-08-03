@@ -1,3 +1,14 @@
+<BsModal @open={{newTemplateModal}} @onHide={{action "setTemplateModal" false}} as |Modal|>
+  <Modal.body>
+    Choose the empire type :
+  </Modal.body>
+  <Modal.footer>
+    <BsButton @onClick={{action "newTemplate" "religious"}} @type="primary">Religious</BsButton>
+    <BsButton @onClick={{action "newTemplate" "economical"}} @type="primary">Economical</BsButton>
+    <BsButton @onClick={{action "newTemplate" "cultural"}} @type="primary">Cultural</BsButton>
+    <BsButton @onClick={{action "newTemplate" "scientific"}} @type="primary">Scientific</BsButton>
+  </Modal.footer>
+</BsModal>
 <div class="container-fluid">
   <div class="row">
     <nav class="ml-2 nav nav-pills flex-column border-right w-15">
@@ -14,7 +25,7 @@
         </div>
       {{/each}}
       {{#if canAddTemplate}}
-        <button typ="button" class="btn" onclick={{action "newTemplate"}}>Add new template</button>
+        <button typ="button" class="btn" onclick={{action "setTemplateModal" true}}>Add new template</button>
       {{/if}}
     </nav>
     <div class="border w-80">
