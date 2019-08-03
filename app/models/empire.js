@@ -15,18 +15,6 @@ export default Model.extend({
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
 
-  nextManaPoints: computed('population', 'turn', function(){
-    let pop = this.population
-    let turn = this.turn
-    if ( pop > 1 && turn > 20) {
-      return Math.max(0, Math.floor(Math.sqrt(
-        (pop-1)*(turn/10-1)
-      )))
-    } else {
-      return 0
-    }
-  }),
-
   async nextTurn() {
     //Pop eats food or die.
     if (this.food >= this.population) {

@@ -1,8 +1,10 @@
 import Controller from '@ember/controller';
+import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
 import { sum, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
+  empireCtl: controller('empire'),
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),

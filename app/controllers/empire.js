@@ -14,7 +14,7 @@ export default Controller.extend({
 
   actions: {
     async nextTurn() {
-      await this.game.empire.nextTurn()
+      await this.model.nextTurn()
       await this.game.checkAchievements()
       if (this.model.population == 0) {
         this.set('deadModal', true)

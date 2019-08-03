@@ -24,8 +24,8 @@
     <li class="nav-item">
       {{#link-to "templates" class="nav-link"}}
         Templates
-        {{#if game.empire.nextManaPoints}}
-          <DisplayValue @tagName="span" @class="badge badge-pill badge-secondary" @type="mana" @value={{game.empire.nextManaPoints}} />
+        {{#if game.rebirthPoints}}
+          <DisplayValue @tagName="span" @class="badge badge-pill badge-secondary" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
         {{/if}}
       {{/link-to}}
     </li>
