@@ -13,7 +13,13 @@ export default Controller.extend({
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
-    if (this.game.getAchievement('Have 5 population').isActive) {
+    if (this.game.getAchievement('Have 10 population').isActive) {
+      TPratio = TPratio * 4
+    }
+    if (this.game.getAchievement('Have 100 population').isActive) {
+      TPratio = TPratio * 4
+    }
+    if (this.game.getAchievement('Have 1000 population').isActive) {
       TPratio = TPratio * 4
     }
     return 1+this.model.popTP*TPratio
@@ -21,6 +27,14 @@ export default Controller.extend({
 
   rebirthFood: computed('model.foodTP', function() {
     return 10*this.model.foodTP
+  }),
+
+  rebirthSpellPoints: computed('model.type', function() {
+    if (this.model.type == "religious") {
+      return 5
+    } else {
+      return 0
+    }
   }),
 
   actions: {
@@ -48,8 +62,11 @@ export default Controller.extend({
       event.preventDefault()
       let newEmpire = await this.store.createRecord('empire', {
         name: this.model.name,
+        type: this.model.type,
         population: this.rebirthPop,
         food: this.rebirthFood,
+        spellPoints: this.rebirthSpellPoints,
+        maxSpellPoints: this.rebirthSpellPoints,
       })
       await this.game.rebirth(newEmpire)
       this.transitionToRoute('empire')

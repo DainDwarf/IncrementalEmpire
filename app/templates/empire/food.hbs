@@ -1,13 +1,22 @@
 <div>
   {{model.name}} currently has {{model.food}} food.
+  {{#if model.foodProduction}}
+    You generate {{model.foodProduction}} food per turn.
+  {{/if}}
 </div>
 {{#if empireCtl.isLowFood}}
-  <div>
+  <div class="text-danger">
     You will lose some population next turn.
   </div>
 {{/if}}
+<AssignPoint @class="ml-2" @isVisible={{workerHunterAvailable}} @disabled={{model.dead}}
+             @onLess={{action "lessHunter"}} @onMore={{action "moreHunter"}}
+             @canBeLess={{gt model.workerHunter 0}} @canBeMore={{gt model.availableWorkers 0}}>
+  Hunter{{if (gt model.workerHunter 1) "s"}}: {{model.workerHunter}}
+</AssignPoint>
 <button type="button"
         class="btn btn-outline-success"
+        hidden={{not isGenFoodAvailable}}
         disabled={{isGenFoodDisabled}}
         onclick={{action "genFood"}}>
   Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />

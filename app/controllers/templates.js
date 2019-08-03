@@ -1,16 +1,35 @@
 import Controller from '@ember/controller';
-import { lt } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
-  canAddTemplate: lt('model.length', 3),
+  hasReligiousTemplates: true,
+  hasEconomicalTemplates: computed('this.game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Economical Empires').isActive
+  }),
+  hasCulturalTemplates: false,
+  hasScientificTemplates: false,
+  canAddTemplate: computed('model.length', 'game.achievements.@each.isActive', function() {
+    let maxTemplate = 1
+    if (this.game.getAchievement('Reach 1000 mana').isActive) {
+      maxTemplate = maxTemplate + 1
+    }
+    return this.model.length < maxTemplate
+  }),
+  newTemplateModal: false,
 
   actions: {
-    async newTemplate(event) {
-      event.preventDefault()
-      let t = await this.store.createRecord('template')
+    setTemplateModal(val) {
+      this.set('newTemplateModal', val)
+    },
+
+    async newTemplate(type) {
+      let t = await this.store.createRecord('template', {
+        type: type,
+      })
       this.game.templates.pushObject(t)
       await t.save()
+      this.set('newTemplateModal', false)
       this.transitionToRoute('templates.template', t.id)
     },
 
