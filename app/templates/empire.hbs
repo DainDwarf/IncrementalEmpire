@@ -6,6 +6,9 @@
     <nav class="nav nav-pills flex-column border-right w-15">
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
+        {{#if isWrongWorkers}}
+          <FaIcon class="float-right text-danger" @icon="exclamation" />
+        {{/if}}
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
@@ -31,7 +34,7 @@
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
-        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{model.dead}}>Turn {{model.turn}}</button>
+        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{nextTurnDisabled}}>Turn {{model.turn}}</button>
       </nav>
       <div class="container h-100 {{if model.dead "bg-secondary"}}">
         {{outlet}}

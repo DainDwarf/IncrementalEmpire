@@ -1,8 +1,10 @@
 import Controller from '@ember/controller';
+import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
 import { or, lt, gt } from '@ember/object/computed';
 
 export default Controller.extend({
+  empireCtl: controller('empire'),
   popPlural: gt('model.population', 1),
   genPopUpgrade: computed('this.game.upgrades', function() {
     return this.game.getUpgrade('Spontaneous Generation')
