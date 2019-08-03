@@ -23,7 +23,7 @@ export default Model.extend({
   }),
 
   popProduction: alias('workerBreeder'),
-  foodProduction: computed('workerHunter', 'game.universe.{money,upgrades.@each.isActive}', 'type', function() {
+  foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
       prod = prod * Math.max(1, Math.floor(Math.log(this.game.universe.money)))
