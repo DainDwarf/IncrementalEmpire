@@ -3,21 +3,6 @@
     {{message.text}}
   {{/link-to}}
 {{/ember-notify}}
-<div class="modal fade" id="empireLostModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">{{game.empire.name}} final years</h5>
-      </div>
-      <div class="modal-body">
-        {{game.empire.name}} has lost all its people. You will need to start over with a new empire, and be careful next time.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   {{#link-to "index" class="navbar-brand mr-auto"}}
     {{model.name}}

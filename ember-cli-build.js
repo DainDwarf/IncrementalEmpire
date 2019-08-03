@@ -13,6 +13,12 @@ module.exports = function(defaults) {
       enabled: isProductionLikeBuild,
       prepend: 'https://daindwarf.github.io/',
     },
+
+    'ember-bootstrap': {
+      'bootstrapVersion': 4,
+      'importBootstrapFont': false,
+      'importBootstrapCSS': false
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
