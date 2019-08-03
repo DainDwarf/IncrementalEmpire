@@ -2,34 +2,41 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
+  disabled: false,
   canBeLess: true,
   canBeMore: true,
   onLess() {},
   onMore() {},
 
+  _canReallyBeLess: computed('canBeLess', 'disabled', function() {
+    return this.canBeLess && !this.disabled
+  }),
+  _canReallyBeMore: computed('canBeMore', 'disabled', function() {
+    return this.canBeMore && !this.disabled
+  }),
   lessColor: computed('canBeLess', function() {
-    if (this.canBeLess) {
+    if (this._canReallyBeLess) {
       return "text-danger"
     } else {
       return "text-secondary"
     }
   }),
   lessClickClass: computed('canBeLess', function() {
-    if (this.canBeLess) {
+    if (this._canReallyBeLess) {
       return "click-icon"
     } else {
       return "click-icon-disabled"
     }
   }),
   moreColor: computed('canBeMore', function() {
-    if (this.canBeMore) {
+    if (this._canReallyBeMore) {
       return "text-success"
     } else {
       return "text-secondary"
     }
   }),
   moreClickClass: computed('canBeMore', function() {
-    if (this.canBeMore) {
+    if (this._canReallyBeMore) {
       return "click-icon"
     } else {
       return "click-icon-disabled"
@@ -37,24 +44,28 @@ export default Component.extend({
   }),
   actions: {
     async lessAssign(event) {
-      let incr = 1
-      if (event.shiftKey) {
-        incr = incr*10
+      if (this._canReallyBeLess) {
+        let incr = 1
+        if (event.shiftKey) {
+          incr = incr*10
+        }
+        if (event.altKey) {
+          incr = incr*100
+        }
+        await this.onLess(incr)
       }
-      if (event.altKey) {
-        incr = incr*100
-      }
-      await this.onLess(incr)
     },
     async moreAssign(event) {
-      let incr = 1
-      if (event.shiftKey) {
-        incr = incr*10
+      if (this._canReallyBeMore) {
+        let incr = 1
+        if (event.shiftKey) {
+          incr = incr*10
+        }
+        if (event.altKey) {
+          incr = incr*100
+        }
+        await this.onMore(incr)
       }
-      if (event.altKey) {
-        incr = incr*100
-      }
-      await this.onMore(incr)
     },
   },
 });

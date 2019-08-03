@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
-import { gt } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import { gt, lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRoute: 'empire.population',
@@ -8,15 +8,25 @@ export default Controller.extend({
   happinessUnlocked: false,
   deadModal: false,
 
+  isWrongWorkers: lt('model.availableWorkers', 0),
   isLowFood: computed('model.{food,population}', function() {
     return this.model.food < this.model.population
+  }),
+  nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
+
+  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
+    if (this.model.population == this.model.availableWorkers) {
+      return this.model.population
+    } else {
+      return this.model.availableWorkers + "/" + this.model.population
+    }
   }),
 
   actions: {
     async nextTurn() {
       await this.model.nextTurn()
       await this.game.checkAchievements()
-      if (this.model.population == 0) {
+      if (this.model.population <= 0) {
         this.set('deadModal', true)
         this.model.set('dead', true)
         await this.model.save()
