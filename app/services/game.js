@@ -85,8 +85,7 @@ export default Service.extend({
   },
 
   async consolidateUpgrades() {
-    for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
-      let u = this.gameTemplate.upgrades[i]
+    for (var u of this.gameTemplate.upgrades) {
       let savedU = this.getUpgrade(u.name)
       if (savedU == undefined) {
         this.upgrades.pushObject(u)
@@ -99,11 +98,23 @@ export default Service.extend({
         savedU.set('description', u.description)
       }
     }
+    for (var savedU of this.upgrades) {
+      let found = false
+      for (var u of this.gameTemplate.upgrades) {
+        if (u.name == savedU.name) {
+          found=true
+          break
+        }
+      }
+      if (! found) {
+        this.upgrades.removeObject(savedU)
+        savedU.destroyRecord()
+      }
+    }
   },
 
   async consolidateAchievements() {
-    for (var i=0; i<this.gameTemplate.achievements.length; i++) {
-      let a = this.gameTemplate.achievements[i]
+    for (var a of this.gameTemplate.achievements) {
       let savedA = this.getAchievement(a.name)
       if (savedA == undefined) {
         this.achievements.pushObject(a)
@@ -112,6 +123,19 @@ export default Service.extend({
         savedA.set('templatePoint', a.templatePoint)
         savedA.set('description', a.description)
         savedA.reopen({condition: a.condition})
+      }
+    }
+    for (var savedA of this.achievements) {
+      let found = false
+      for (var a of this.gameTemplate.achievements) {
+        if (a.name == savedA.name) {
+          found=true
+          break
+        }
+      }
+      if (! found) {
+        this.achievements.removeObject(savedA)
+        savedA.destroyRecord()
       }
     }
   },
