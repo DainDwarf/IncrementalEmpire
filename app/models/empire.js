@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
+import { computed } from '@ember/object';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -13,6 +14,12 @@ export default Model.extend({
   energy: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
+  workerHunter: attr('number', {defaultValue: 0}),
+  workerBreeder: attr('number', {defaultValue: 0}),
+
+  availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
+    return this.population - this.workerHunter - this.workerBreeder
+  }),
 
   async nextTurn() {
     //Pop eats food or die.

@@ -8,4 +8,9 @@
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
+<AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}}
+             @onLess={{action "lessBreeder"}} @onMore={{action "moreBreeder"}}
+             @canBeLess={{gt model.workerBreeder 0}} @canBeMore={{gt model.availableWorkers 0}}>
+  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{model.workerBreeder}}
+</AssignPoint>
 {{outlet}}

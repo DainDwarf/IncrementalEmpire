@@ -12,6 +12,9 @@ export default Controller.extend({
   }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead'),
+  workerBreederAvailable: computed('model.type', function() {
+    return this.model.type == "economical"
+  }),
 
   actions: {
     async genPopulation(event) {
@@ -19,6 +22,14 @@ export default Controller.extend({
         this.model.set('population', this.model.population + 1)
         this.model.set('spellPoints', this.model.spellPoints - 5)
         await this.model.save()
+    },
+    async lessBreeder(qty) {
+      this.model.set('workerBreeder', Math.max(this.model.workerBreeder-qty, 0))
+      await this.model.save()
+    },
+    async moreBreeder(qty) {
+      this.model.set('workerBreeder', this.model.workerBreeder+Math.min(qty, this.model.availableWorkers))
+      await this.model.save()
     },
   },
 });
