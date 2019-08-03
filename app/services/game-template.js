@@ -69,6 +69,11 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 1000))
     })
     this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 1000 mana', templatePoint: 0, description: 'You can have one more empire template'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 1000))
+    })
+    this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: true, name: 'Lose an empire', templatePoint: 1, description: 'You let all the population die, you monster!'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', lte('game.empire.population', 0))

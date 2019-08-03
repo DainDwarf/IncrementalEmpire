@@ -172,6 +172,7 @@ export default Service.extend({
     this.set('empire', newEmpire);
     await this.empire.save();
     await this.universe.save()
+    await this.checkAchievements()
   },
 
   async buyUpgrade(upgrade) {
