@@ -23,7 +23,13 @@ export default Model.extend({
   }),
 
   popProduction: alias('workerBreeder'),
-  foodProduction: alias('workerHunter'),
+  foodProduction: computed('workerHunter', 'game.universe.money', 'game.upgrades.@each.isActive', 'type', function() {
+    let prod = this.workerHunter
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      prod = prod * Math.floor(Math.log(this.game.universe.money))
+    }
+    return prod
+  }),
 
   async nextTurn() {
     //Pop eat or die

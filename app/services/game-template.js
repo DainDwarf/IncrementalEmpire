@@ -34,6 +34,9 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Birth', moneyCost: 1,
         description: 'Humans can now make other humans... You know how.'
       }),
+      await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,
+        description: 'Your ressource production in economical empires is improved by your current money'
+      }),
     ]
     this.achievements = []
     var ach
