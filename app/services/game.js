@@ -117,12 +117,13 @@ export default Service.extend({
     for (let a of this.gameTemplate.achievements) {
       let savedA = this.getAchievement(a.name)
       if (savedA == undefined) {
+        a.conditionFactory(a)
         this.achievements.pushObject(a)
         await a.save()
       } else {
         savedA.set('templatePoint', a.templatePoint)
         savedA.set('description', a.description)
-        savedA.reopen({condition: a.condition})
+        a.conditionFactory(savedA)
       }
     }
     for (let savedA of this.achievements) {
