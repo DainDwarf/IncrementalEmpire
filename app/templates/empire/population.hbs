@@ -9,6 +9,11 @@
     </div>
   {{/if}}
 </div>
+<AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}} @disabled={{model.dead}}
+             @onLess={{action "lessBreeder"}} @onMore={{action "moreBreeder"}}
+             @canBeLess={{gt model.workerBreeder 0}} @canBeMore={{gt model.availableWorkers 0}}>
+  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{model.workerBreeder}}
+</AssignPoint>
 <button type="button"
         class="btn btn-outline-success"
         hidden={{not isGenPopulationAvailable}}
@@ -16,9 +21,4 @@
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
-<AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}} @disabled={{model.dead}}
-             @onLess={{action "lessBreeder"}} @onMore={{action "moreBreeder"}}
-             @canBeLess={{gt model.workerBreeder 0}} @canBeMore={{gt model.availableWorkers 0}}>
-  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{model.workerBreeder}}
-</AssignPoint>
 {{outlet}}
