@@ -24,3 +24,11 @@ $sizes:
 ) ;
 
 @import "ember-cli-bootstrap-4/bootstrap";
+
+.click-icon {
+  cursor: pointer;
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}

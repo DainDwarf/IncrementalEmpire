@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: 'div',
-  classNames: ['container'],
   canBeLess: true,
   canBeMore: true,
   onLess() {},

@@ -29,35 +29,19 @@ export default Controller.extend({
       await this.model.save()
     },
     async lessPop(qty) {
-      if (this.model.popTP > qty) {
-        this.model.set('popTP', this.model.popTP-qty)
-      } else {
-        this.model.set('popTP', 0)
-      }
+      this.model.set('popTP', Math.max(this.model.popTP-qty, 0))
       await this.model.save()
     },
     async morePop(qty) {
-      if (this.remainingTemplatePoints >= qty) {
-        this.model.set('popTP', this.model.popTP+qty)
-      } else {
-        this.model.set('popTP', this.model.popTP+this.remainingTemplatePoints)
-      }
+      this.model.set('popTP', this.model.popTP+Math.min(qty, this.remainingTemplatePoints))
       await this.model.save()
     },
     async lessFood(qty) {
-      if (this.model.foodTP > qty) {
-        this.model.set('foodTP', this.model.foodTP-qty)
-      } else {
-        this.model.set('foodTP', 0)
-      }
+      this.model.set('foodTP', Math.max(this.model.foodTP-qty, 0))
       await this.model.save()
     },
     async moreFood(qty) {
-      if (this.remainingTemplatePoints >= qty) {
-        this.model.set('foodTP', this.model.foodTP+qty)
-      } else {
-        this.model.set('foodTP', this.model.foodTP+this.remainingTemplatePoints)
-      }
+      this.model.set('foodTP', this.model.foodTP+Math.min(qty, this.remainingTemplatePoints))
       await this.model.save()
     },
     async rebirth(event) {
