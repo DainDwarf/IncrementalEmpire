@@ -6,6 +6,9 @@
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+        {{#if isLowFood}}
+          <FaIcon class="float-right text-danger" @icon="exclamation" />
+        {{/if}}
       {{/link-to}}
       {{#link-to "empire.material" class="nav-link"}}
         Material <span class="badge badge-pill badge-light">{{model.material}}</span>
@@ -20,15 +23,13 @@
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item mx-2"><FaIcon @icon="users" /> {{model.population}}</li>
-          <li class="nav-item mx-2"><FaIcon @icon="smile" /> 67%</li>
-          {{#if spellPointsDisplayed}}
-            <FaIcon @icon="magic" /> {{model.spellPoints}}/{{model.maxSpellPoints}}
-          {{/if}}
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{model.population}} />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
-        <button type="button" class="btn btn-secondary" onclick={{action "nextTurn"}}>Turn {{model.turn}}</button>
+        <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{model.dead}}>Turn {{model.turn}}</button>
       </nav>
-      <div class="container">
+      <div class="container h-100 {{if model.dead "bg-secondary"}}">
         {{outlet}}
       </div>
     </div>

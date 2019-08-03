@@ -7,12 +7,14 @@ export default Service.extend({
   // It is also used to consolidate the save for forward compatibility
   // Like adding new upgrades and achievements
   store: service('store'),
+  settings: undefined,
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
   achievements: undefined,
 
   async generate() {
+    this.settings = await this.store.createRecord('setting');
     this.universe = await this.store.createRecord('universe');
     this.empire = await this.store.createRecord('empire');
     // Ember array not needed, the whole class is "const".
@@ -26,7 +28,7 @@ export default Service.extend({
     ]
     this.achievements = []
     var ach
-    ach = await this.store.createRecord('achievement', {name: 'Eden is Working!', templatePoint: 1, description: 'Time to create Eve'})
+    ach = await this.store.createRecord('achievement', {name: 'Reach turn 10', templatePoint: 1, description: 'You can now assign template points to restart with more population'})
     ach.reopen({condition: gte('game.empire.turn', 10)})
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {name: 'Have 5 population', templatePoint: 1, description: 'Template Point gives 4x more population'})

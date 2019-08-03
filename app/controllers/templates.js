@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
+  tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   canAddTemplate: lt('model.length', 3),
 
   actions: {
@@ -10,6 +11,7 @@ export default Controller.extend({
       let t = await this.store.createRecord('template')
       this.game.templates.pushObject(t)
       await t.save()
+      this.transitionToRoute('templates.template', t.id)
     },
 
     async deleteTemplate(id) {
@@ -19,6 +21,7 @@ export default Controller.extend({
         await t.destroyRecord()
         await this.game.loadTemplates()
         this.set('model', this.game.templates)
+        this.tabRouteObj = undefined
         this.transitionToRoute('templates')
       }
     },

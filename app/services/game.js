@@ -5,6 +5,7 @@ export default Service.extend({
   store: service(),
   notify: service(),
   gameTemplate: service('game-template'),
+  settings: undefined,
   universe: undefined,
   empire: undefined,
   upgrades: undefined,
@@ -12,6 +13,7 @@ export default Service.extend({
   templates: undefined,
 
   async load() {
+    await this.loadSettings()
     await this.loadUniverse()
     await this.loadEmpire()
     await this.loadUpgrades()
@@ -20,55 +22,63 @@ export default Service.extend({
     await this.consolidateSave()
   },
 
+  async loadSettings() {
+    let settings = await this.store.findAll('setting').then(u => u.get('firstObject'))
+    this.set('settings', settings)
+  },
+
   async loadUniverse() {
-    this.universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+    let universe = await this.store.findAll('universe').then(u => u.get('firstObject'))
+    this.set('universe', universe)
   },
 
   async loadEmpire() {
-    let all = await this.store.findAll('empire')
-    this.empire = all.get('firstObject')
+    let empire = await this.store.findAll('empire').then(e => e.get('firstObject'))
+    this.set('empire', empire)
   },
 
   async loadUpgrades() {
-    this.upgrades = await this.store.findAll('upgrade').then(function (upgrades) {
-      let loadedUpgrades = new Map()
-      upgrades.forEach(u => loadedUpgrades.set(u.name, u))
-      return loadedUpgrades
-    });
+    let upgrades = await this.store.findAll('upgrade')
+    this.set('upgrades', upgrades.toArray())
   },
 
   async loadAchievements() {
-    this.achievements = await this.store.findAll('achievement').then(function (achievements) {
-      let loadedAchievement = new Map()
-      achievements.forEach(a => loadedAchievement.set(a.name, a))
-      return loadedAchievement
-    });
+    let achievements = await this.store.findAll('achievement')
+    this.set('achievements', achievements.toArray())
   },
 
   async loadTemplates() {
     let query = await this.store.findAll('template')
-    this.templates = query.toArray() //No need to consolidate afaik.
+    this.set('templates', query.toArray()) //No need to consolidate afaik.
   },
 
   async consolidateSave() {
     // Helper function to add models if missing after loading.
     await this.gameTemplate.generate()
+    await this.consolidateSettings()
     await this.consolidateUniverse()
     await this.consolidateEmpire()
     await this.consolidateUpgrades()
     await this.consolidateAchievements()
   },
 
+  async consolidateSettings() {
+    if (this.settings == undefined) {
+      this.set('settings', this.gameTemplate.settings)
+      await this.settings.save();
+    }
+  },
+
   async consolidateUniverse() {
     if (this.universe == undefined) {
-      this.universe = this.gameTemplate.universe
+      this.set('universe', this.gameTemplate.universe)
       await this.universe.save();
     }
   },
 
   async consolidateEmpire() {
     if (this.empire == undefined) {
-      this.empire = this.gameTemplate.empire
+      this.set('empire', this.gameTemplate.empire)
       await this.empire.save();
     }
   },
@@ -76,9 +86,9 @@ export default Service.extend({
   async consolidateUpgrades() {
     for (var i=0; i<this.gameTemplate.upgrades.length; i++) {
       let u = this.gameTemplate.upgrades[i]
-      let savedU = this.upgrades.get(u.name)
+      let savedU = this.getUpgrade(u.name)
       if (savedU == undefined) {
-        this.upgrades.set(u.name, u)
+        this.upgrades.pushObject(u)
         await u.save()
       } else {
         savedU.set('manaCost', u.manaCost)
@@ -93,9 +103,9 @@ export default Service.extend({
   async consolidateAchievements() {
     for (var i=0; i<this.gameTemplate.achievements.length; i++) {
       let a = this.gameTemplate.achievements[i]
-      let savedA = this.achievements.get(a.name)
+      let savedA = this.getAchievement(a.name)
       if (savedA == undefined) {
-        this.achievements.set(a.name, a)
+        this.achievements.pushObject(a)
         await a.save()
       } else {
         savedA.set('templatePoint', a.templatePoint)
@@ -103,6 +113,24 @@ export default Service.extend({
         savedA.reopen({condition: a.condition})
       }
     }
+  },
+
+  getUpgrade(name) {
+    for (var u of this.upgrades) {
+      if (u.name == name) {
+        return u
+      }
+    }
+    return undefined
+  },
+
+  getAchievement(name) {
+    for (var a of this.achievements) {
+      if (a.name == name) {
+        return a
+      }
+    }
+    return undefined
   },
 
   async rebirth(newEmpire) {

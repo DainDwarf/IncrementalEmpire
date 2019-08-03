@@ -1,8 +1,11 @@
+<div>
+  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}. {{if popPlural "They" "It"}} will need {{model.population}} food to survive next turn.
+</div>
 <button type="button"
         class="btn btn-outline-success"
         hidden={{isGenPopulationUnavailable}}
-        disabled={{isGenPopulationOnCooldown}}
+        disabled={{isGenPopulationDisabled}}
         onclick={{action "genPopulation"}}>
-  Spontaneous Generation <small><FaIcon @icon="magic" /> 5</small>
+  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
 {{outlet}}

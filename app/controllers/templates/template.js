@@ -1,18 +1,9 @@
 import Controller from '@ember/controller';
-import { A } from '@ember/array';
 import { computed } from '@ember/object';
 import { sum, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
-  achievementsModel: computed('game.achievements', function() {
-    let ret = A();
-    for (var u of this.game.achievements.values()) {
-      ret.pushObject(u)
-    }
-    return ret
-  }),
-
-  activeAchievements: filterBy('achievementsModel', 'isActive', true),
+  activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
   remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP}', function() {
@@ -20,9 +11,9 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP)
   }),
 
-  rebirthPop: computed('model.popTP', function() {
+  rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
-    if (this.game.achievements.get('Have 5 population').isActive) {
+    if (this.game.getAchievement('Have 5 population').isActive) {
       TPratio = TPratio * 4
     }
     return 1+this.model.popTP*TPratio
@@ -37,33 +28,21 @@ export default Controller.extend({
       this.model.set('name', newName)
       await this.model.save()
     },
-    async lessPop(event) {
-      event.preventDefault()
-      if (this.model.popTP > 0) {
-        this.model.set('popTP', this.model.popTP-1)
-        await this.model.save()
-      }
+    async lessPop(qty) {
+      this.model.set('popTP', Math.max(this.model.popTP-qty, 0))
+      await this.model.save()
     },
-    async morePop(event) {
-      event.preventDefault()
-      if (this.remainingTemplatePoints > 0) {
-        this.model.set('popTP', this.model.popTP+1)
-        await this.model.save()
-      }
+    async morePop(qty) {
+      this.model.set('popTP', this.model.popTP+Math.min(qty, this.remainingTemplatePoints))
+      await this.model.save()
     },
-    async lessFood(event) {
-      event.preventDefault()
-      if (this.model.foodTP > 0) {
-        this.model.set('foodTP', this.model.foodTP-1)
-        await this.model.save()
-      }
+    async lessFood(qty) {
+      this.model.set('foodTP', Math.max(this.model.foodTP-qty, 0))
+      await this.model.save()
     },
-    async moreFood(event) {
-      event.preventDefault()
-      if (this.remainingTemplatePoints > 0) {
-        this.model.set('foodTP', this.model.foodTP+1)
-        await this.model.save()
-      }
+    async moreFood(qty) {
+      this.model.set('foodTP', this.model.foodTP+Math.min(qty, this.remainingTemplatePoints))
+      await this.model.save()
     },
     async rebirth(event) {
       event.preventDefault()
@@ -73,6 +52,7 @@ export default Controller.extend({
         food: this.rebirthFood,
       })
       await this.game.rebirth(newEmpire)
+      this.transitionToRoute('empire')
     },
   },
 });

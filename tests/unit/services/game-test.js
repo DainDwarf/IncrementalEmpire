@@ -42,10 +42,10 @@ module('Unit | Service | game', function(hooks) {
     assert.ok(game.universe)
     assert.ok(game.empire)
     assert.ok(game.upgrades)
-    assert.ok(game.upgrades.get('dummy upgrade'))
+    assert.ok(game.getUpgrade('dummy upgrade'))
     assert.equal(game.universe.mana, 5)
     assert.equal(game.empire.population, 6)
-    assert.equal(game.upgrades.get('dummy upgrade').name, 'dummy upgrade')
+    assert.equal(game.getUpgrade('dummy upgrade').name, 'dummy upgrade')
   });
 
   test('Consolidate universe', async function(assert) {
@@ -83,7 +83,7 @@ module('Unit | Service | game', function(hooks) {
     assert.equal(game.universe.mana, 5)
     assert.equal(game.empire.population, 6)
     assert.ok(game.upgrades)
-    assert.equal(game.upgrades.get('Click Power').name, 'Click Power')
+    assert.equal(game.getUpgrade('Click Power').name, 'Click Power')
   });
 
   test('Consolidate upgrades cost and description', async function(assert) {
@@ -100,10 +100,11 @@ module('Unit | Service | game', function(hooks) {
     assert.equal(game.empire.population, 6)
     assert.ok(game.upgrades)
     // Cost has been reviewed, isActive is not changed
-    assert.equal(game.upgrades.get('Click Power').name, 'Click Power')
-    assert.equal(game.upgrades.get('Click Power').manaCost, 1)
-    assert.notEqual(game.upgrades.get('Click Power').description, 'Bad description')
-    assert.equal(game.upgrades.get('Click Power').isActive, true)
+    let up = game.getUpgrade('Click Power')
+    assert.equal(up.name, 'Click Power')
+    assert.equal(up.manaCost, 5)
+    assert.notEqual(up.description, 'Bad description')
+    assert.equal(up.isActive, true)
   });
 
   test('buyUpgrade', async function(assert) {

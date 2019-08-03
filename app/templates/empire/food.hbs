@@ -1,7 +1,15 @@
+<div>
+  {{model.name}} currently has {{model.food}} food.
+</div>
+{{#if empireCtl.isLowFood}}
+  <div>
+    You will lose some population next turn.
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success"
-        disabled={{isGenFoodOnCooldown}}
+        disabled={{isGenFoodDisabled}}
         onclick={{action "genFood"}}>
-  Horn of Plenty <small><FaIcon @icon="magic" /> 1</small>
+  Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
 {{outlet}}

@@ -1,14 +1,17 @@
 import Controller from '@ember/controller';
-import { lt } from '@ember/object/computed';
+import { inject as controller } from '@ember/controller';
+import { lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
+  empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
+  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead'),
 
   actions: {
     async genFood(event) {
       event.preventDefault();
       let incr = 1
-      if (this.game.upgrades.get('Click Power').isActive
+      if (this.game.getUpgrade('Click Power').isActive
         && this.game.universe.mana > 0
       ) {
         incr = this.game.universe.mana
