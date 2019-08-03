@@ -12,7 +12,8 @@
 </AssignPoint>
 <div class="container">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
-    Restart with this empire and gain <DisplayValue @tagName="span" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
+    <div>Restart with this {{model.type}} empire</div>
+    <small>Gain <DisplayValue @tagName="span" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} /> from current {{game.empire.type}} empire</small>
   </button>
 </div>
 <div class="container small">
