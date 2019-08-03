@@ -3,6 +3,10 @@ import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
+  hasReligiousTemplates: true,
+  hasEconomicalTemplates: false,
+  hasCulturalTemplates: false,
+  hasScientificTemplates: false,
   canAddTemplate: lt('model.length', 3),
   newTemplateModal: false,
 
