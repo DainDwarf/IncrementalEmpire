@@ -28,6 +28,12 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 50,
         description: 'Unlock a new empire type with different rules'
       }),
+      await this.store.createRecord('upgrade', {name: 'Hunting', moneyCost: 1,
+        description: 'Humans can now hunt for food'
+      }),
+      await this.store.createRecord('upgrade', {name: 'Birth', moneyCost: 1,
+        description: 'Humans can now make other humans... You know how.'
+      }),
     ]
     this.achievements = []
     var ach

@@ -10,8 +10,8 @@ export default Controller.extend({
   isGenFoodAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
-  workerHunterAvailable: computed('model.type', function() {
-    return this.model.type == "economical"
+  workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
+    return this.model.type == "economical" && this.game.getUpgrade('Hunting').isActive
   }),
 
   actions: {

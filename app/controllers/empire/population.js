@@ -14,8 +14,8 @@ export default Controller.extend({
   }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead'),
-  workerBreederAvailable: computed('model.type', function() {
-    return this.model.type == "economical"
+  workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
+    return this.model.type == "economical" && this.game.getUpgrade('Birth').isActive
   }),
 
   actions: {
