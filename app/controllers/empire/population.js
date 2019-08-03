@@ -7,7 +7,9 @@ export default Controller.extend({
   genPopUpgrade: computed('this.game.upgrades', function() {
     return this.game.getUpgrade('Spontaneous Generation')
   }),
-  isGenPopulationUnavailable: not('genPopUpgrade.isActive'),
+  isGenPopulationAvailable: computed('genPopUpgrade.isActive', 'game.empire.type', function() {
+    return this.game.empire.type == "religious" && this.genPopUpgrade.isActive
+  }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead'),
 

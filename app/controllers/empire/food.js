@@ -1,11 +1,15 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
+import { computed } from '@ember/object';
 import { lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
   isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead'),
+  isGenFoodAvailable: computed('game.empire.type', function() {
+    return this.game.empire.type == "religious"
+  }),
 
   actions: {
     async genFood(event) {
