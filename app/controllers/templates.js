@@ -1,10 +1,14 @@
 import Controller from '@ember/controller';
-import { lt } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { lt, alias } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
-  hasEconomicalTemplates: true,
+  economicalUpgrade: computed('this.game.upgrades', function() {
+    return this.game.getUpgrade('Economical Empires')
+  }),
+  hasEconomicalTemplates: alias('economicalUpgrade.isActive'),
   hasCulturalTemplates: false,
   hasScientificTemplates: false,
   canAddTemplate: lt('model.length', 3),

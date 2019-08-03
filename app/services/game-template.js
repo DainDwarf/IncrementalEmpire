@@ -25,6 +25,9 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 5,
         description: 'Your god powers for generating ressources is multiplied by your current mana'
       }),
+      await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 50,
+        description: 'Unlock a new empire type with different rules'
+      }),
     ]
     this.achievements = []
     var ach
