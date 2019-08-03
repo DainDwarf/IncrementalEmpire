@@ -12,7 +12,9 @@ export default Route.extend(EKMixin, {
   },
 
   nextTurnShortcut: on(keyUp('Space'), function() {
-    this.controller.send('nextTurn')
+    if (! this.controller.nextTurnDisabled) {
+      this.controller.send('nextTurn')
+    }
   }),
 
   upNavigation: on(keyUp('ArrowUp'), function() {
