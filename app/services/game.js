@@ -135,9 +135,6 @@ export default Service.extend({
   },
 
   async rebirth(newEmpire) {
-    this.empire.destroyRecord()
-    this.set('empire', newEmpire);
-    await this.empire.save();
     let currentPoints = this.universe.get(this.rebirthPointsType)
     this.universe.set(this.rebirthPointsType, currentPoints+this.rebirthPoints)
     if (this.universe.mana > 0 && ! this.universe.manaUnlocked) {
@@ -146,6 +143,9 @@ export default Service.extend({
     if (this.universe.money > 0 && ! this.universe.moneyUnlocked) {
       this.universe.set('moneyUnlocked', true)
     }
+    this.empire.destroyRecord()
+    this.set('empire', newEmpire);
+    await this.empire.save();
     await this.universe.save()
   },
 
@@ -191,7 +191,15 @@ export default Service.extend({
         return 0
       }
     } else if (this.empire.type == "economical") {
-      return 0
+      let res = this.empire.food //TODO: Add other ressources
+      let turn = this.empire.turn
+      if (turn >= 20) {
+        return Math.max(0, Math.floor(
+          Math.sqrt(res)*10/turn
+        ))
+      } else {
+        return 0
+      }
     }
   }),
 
