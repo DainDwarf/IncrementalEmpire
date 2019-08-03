@@ -23,6 +23,14 @@ export default Controller.extend({
     return 10*this.model.foodTP
   }),
 
+  rebirthSpellPoints: computed('model.type', function() {
+    if (this.model.type == "religious") {
+      return 5
+    } else {
+      return 0
+    }
+  }),
+
   actions: {
     async updateTemplateName(newName) {
       this.model.set('name', newName)
@@ -48,8 +56,11 @@ export default Controller.extend({
       event.preventDefault()
       let newEmpire = await this.store.createRecord('empire', {
         name: this.model.name,
+        type: this.model.type,
         population: this.rebirthPop,
         food: this.rebirthFood,
+        spellPoints: this.rebirthSpellPoints,
+        maxSpellPoints: this.rebirthSpellPoints,
       })
       await this.game.rebirth(newEmpire)
       this.transitionToRoute('empire')

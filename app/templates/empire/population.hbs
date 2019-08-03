@@ -3,7 +3,7 @@
 </div>
 <button type="button"
         class="btn btn-outline-success"
-        hidden={{isGenPopulationUnavailable}}
+        hidden={{not isGenPopulationAvailable}}
         disabled={{isGenPopulationDisabled}}
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />

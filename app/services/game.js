@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 
 export default Service.extend({
   store: service(),
@@ -134,14 +135,17 @@ export default Service.extend({
   },
 
   async rebirth(newEmpire) {
-    let manaPoints = this.empire.nextManaPoints
-    this.empire.destroyRecord()
-    this.set('empire', newEmpire);
-    await this.empire.save();
-    this.universe.set('mana', this.universe.mana + manaPoints)
+    let currentPoints = this.universe.get(this.rebirthPointsType)
+    this.universe.set(this.rebirthPointsType, currentPoints+this.rebirthPoints)
     if (this.universe.mana > 0 && ! this.universe.manaUnlocked) {
       this.universe.set('manaUnlocked', true)
     }
+    if (this.universe.money > 0 && ! this.universe.moneyUnlocked) {
+      this.universe.set('moneyUnlocked', true)
+    }
+    this.empire.destroyRecord()
+    this.set('empire', newEmpire);
+    await this.empire.save();
     await this.universe.save()
   },
 
@@ -173,5 +177,39 @@ export default Service.extend({
         await achievement.save()
       }
     }
-  }
+  },
+
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal,energy}', function() {
+    if (this.empire.type == "religious") {
+      let pop = this.empire.population
+      let turn = this.empire.turn
+      if ( pop > 1 && turn >= 20) {
+        return Math.max(0, Math.floor(Math.sqrt(
+          (pop-1)*(turn/10-1)
+        )))
+      } else {
+        return 0
+      }
+    } else if (this.empire.type == "economical") {
+      let res = this.empire.food //TODO: Add other ressources
+      let turn = this.empire.turn
+      if (turn >= 20) {
+        return Math.max(0, Math.floor(
+          Math.sqrt(res)*10/turn
+        ))
+      } else {
+        return 0
+      }
+    }
+  }),
+
+  rebirthPointsType: computed('empire', 'empire.type', function() {
+    let typeTrans = {
+      religious: 'mana',
+      economical: 'money',
+      cultural: 'culture',
+      scientific: 'science',
+    }
+    return typeTrans[this.empire.type]
+  }),
 });

@@ -3,14 +3,25 @@ import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
+  hasReligiousTemplates: true,
+  hasEconomicalTemplates: true,
+  hasCulturalTemplates: false,
+  hasScientificTemplates: false,
   canAddTemplate: lt('model.length', 3),
+  newTemplateModal: false,
 
   actions: {
-    async newTemplate(event) {
-      event.preventDefault()
-      let t = await this.store.createRecord('template')
+    setTemplateModal(val) {
+      this.set('newTemplateModal', val)
+    },
+
+    async newTemplate(type) {
+      let t = await this.store.createRecord('template', {
+        type: type,
+      })
       this.game.templates.pushObject(t)
       await t.save()
+      this.set('newTemplateModal', false)
       this.transitionToRoute('templates.template', t.id)
     },
 
