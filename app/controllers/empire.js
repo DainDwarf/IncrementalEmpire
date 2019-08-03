@@ -19,10 +19,8 @@ export default Controller.extend({
       if (this.model.population == 0) {
         // You lose!
         $('#empireLostModal').modal()
-        let newEmpire = await this.store.createRecord('empire')
-        this.set('model', newEmpire)
-        await this.game.rebirth(newEmpire)
-        this.transitionToRoute('empire')
+        this.model.set('dead', true)
+        await this.model.save()
       }
     },
   },

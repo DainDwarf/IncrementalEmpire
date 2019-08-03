@@ -6,6 +6,7 @@ export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
   turn: attr('number', {defaultValue: 0}),
   population: attr('number', { defaultValue: 1}),
+  dead: attr('boolean', { defaultValue: false}),
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
