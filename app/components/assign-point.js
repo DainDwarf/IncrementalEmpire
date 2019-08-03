@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  tagName: 'div',
   canBeLess: true,
   canBeMore: true,
   onLess() {},
@@ -37,7 +36,7 @@ export default Component.extend({
     }
   }),
   actions: {
-    lessAssign(event) {
+    async lessAssign(event) {
       let incr = 1
       if (event.shiftKey) {
         incr = incr*10
@@ -45,9 +44,9 @@ export default Component.extend({
       if (event.altKey) {
         incr = incr*100
       }
-      this.onLess(incr)
+      await this.onLess(incr)
     },
-    moreAssign(event) {
+    async moreAssign(event) {
       let incr = 1
       if (event.shiftKey) {
         incr = incr*10
@@ -55,7 +54,7 @@ export default Component.extend({
       if (event.altKey) {
         incr = incr*100
       }
-      this.onMore(incr)
+      await this.onMore(incr)
     },
   },
 });
