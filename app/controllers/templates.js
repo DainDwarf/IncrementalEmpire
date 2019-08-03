@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { lt, alias } from '@ember/object/computed';
+import { lt } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
