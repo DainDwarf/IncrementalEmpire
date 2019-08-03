@@ -12,6 +12,14 @@ export default Controller.extend({
     return this.model.food < this.model.population
   }),
 
+  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
+    if (this.model.population == this.model.availableWorkers) {
+      return this.model.population
+    } else {
+      return this.model.availableWorkers + "/" + this.model.population
+    }
+  }),
+
   actions: {
     async nextTurn() {
       await this.model.nextTurn()
