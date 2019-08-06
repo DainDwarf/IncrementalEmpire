@@ -18,10 +18,8 @@ export default Controller.extend({
     async genFood(event) {
       event.preventDefault();
       let incr = 1
-      if (this.game.getUpgrade('Click Power').isActive
-        && this.game.universe.mana > 0
-      ) {
-        incr = this.game.universe.mana
+      if (this.game.getUpgrade('Click Power').isActive) {
+        incr = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
       }
       this.model.set('food', this.model.food + incr)
       this.model.set('spellPoints', this.model.spellPoints - 1)

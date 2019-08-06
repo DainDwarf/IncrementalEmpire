@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -22,16 +21,26 @@ export default Model.extend({
     return this.population - this.workerHunter - this.workerBreeder
   }),
 
-  popProduction: alias('workerBreeder'),
+  popProduction: computed('workerBreeder', function() {
+    if (this.workerBreeder > 0) {
+      let prod = Math.floor(0.4*this.workerBreeder+1)
+      return prod
+    } else {
+      return 0
+    }
+  }),
   foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      prod = prod * Math.max(1, Math.floor(Math.log(this.game.universe.money)))
+      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
     }
     return prod
   }),
 
   async nextTurn() {
+    this.set('food', this.food + this.foodProduction)
+    this.set('population', this.population+this.popProduction)
+
     //Pop eat or die
     if (this.food >= this.population) {
       this.set('food', this.food-this.population)
@@ -39,11 +48,6 @@ export default Model.extend({
       this.set('population', this.food)
       this.set('food', 0)
       // TODO: worker destruction?
-    }
-
-    if (this.population > 0) {
-      this.set('food', this.food + this.foodProduction)
-      this.set('population', this.population+this.popProduction)
     }
 
     this.set('turn', this.turn + 1)

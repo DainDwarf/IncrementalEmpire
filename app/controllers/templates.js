@@ -11,7 +11,7 @@ export default Controller.extend({
   hasScientificTemplates: false,
   canAddTemplate: computed('model.length', 'game.achievements.@each.isActive', function() {
     let maxTemplate = 1
-    if (this.game.getAchievement('Reach 1000 mana').isActive) {
+    if (this.game.getAchievement('Reach 100 mana').isActive) {
       maxTemplate = maxTemplate + 1
     }
     return this.model.length < maxTemplate
