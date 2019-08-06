@@ -25,7 +25,6 @@ export default Model.extend({
   popProduction: computed('workerBreeder', function() {
     if (this.workerBreeder > 0) {
       let prod = Math.floor(0.4*this.workerBreeder+1)
-      console.log(prod)
       return prod
     } else {
       return 0
@@ -40,6 +39,9 @@ export default Model.extend({
   }),
 
   async nextTurn() {
+    this.set('food', this.food + this.foodProduction)
+    this.set('population', this.population+this.popProduction)
+
     //Pop eat or die
     if (this.food >= this.population) {
       this.set('food', this.food-this.population)
@@ -47,11 +49,6 @@ export default Model.extend({
       this.set('population', this.food)
       this.set('food', 0)
       // TODO: worker destruction?
-    }
-
-    if (this.population > 0) {
-      this.set('food', this.food + this.foodProduction)
-      this.set('population', this.population+this.popProduction)
     }
 
     this.set('turn', this.turn + 1)

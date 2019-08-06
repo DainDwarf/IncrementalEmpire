@@ -9,8 +9,8 @@ export default Controller.extend({
   deadModal: false,
 
   isWrongWorkers: lt('model.availableWorkers', 0),
-  isLowFood: computed('model.{food,population}', function() {
-    return this.model.food < this.model.population
+  isLowFood: computed('model.{food,population,foodProduction,popProduction}', function() {
+    return this.model.food+this.model.foodProduction < this.model.population
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
