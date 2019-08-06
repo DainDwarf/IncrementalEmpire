@@ -54,17 +54,17 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.turn', 100))
     })
     this.achievements.push(ach)
-    ach = await this.store.createRecord('achievement', {name: 'Have 10 population', templatePoint: 1, description: 'Template Point gives 4x more population'})
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 population', templatePoint: 1, description: 'Template Point gives 2x more population'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 10))
     })
     this.achievements.push(ach)
-    ach = await this.store.createRecord('achievement', {name: 'Have 100 population', templatePoint: 2, description: 'Template Point gives 4x more population'})
+    ach = await this.store.createRecord('achievement', {name: 'Have 100 population', templatePoint: 2, description: 'Template Point gives 2x more population'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 100))
     })
     this.achievements.push(ach)
-    ach = await this.store.createRecord('achievement', {name: 'Have 1000 population', templatePoint: 3, description: 'Template Point gives 4x more population'})
+    ach = await this.store.createRecord('achievement', {name: 'Have 1000 population', templatePoint: 3, description: 'Template Point gives 2x more population'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 1000))
     })
