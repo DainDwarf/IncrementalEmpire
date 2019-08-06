@@ -9,7 +9,7 @@ export default Controller.extend({
   deadModal: false,
 
   isWrongWorkers: lt('model.availableWorkers', 0),
-  isLowFood: computed('model.{food,population,foodProduction,popProduction}', function() {
+  isLowFood: computed('model.{food,population,foodProduction}', function() {
     return this.model.food+this.model.foodProduction < this.model.population
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),

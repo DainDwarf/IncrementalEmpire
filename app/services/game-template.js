@@ -24,7 +24,7 @@ export default Service.extend({
         description: 'You can now create more humans'
       }),
       await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 5,
-        description: 'Your god powers for generating ressources is multiplied by your current mana'
+        description: 'Your god powers for generating ressources is improved by your current mana'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
         description: 'Unlock a new empire type with different rules'
