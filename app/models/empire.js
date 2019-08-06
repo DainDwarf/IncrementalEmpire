@@ -23,7 +23,7 @@ export default Model.extend({
   }),
 
   popProduction: computed('workerBreeder', function() {
-    let prod = Math.max(1, Math.floor(0.4*this.workerBreeder))
+    let prod = Math.floor(0.4*this.workerBreeder)
     console.log(prod)
     return prod
   }),
