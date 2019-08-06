@@ -23,9 +23,13 @@ export default Model.extend({
   }),
 
   popProduction: computed('workerBreeder', function() {
-    let prod = Math.floor(0.4*this.workerBreeder)
-    console.log(prod)
-    return prod
+    if (this.workerBreeder > 0) {
+      let prod = Math.floor(0.4*this.workerBreeder+1)
+      console.log(prod)
+      return prod
+    } else {
+      return 0
+    }
   }),
   foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
