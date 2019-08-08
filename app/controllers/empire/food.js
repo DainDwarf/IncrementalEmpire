@@ -25,12 +25,8 @@ export default Controller.extend({
       this.model.set('spellPoints', this.model.spellPoints - 1)
       await this.model.save()
     },
-    async lessHunter(qty) {
-      this.model.set('workerHunter', Math.max(this.model.workerHunter-qty, 0))
-      await this.model.save()
-    },
-    async moreHunter(qty) {
-      this.model.set('workerHunter', this.model.workerHunter+Math.min(qty, this.model.availableWorkers))
+    async changeHunter(qty) {
+      this.model.set('workerHunter', qty)
       await this.model.save()
     },
   },

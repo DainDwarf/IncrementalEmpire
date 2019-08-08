@@ -25,12 +25,8 @@ export default Controller.extend({
         this.model.set('spellPoints', this.model.spellPoints - 5)
         await this.model.save()
     },
-    async lessBreeder(qty) {
-      this.model.set('workerBreeder', Math.max(this.model.workerBreeder-qty, 0))
-      await this.model.save()
-    },
-    async moreBreeder(qty) {
-      this.model.set('workerBreeder', this.model.workerBreeder+Math.min(qty, this.model.availableWorkers))
+    async changeBreeder(qty) {
+      this.model.set('workerBreeder', qty)
       await this.model.save()
     },
   },

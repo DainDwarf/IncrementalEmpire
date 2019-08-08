@@ -42,20 +42,12 @@ export default Controller.extend({
       this.model.set('name', newName)
       await this.model.save()
     },
-    async lessPop(qty) {
-      this.model.set('popTP', Math.max(this.model.popTP-qty, 0))
+    async changePop(qty) {
+      this.model.set('popTP', qty)
       await this.model.save()
     },
-    async morePop(qty) {
-      this.model.set('popTP', this.model.popTP+Math.min(qty, this.remainingTemplatePoints))
-      await this.model.save()
-    },
-    async lessFood(qty) {
-      this.model.set('foodTP', Math.max(this.model.foodTP-qty, 0))
-      await this.model.save()
-    },
-    async moreFood(qty) {
-      this.model.set('foodTP', this.model.foodTP+Math.min(qty, this.remainingTemplatePoints))
+    async changeFood(qty) {
+      this.model.set('foodTP', qty)
       await this.model.save()
     },
     async rebirth(event) {
