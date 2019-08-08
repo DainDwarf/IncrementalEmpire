@@ -12,8 +12,8 @@
 </div>
 <AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}} @disabled={{model.dead}}
              @value={{model.workerBreeder}} @onSelect={{action "changeBreeder"}}
-             @max={{add model.workerBreeder model.availableWorkers}}>
-  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{model.workerBreeder}}
+             @max={{add model.workerBreeder model.availableWorkers}} as |workers|>
+  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{workers}}
 </AssignPoint>
 <button type="button"
         class="btn btn-outline-success"
