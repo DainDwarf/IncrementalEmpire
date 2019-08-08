@@ -15,37 +15,35 @@ export default Component.extend({
     this.set('_inputValue', this.value)
   },
 
-  _canBeLess: computed('value', 'min', function() { return this.min < this.value }),
-  _canBeMore: computed('value', 'max', function() { return this.value < this.max }),
-  _canReallyBeLess: computed('_canBeLess', 'disabled', function() {
-    return this._canBeLess && !this.disabled
+  _canBeLess: computed('value', 'min', 'disabled', function() {
+    return (this.min < this.value) && !this.disabled
   }),
-  _canReallyBeMore: computed('_canBeMore', 'disabled', function() {
-    return this._canBeMore && !this.disabled
+  _canBeMore: computed('value', 'max', 'disabled', function() {
+    return (this.value < this.max) && !this.disabled
   }),
   _lessColor: computed('_canBeLess', function() {
-    if (this._canReallyBeLess) {
+    if (this._canBeLess) {
       return "text-danger"
     } else {
       return "text-secondary"
     }
   }),
   _lessClickClass: computed('_canBeLess', function() {
-    if (this._canReallyBeLess) {
+    if (this._canBeLess) {
       return "click-icon"
     } else {
       return "click-icon-disabled"
     }
   }),
   _moreColor: computed('_canBeMore', function() {
-    if (this._canReallyBeMore) {
+    if (this._canBeMore) {
       return "text-success"
     } else {
       return "text-secondary"
     }
   }),
   _moreClickClass: computed('_canBeMore', function() {
-    if (this._canReallyBeMore) {
+    if (this._canBeMore) {
       return "click-icon"
     } else {
       return "click-icon-disabled"
@@ -64,7 +62,7 @@ export default Component.extend({
       await this.onChange(qty)
     },
     async lessAssign(event) {
-      if (this._canReallyBeLess) {
+      if (this._canBeLess) {
         let qty = this.value
         if (event.shiftKey && event.altKey) { // Max
           qty = this.min
@@ -89,7 +87,7 @@ export default Component.extend({
       }
     },
     async moreAssign(event) {
-      if (this._canReallyBeMore) {
+      if (this._canBeMore) {
         let qty = this.value
         if (event.shiftKey && event.altKey) { // Max
           qty = this.max
