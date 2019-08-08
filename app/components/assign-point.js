@@ -3,39 +3,41 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
   disabled: false,
-  canBeLess: true,
-  canBeMore: true,
-  onLess() {},
-  onMore() {},
+  min: 0,
+  max: 100,
+  value: 0,
+  onSelect() {}, //Action to trigger when a new value has been selected
 
-  _canReallyBeLess: computed('canBeLess', 'disabled', function() {
-    return this.canBeLess && !this.disabled
+  _canBeLess: computed('value', 'min', function() { return this.min < this.value }),
+  _canBeMore: computed('value', 'max', function() { return this.value < this.max }),
+  _canReallyBeLess: computed('_canBeLess', 'disabled', function() {
+    return this._canBeLess && !this.disabled
   }),
-  _canReallyBeMore: computed('canBeMore', 'disabled', function() {
-    return this.canBeMore && !this.disabled
+  _canReallyBeMore: computed('_canBeMore', 'disabled', function() {
+    return this._canBeMore && !this.disabled
   }),
-  lessColor: computed('canBeLess', function() {
+  _lessColor: computed('_canBeLess', function() {
     if (this._canReallyBeLess) {
       return "text-danger"
     } else {
       return "text-secondary"
     }
   }),
-  lessClickClass: computed('canBeLess', function() {
+  _lessClickClass: computed('_canBeLess', function() {
     if (this._canReallyBeLess) {
       return "click-icon"
     } else {
       return "click-icon-disabled"
     }
   }),
-  moreColor: computed('canBeMore', function() {
+  _moreColor: computed('_canBeMore', function() {
     if (this._canReallyBeMore) {
       return "text-success"
     } else {
       return "text-secondary"
     }
   }),
-  moreClickClass: computed('canBeMore', function() {
+  _moreClickClass: computed('_canBeMore', function() {
     if (this._canReallyBeMore) {
       return "click-icon"
     } else {
@@ -52,7 +54,7 @@ export default Component.extend({
         if (event.altKey) {
           incr = incr*100
         }
-        await this.onLess(incr)
+        await this.onSelect(Math.max(this.value-incr, this.min))
       }
     },
     async moreAssign(event) {
@@ -64,7 +66,7 @@ export default Component.extend({
         if (event.altKey) {
           incr = incr*100
         }
-        await this.onMore(incr)
+        await this.onSelect(Math.min(this.value+incr, this.max))
       }
     },
   },
