@@ -64,28 +64,34 @@ export default Component.extend({
     },
     async lessAssign(event) {
       if (this._canReallyBeLess) {
-        let incr = 1
-        if (event.shiftKey) {
-          incr = incr*10
+        let qty = this.value
+        if (event.shiftKey && event.altKey) { // Max
+          qty = this.min
+        } else if (event.altKey) { // 50%
+          qty = qty - Math.ceil(0.5*(this.value-this.min))
+        } else if (event.shiftKey) { // 10%
+          qty = qty - Math.ceil(0.1*(this.value-this.min))
+        } else { // 1
+          qty = qty-1
         }
-        if (event.altKey) {
-          incr = incr*100
-        }
-        let qty = Math.max(this.value-incr, this.min)
+        qty = Math.max(qty, this.min)
         this.set('_inputValue', qty)
         await this.onSelect(qty)
       }
     },
     async moreAssign(event) {
       if (this._canReallyBeMore) {
-        let incr = 1
-        if (event.shiftKey) {
-          incr = incr*10
+        let qty = this.value
+        if (event.shiftKey && event.altKey) { // Max
+          qty = this.max
+        } else if (event.altKey) { // 50%
+          qty = qty + Math.ceil(0.5*(this.max-this.value))
+        } else if (event.shiftKey) { // 10%
+          qty = qty + Math.ceil(0.1*(this.max-this.value))
+        } else { // 1
+          qty = qty+1
         }
-        if (event.altKey) {
-          incr = incr*100
-        }
-        let qty = Math.min(this.value+incr, this.max)
+        qty = Math.min(qty, this.max)
         this.set('_inputValue', qty)
         await this.onSelect(qty)
       }
