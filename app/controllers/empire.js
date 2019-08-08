@@ -7,6 +7,7 @@ export default Controller.extend({
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
   happinessUnlocked: false,
   deadModal: false,
+  assignValue: '+1',
 
   isWrongWorkers: lt('model.availableWorkers', 0),
   isLowFood: computed('model.{food,population,foodProduction}', function() {
@@ -23,6 +24,9 @@ export default Controller.extend({
   }),
 
   actions: {
+    setAssign(val) {
+      this.set('assignValue', val)
+    },
     async nextTurn() {
       await this.model.nextTurn()
       await this.game.checkAchievements()

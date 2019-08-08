@@ -12,7 +12,7 @@
 </div>
 <AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}} @disabled={{model.dead}}
              @value={{model.workerBreeder}} @onChange={{action "changeBreeder"}}
-             @max={{add model.workerBreeder model.availableWorkers}} as |workers|>
+             @step={{empireCtl.assignValue}} @max={{add model.workerBreeder model.availableWorkers}} as |workers|>
   Breeder{{if (gt model.workerBreeder 1) "s"}}: {{workers}}
 </AssignPoint>
 <button type="button"

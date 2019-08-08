@@ -6,6 +6,7 @@ export default Component.extend({
   min: 0,
   max: 100,
   value: 0,
+  step: 1,
   onChange() {}, //Action to trigger when a new value has been selected
 
   _inputValue: '', //Only for display of yielded input field
@@ -71,8 +72,16 @@ export default Component.extend({
           qty = qty - Math.ceil(0.5*(this.value-this.min))
         } else if (event.shiftKey) { // 10%
           qty = qty - Math.ceil(0.1*(this.value-this.min))
-        } else { // 1
-          qty = qty-1
+        } else { // step
+          if (this.step.toUpperCase() == "MAX") {
+            qty = this.min
+          } else if (this.step.endsWith('%')) {
+            let percent = parseInt(this.step)/100
+            qty = qty - Math.ceil(percent*(this.value-this.min))
+          } else {
+            let incr = parseInt(this.step)
+            qty = qty - incr
+          }
         }
         qty = Math.max(qty, this.min)
         this.set('_inputValue', qty)
@@ -88,8 +97,16 @@ export default Component.extend({
           qty = qty + Math.ceil(0.5*(this.max-this.value))
         } else if (event.shiftKey) { // 10%
           qty = qty + Math.ceil(0.1*(this.max-this.value))
-        } else { // 1
-          qty = qty+1
+        } else { // step
+          if (this.step.toUpperCase() == "MAX") {
+            qty = this.max
+          } else if (this.step.endsWith('%')) {
+            let percent = parseInt(this.step)/100
+            qty = qty + Math.ceil(percent*(this.max-this.value))
+          } else {
+            let incr = parseInt(this.step)
+            qty = qty + incr
+          }
         }
         qty = Math.min(qty, this.max)
         this.set('_inputValue', qty)
