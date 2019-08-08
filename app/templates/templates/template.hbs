@@ -3,12 +3,12 @@
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
 <AssignPoint @class="ml-2"
-             @value={{model.popTP}} @onSelect={{action "changePop"}}
+             @value={{model.popTP}} @onChange={{action "changePop"}}
              @max={{add remainingTemplatePoints model.popTP}}>
   Population: {{rebirthPop}} ({{model.popTP}} TP)
 </AssignPoint>
 <AssignPoint @class="ml-2"
-             @value={{model.foodTP}} @onSelect={{action "changeFood"}}
+             @value={{model.foodTP}} @onChange={{action "changeFood"}}
              @max={{add remainingTemplatePoints model.foodTP}}>
   Food: {{rebirthFood}} ({{model.foodTP}} TP)
 </AssignPoint>

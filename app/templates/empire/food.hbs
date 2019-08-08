@@ -10,7 +10,7 @@
   </div>
 {{/if}}
 <AssignPoint @class="ml-2" @isVisible={{workerHunterAvailable}} @disabled={{model.dead}}
-             @value={{model.workerHunter}} @onSelect={{action "changeHunter"}}
+             @value={{model.workerHunter}} @onChange={{action "changeHunter"}}
              @max={{add model.availableWorkers model.workerHunter}} as |workers|>
   Hunter{{if (gt model.workerHunter 1) "s"}}: {{workers}}
 </AssignPoint>

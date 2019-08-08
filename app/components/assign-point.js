@@ -6,7 +6,7 @@ export default Component.extend({
   min: 0,
   max: 100,
   value: 0,
-  onSelect() {}, //Action to trigger when a new value has been selected
+  onChange() {}, //Action to trigger when a new value has been selected
 
   _inputValue: '', //Only for display of yielded input field
   init() {
@@ -60,7 +60,7 @@ export default Component.extend({
         qty = this.max
       }
       this.set('_inputValue', qty)
-      await this.onSelect(qty)
+      await this.onChange(qty)
     },
     async lessAssign(event) {
       if (this._canReallyBeLess) {
@@ -76,7 +76,7 @@ export default Component.extend({
         }
         qty = Math.max(qty, this.min)
         this.set('_inputValue', qty)
-        await this.onSelect(qty)
+        await this.onChange(qty)
       }
     },
     async moreAssign(event) {
@@ -93,7 +93,7 @@ export default Component.extend({
         }
         qty = Math.min(qty, this.max)
         this.set('_inputValue', qty)
-        await this.onSelect(qty)
+        await this.onChange(qty)
       }
     },
   },
