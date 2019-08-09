@@ -201,7 +201,7 @@ export default Service.extend({
     }
   },
 
-  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal,energy}', function() {
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material}', function() {
     if (this.empire.type == "religious") {
       let pop = this.empire.population
       let turn = this.empire.turn

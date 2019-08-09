@@ -20,11 +20,9 @@ export default Route.extend(EKMixin, {
   upNavigation: on(keyUp('ArrowUp'), function() {
     let endRoute = this.router.currentRouteName.split('.')[1]
     switch(endRoute) {
-      case 'energy'     : this.transitionTo('empire.metal')     ; break;
-      case 'metal'      : this.transitionTo('empire.material')  ; break;
       case 'material'   : this.transitionTo('empire.food')      ; break;
       case 'food'       : this.transitionTo('empire.population'); break;
-      case 'population' : this.transitionTo('empire.energy')    ; break;
+      case 'population' : this.transitionTo('empire.material')  ; break;
     }
   }),
 
@@ -33,9 +31,7 @@ export default Route.extend(EKMixin, {
     switch(endRoute) {
       case 'population' : this.transitionTo('empire.food')      ; break;
       case 'food'       : this.transitionTo('empire.material')  ; break;
-      case 'material'   : this.transitionTo('empire.metal')     ; break;
-      case 'metal'      : this.transitionTo('empire.energy')    ; break;
-      case 'energy'     : this.transitionTo('empire.population'); break;
+      case 'material'   : this.transitionTo('empire.population'); break;
     }
   }),
 
