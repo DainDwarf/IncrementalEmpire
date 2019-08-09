@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { filterBy, mapBy, sum } from '@ember/object/computed';
+import { alias, filterBy, mapBy, sum } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -37,13 +37,31 @@ export default Model.extend({
     return prod
   }),
 
-  capitalName: computed('buildings.@each.{qty,name}', function() {
+  capitalPopulation: computed('buildings.@each.{qty,code}', function() {
     for (let b of this.buildings) {
-      if (b.code.startsWith('capital-') && b.qty > 0) {
-        return b.name
+      if (b.code.startsWith('capital-population-') && b.qty > 0) {
+        return b
       }
     }
   }),
+
+  capitalFood: computed('buildings.@each.{qty,code}', function() {
+    for (let b of this.buildings) {
+      if (b.code.startsWith('capital-food-') && b.qty > 0) {
+        return b
+      }
+    }
+  }),
+
+  capitalMaterial: computed('buildings.@each.{qty,code}', function() {
+    for (let b of this.buildings) {
+      if (b.code.startsWith('capital-material-') && b.qty > 0) {
+        return b
+      }
+    }
+  }),
+
+  capitalName: alias('capitalPopulation.name'),
 
   __populationStorage: filterBy('buildings', 'populationStorage'),
   _populationStorage: mapBy('__populationStorage', 'populationStorage'),

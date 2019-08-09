@@ -24,7 +24,7 @@ export default Service.extend({
     switch(building.code) {
       case "capital-population-1":
         building.setProperties({
-          name: 'Tribe',
+          name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 10,
         })
@@ -35,7 +35,7 @@ export default Service.extend({
       break;
       case "capital-food-1":
         building.setProperties({
-          name: 'Tribe',
+          name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 20,
         })
@@ -46,7 +46,7 @@ export default Service.extend({
       break;
       case "capital-material-1":
         building.setProperties({
-          name: 'Tribe',
+          name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 20,
         })
