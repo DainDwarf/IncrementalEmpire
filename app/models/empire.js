@@ -14,6 +14,21 @@ export default Model.extend({
   maxSpellPoints: attr('number', {defaultValue: 5}),
   workerHunter: attr('number', {defaultValue: 0}),
   workerBreeder: attr('number', {defaultValue: 0}),
+  popStorage: attr('number', {defaultValue: 1}),
+  foodStorage: attr('number', {defaultValue: 1}),
+  materialStorage: attr('number', {defaultValue: 1}),
+
+  maxPop: computed('popStorage', function() {
+    return 100*this.popStorage
+  }),
+
+  maxFood: computed('foodStorage', function() {
+    return 1000*this.foodStorage
+  }),
+
+  maxMaterial: computed('materialStorage', function() {
+    return 1000*this.materialStorage
+  }),
 
   availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
     return this.population - this.workerHunter - this.workerBreeder
@@ -39,6 +54,11 @@ export default Model.extend({
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)
 
+    // Limit population *before* eating
+    if (this.population > this.maxPop) {
+      this.set('population', this.maxPop)
+    }
+
     //Pop eat or die
     if (this.food >= this.population) {
       this.set('food', this.food-this.population)
@@ -46,6 +66,11 @@ export default Model.extend({
       this.set('population', this.food)
       this.set('food', 0)
       // TODO: worker destruction?
+    }
+
+    // Limit food *after* eating
+    if (this.food > this.maxFood) {
+      this.set('food', this.maxFood)
     }
 
     this.set('turn', this.turn + 1)

@@ -6,24 +6,34 @@
     <nav class="nav nav-pills flex-column border-right w-15">
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
+        {{#if isMaxPop}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isWrongWorkers}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+        {{#if isMaxFood}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isLowFood}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
       {{#link-to "empire.material" class="nav-link"}}
         Material <span class="badge badge-pill badge-light">{{model.material}}</span>
+        {{#if isMaxMaterial}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
       {{/link-to}}
     </nav>
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
           <li>{{capitalize model.type}} empire</li>
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="worker" @value={{workerValueDisplay}}/>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>

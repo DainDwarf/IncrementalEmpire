@@ -6,7 +6,7 @@ import { lt, or } from '@ember/object/computed';
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
-  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead'),
+  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead', 'empireCtl.isMaxFood'),
   isGenFoodAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
@@ -21,7 +21,7 @@ export default Controller.extend({
       if (this.game.getUpgrade('Click Power').isActive) {
         incr = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
       }
-      this.model.set('food', this.model.food + incr)
+      this.model.set('food', Math.min(this.model.food + incr, this.model.maxFood))
       this.model.set('spellPoints', this.model.spellPoints - 1)
       await this.model.save()
     },

@@ -1,12 +1,16 @@
 <div>
-  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}.
+  {{model.name}} has {{model.popStorage}} house{{if (gt model.popStorage 1) "s"}} and can accommodate a maximum of {{model.maxPop}} population.
+</div>
+<hr>
+<div>
+  {{model.name}} has {{model.population}} human{{if popPlural "s"}}.
   {{#if model.popProduction}}
     You birth {{model.popProduction}} human{{if (gt model.popProduction 1) "s"}} per turn.
   {{/if}}
   {{if popPlural "They" "It"}} will need {{add model.population model.popProduction}} food to survive next turn.
   {{#if empireCtl.isWrongWorkers}}
     <div class="text-danger">
-      You have {{model.availableWorkers}} workers. Fix the situation before begin able to use next turn.
+      You have {{model.availableWorkers}} workers. Fix the situation before begin able to go to next turn.
     </div>
   {{/if}}
 </div>

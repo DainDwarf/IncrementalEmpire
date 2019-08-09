@@ -12,14 +12,22 @@ export default Controller.extend({
   isLowFood: computed('model.{food,population,foodProduction}', function() {
     return this.model.food+this.model.foodProduction < this.model.population
   }),
+  isMaxPop: computed('model.{population,maxPop}', function() {
+    return this.model.population >= this.model.maxPop
+  }),
+  isMaxFood: computed('model.{food,maxFood}', function() {
+    return this.model.food >= this.model.maxFood
+  }),
+  isMaxMaterial: computed('model.{material,maxMaterial}', function() {
+    return this.model.material >= this.model.maxMaterial
+  }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
-    if (this.model.population == this.model.availableWorkers) {
-      return this.model.population
-    } else {
-      return this.model.availableWorkers + "/" + this.model.population
-    }
+  workerValueDisplay: computed('model.{population,availableWorkers}', function() {
+    return this.model.availableWorkers + "/" + this.model.population
+  }),
+  populationValueDisplay: computed('model.{population,maxPop}', function() {
+    return this.model.population + "/" + this.model.maxPop
   }),
 
   actions: {
