@@ -10,8 +10,6 @@ export default Model.extend({
   dead: attr('boolean', { defaultValue: false}),
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
-  metal: attr('number', { defaultValue: 0 }),
-  energy: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
   workerHunter: attr('number', {defaultValue: 0}),

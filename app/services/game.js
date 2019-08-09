@@ -92,7 +92,6 @@ export default Service.extend({
         await u.save()
       } else {
         savedU.set('manaCost', u.manaCost)
-        savedU.set('cultureCost', u.cultureCost)
         savedU.set('moneyCost', u.moneyCost)
         savedU.set('scienceCost', u.scienceCost)
         savedU.set('description', u.description)
@@ -182,9 +181,6 @@ export default Service.extend({
       if (upgrade.manaCost > 0) {
         this.universe.set('mana', this.universe.mana - upgrade.manaCost)
       }
-      if (upgrade.cultureCost > 0) {
-        this.universe.set('culture', this.universe.culture - upgrade.cultureCost)
-      }
       if (upgrade.moneyCost > 0) {
         this.universe.set('money', this.universe.money - upgrade.moneyCost)
       }
@@ -205,7 +201,7 @@ export default Service.extend({
     }
   },
 
-  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal,energy}', function() {
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material}', function() {
     if (this.empire.type == "religious") {
       let pop = this.empire.population
       let turn = this.empire.turn
@@ -233,7 +229,6 @@ export default Service.extend({
     let typeTrans = {
       religious: 'mana',
       economical: 'money',
-      cultural: 'culture',
       scientific: 'science',
     }
     return typeTrans[this.empire.type]

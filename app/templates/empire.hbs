@@ -19,19 +19,12 @@
       {{#link-to "empire.material" class="nav-link"}}
         Material <span class="badge badge-pill badge-light">{{model.material}}</span>
       {{/link-to}}
-      {{#link-to "empire.metal" class="nav-link"}}
-        Metal <span class="badge badge-pill badge-light">{{model.metal}}</span>
-      {{/link-to}}
-      {{#link-to "empire.energy" class="nav-link"}}
-        Energy <span class="badge badge-pill badge-light">{{model.energy}}</span>
-      {{/link-to}}
     </nav>
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
           <li>{{capitalize model.type}} empire</li>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
-          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
         <div class="dropdown mr-2">

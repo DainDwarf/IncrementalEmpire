@@ -5,7 +5,6 @@ import { gt, lt, or } from '@ember/object/computed';
 export default Controller.extend({
   tabRoute: 'empire.population',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
-  happinessUnlocked: false,
   deadModal: false,
   assignValue: '+1',
 
