@@ -1,5 +1,9 @@
 <div>
-  {{model.name}} currently has {{model.food}} food.
+  {{model.name}} has {{model.foodStorage}} {{if (gt model.foodStorage 1) "granaries" "granary"}} and can store a maximum of {{model.maxFood}} food.
+</div>
+<hr>
+<div>
+  {{model.name}} has {{model.food}} food.
   {{#if model.foodProduction}}
     You generate {{model.foodProduction}} food per turn.
   {{/if}}
