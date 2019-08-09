@@ -12,10 +12,6 @@ export default Model.extend({
   moneyCost: 0,
   scienceCost: 0,
 
-  globalCost: computed('manaCost', 'moneyCost', 'scienceCost', function() {
-    return this.manaCost + this.moneyCost + this.scienceCost
-  }),
-
   cannotBuy: computed('game.universe.{mana,money,science}',
                       'manaCost', 'moneyCost', 'scienceCost', function() {
     return (this.manaCost > this.game.universe.mana
