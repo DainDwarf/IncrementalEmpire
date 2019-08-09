@@ -31,7 +31,6 @@
         <ul class="navbar-nav mr-auto">
           <li>{{capitalize model.type}} empire</li>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
-          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
         <div class="dropdown mr-2">
