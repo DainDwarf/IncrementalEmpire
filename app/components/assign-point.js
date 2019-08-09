@@ -6,7 +6,7 @@ export default Component.extend({
   min: 0,
   max: 100,
   value: 0,
-  step: 1,
+  step: '1',
   onChange() {}, //Action to trigger when a new value has been selected
 
   _inputValue: '', //Only for display of yielded input field
