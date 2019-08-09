@@ -33,6 +33,7 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
           <li>{{capitalize model.type}} empire</li>
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="worker" @value={{workerValueDisplay}}/>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
