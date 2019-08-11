@@ -6,13 +6,13 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP}', 'model.buildings.@each.{qty,TPcost}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', 'model.buildings.@each.{qty,TPcost}', function() {
     //TODO: Find a more dynamic way to compute this.
     let buildingCost = 0
     for (let b of this.model.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
-    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP) - buildingCost
+    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
@@ -37,9 +37,9 @@ export default Controller.extend({
     return 10*this.model.materialTP
   }),
 
-  rebirthSpellPoints: computed('model.type', function() {
+  rebirthSpellPoints: computed('model.{type,spellTP}', function() {
     if (this.model.type == "religious") {
-      return 5
+      return 5+5*this.model.spellTP
     } else {
       return 0
     }
@@ -63,16 +63,8 @@ export default Controller.extend({
       this.model.set('name', newName)
       await this.model.save()
     },
-    async changePop(qty) {
-      this.model.set('popTP', qty)
-      await this.model.save()
-    },
-    async changeFood(qty) {
-      this.model.set('foodTP', qty)
-      await this.model.save()
-    },
-    async changeMaterial(qty) {
-      this.model.set('materialTP', qty)
+    async changeRessource(model_field, qty) {
+      this.model.set(model_field, qty)
       await this.model.save()
     },
     async addBuilding(building, qty) {
