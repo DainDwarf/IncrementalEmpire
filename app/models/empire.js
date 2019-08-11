@@ -14,18 +14,27 @@ export default Model.extend({
   pendingPopStorage: attr('number', {defaultValue: 0}),
   workerPopStorage: alias('pendingPopStorage'),
   workerBreeder: attr('number', {defaultValue: 0}),
+  breederStorage: attr('number', {defaultValue: 1}),
+  pendingBreederStorage: attr('number', {defaultValue: 0}),
+  workerBreederStorage: alias('pendingBreederStorage'),
 
   food: attr('number', { defaultValue: 0 }),
   foodStorage: attr('number', {defaultValue: 1}),
   pendingFoodStorage: attr('number', {defaultValue: 0}),
   workerFoodStorage: alias('pendingFoodStorage'),
   workerHunter: attr('number', {defaultValue: 0}),
+  hunterStorage: attr('number', {defaultValue: 1}),
+  pendingHunterStorage: attr('number', {defaultValue: 0}),
+  workerHunterStorage: alias('pendingHunterStorage'),
 
   material: attr('number', { defaultValue: 0 }),
   materialStorage: attr('number', {defaultValue: 1}),
   pendingMaterialStorage: attr('number', { defaultValue: 0}),
   workerMaterialStorage: alias('pendingMaterialStorage'),
   workerGatherer: attr('number', {defaultValue: 0}),
+  gathererStorage: attr('number', {defaultValue: 1}),
+  pendingGathererStorage: attr('number', {defaultValue: 0}),
+  workerGathererStorage: alias('pendingGathererStorage'),
 
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
@@ -42,8 +51,24 @@ export default Model.extend({
     return 1000*this.materialStorage
   }),
 
-  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', 'workerPopStorage', 'workerFoodStorage', 'workerMaterialStorage', function() {
-    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer - this.workerPopStorage - this.workerFoodStorage - this.workerMaterialStorage
+  maxWorkerBreeder: computed('breederStorage', function() {
+    return 20*this.breederStorage
+  }),
+
+  maxWorkerHunter: computed('hunterStorage', function() {
+    return 20*this.hunterStorage
+  }),
+
+  maxWorkerGatherer: computed('gathererStorage', function() {
+    return 20*this.gathererStorage
+  }),
+
+  availableWorkers: computed('population',
+                             'workerBreeder', 'workerHunter', 'workerGatherer',
+                             'workerPopStorage', 'workerFoodStorage', 'workerMaterialStorage',
+                             'workerBreederStorage', 'workerHunterStorage', 'workerGathererStorage',
+    function() {
+      return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer - this.workerPopStorage - this.workerFoodStorage - this.workerMaterialStorage - this.workerBreederStorage - this.workerHunterStorage - this.workerGathererStorage
   }),
 
   popProduction: computed('workerBreeder', function() {
@@ -79,6 +104,12 @@ export default Model.extend({
     this.set('pendingFoodStorage', 0)
     this.set('materialStorage', this.materialStorage + this.pendingMaterialStorage)
     this.set('pendingMaterialStorage', 0)
+    this.set('breederStorage', this.breederStorage + this.pendingBreederStorage)
+    this.set('pendingBreederStorage', 0)
+    this.set('hunterStorage', this.hunterStorage + this.pendingHunterStorage)
+    this.set('pendingHunterStorage', 0)
+    this.set('gathererStorage', this.gathererStorage + this.pendingGathererStorage)
+    this.set('pendingGathererStorage', 0)
 
     this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
