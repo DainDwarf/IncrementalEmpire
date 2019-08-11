@@ -6,9 +6,9 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', function() {
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.popTP+this.model.foodTP)
+    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP)
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
@@ -29,9 +29,13 @@ export default Controller.extend({
     return 10*this.model.foodTP
   }),
 
-  rebirthSpellPoints: computed('model.type', function() {
+  rebirthMaterial: computed('model.materialTP', function() {
+    return 10*this.model.materialTP
+  }),
+
+  rebirthSpellPoints: computed('model.{type,spellTP}', function() {
     if (this.model.type == "religious") {
-      return 5
+      return 5+5*this.model.spellTP
     } else {
       return 0
     }
@@ -50,6 +54,14 @@ export default Controller.extend({
       this.model.set('foodTP', qty)
       await this.model.save()
     },
+    async changeMaterial(qty) {
+      this.model.set('materialTP', qty)
+      await this.model.save()
+    },
+    async changeSpell(qty) {
+      this.model.set('spellTP', qty)
+      await this.model.save()
+    },
     async rebirth(event) {
       event.preventDefault()
       let newEmpire = await this.store.createRecord('empire', {
@@ -57,6 +69,7 @@ export default Controller.extend({
         type: this.model.type,
         population: this.rebirthPop,
         food: this.rebirthFood,
+        material: this.rebirthMaterial,
         spellPoints: this.rebirthSpellPoints,
         maxSpellPoints: this.rebirthSpellPoints,
       })
