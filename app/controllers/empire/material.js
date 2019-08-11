@@ -1,15 +1,17 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { lt, or } from '@ember/object/computed';
+import { lt, or, equal } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenMaterialOnCooldown: lt('model.spellPoints', 1),
   isGenMaterialDisabled: or('isGenMaterialOnCooldown', 'model.dead', 'empireCtl.isMaxMaterial'),
-  isGenMaterialAvailable: computed('model.type', function() {
-    return this.model.type == "religious"
+  isGenMaterialAvailable: equal('model.type', "religious"),
+  isGenMaterialStorageDisabled: computed('model.{spellPoints,dead}', function() {
+    return this.model.dead || (this.model.spellPoints < 50)
   }),
+  isGenMaterialStorageAvailable: equal('model.type', "religious"),
   workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return // TODO: this.game.getUpgrade('Gathering').isActive &&
       (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
@@ -29,6 +31,12 @@ export default Controller.extend({
       }
       this.model.set('material', Math.min(this.model.material + incr, this.model.maxMaterial))
       this.model.set('spellPoints', this.model.spellPoints - 1)
+      await this.model.save()
+    },
+    async genMaterialStorage(event) {
+      event.preventDefault();
+      this.model.set('materialStorage', this.model.materialStorage + 1)
+      this.model.set('spellPoints', this.model.spellPoints - 50)
       await this.model.save()
     },
     async changeGatherer(qty) {

@@ -5,6 +5,13 @@
                @step={{empireCtl.assignValue}} @max={{maxPendingMaterialStorage}}>
     Construct more warehouses: {{model.pendingMaterialStorage}} (100 material)
   </AssignPoint>
+  <button type="button"
+          class="btn btn-outline-success"
+          hidden={{not isGenMaterialStorageAvailable}}
+          disabled={{isGenMaterialStorageDisabled}}
+          onclick={{action "genMaterialStorage"}}>
+    Holy Building<DisplayValue @tagName="small" @type="magic" @value="50" />
+  </button>
 </div>
 <hr>
 <div>

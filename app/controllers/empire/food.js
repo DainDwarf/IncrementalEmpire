@@ -1,15 +1,17 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { lt, or } from '@ember/object/computed';
+import { lt, or, equal } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
   isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead', 'empireCtl.isMaxFood'),
-  isGenFoodAvailable: computed('model.type', function() {
-    return this.model.type == "religious"
+  isGenFoodAvailable: equal('model.type', "religious"),
+  isGenFoodStorageDisabled: computed('model.{spellPoints,dead}', function() {
+    return this.model.dead || (this.model.spellPoints < 50)
   }),
+  isGenFoodStorageAvailable: equal('model.type', "religious"),
   workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
@@ -28,6 +30,12 @@ export default Controller.extend({
       }
       this.model.set('food', Math.min(this.model.food + incr, this.model.maxFood))
       this.model.set('spellPoints', this.model.spellPoints - 1)
+      await this.model.save()
+    },
+    async genFoodStorage(event) {
+      event.preventDefault();
+      this.model.set('foodStorage', this.model.foodStorage + 1)
+      this.model.set('spellPoints', this.model.spellPoints - 50)
       await this.model.save()
     },
     async changeHunter(qty) {

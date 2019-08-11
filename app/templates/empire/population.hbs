@@ -5,6 +5,13 @@
                @step={{empireCtl.assignValue}} @max={{maxPendingPopStorage}}>
     Construct more houses: {{model.pendingPopStorage}} (100 material)
   </AssignPoint>
+  <button type="button"
+          class="btn btn-outline-success"
+          hidden={{not isGenPopStorageAvailable}}
+          disabled={{isGenPopStorageDisabled}}
+          onclick={{action "genPopStorage"}}>
+    Holy Building <DisplayValue @tagName="small" @type="magic" @value="50" />
+  </button>
 </div>
 <hr>
 <div>

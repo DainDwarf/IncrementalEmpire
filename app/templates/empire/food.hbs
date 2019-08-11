@@ -5,6 +5,13 @@
                @step={{empireCtl.assignValue}} @max={{maxPendingFoodStorage}}>
     Construct more granaries: {{model.pendingFoodStorage}} (100 material)
   </AssignPoint>
+  <button type="button"
+          class="btn btn-outline-success"
+          hidden={{not isGenFoodStorageAvailable}}
+          disabled={{isGenFoodStorageDisabled}}
+          onclick={{action "genFoodStorage"}}>
+    Holy Building <DisplayValue @tagName="small" @type="magic" @value="50" />
+  </button>
 </div>
 <hr>
 <div>
