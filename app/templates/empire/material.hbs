@@ -5,4 +5,11 @@
 <div>
   {{model.name}} has {{model.material}} material.
 </div>
+<button type="button"
+        class="btn btn-outline-success"
+        hidden={{not isGenMaterialAvailable}}
+        disabled={{isGenMaterialDisabled}}
+        onclick={{action "genMaterial"}}>
+  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
+</button>
 {{outlet}}
