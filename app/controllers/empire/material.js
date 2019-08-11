@@ -14,6 +14,11 @@ export default Controller.extend({
     return // TODO: this.game.getUpgrade('Gathering').isActive &&
       (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
+  maxPendingMaterialStorage: computed('model.{workerMaterialStorage,availableWorkers,material}', function () {
+    return Math.min(this.model.workerMaterialStorage+this.model.availableWorkers,
+      Math.floor(this.model.material/100)
+    )
+  }),
 
   actions: {
     async genMaterial(event) {
@@ -28,6 +33,12 @@ export default Controller.extend({
     },
     async changeGatherer(qty) {
       this.model.set('workerGatherer', qty)
+      await this.model.save()
+    },
+    async changePendingMaterialStorage(qty) {
+      let change = qty - this.model.pendingMaterialStorage
+      this.model.set('pendingMaterialStorage', qty)
+      this.model.set('material', this.model.material-100*change)
       await this.model.save()
     },
   },

@@ -1,5 +1,10 @@
 <div>
   {{model.name}} has {{model.materialStorage}} warehouse{{if (gt model.materialStorage 1) "s"}} and can store a maximum of {{model.maxMaterial}}.
+  <AssignPoint @class="ml-2" @disabled={{model.dead}}
+               @value={{model.pendingMaterialStorage}} @onChange={{action "changePendingMaterialStorage"}}
+               @step={{empireCtl.assignValue}} @max={{maxPendingMaterialStorage}}>
+    Construct more warehouses: {{model.pendingMaterialStorage}} (100 material)
+  </AssignPoint>
 </div>
 <hr>
 <div>

@@ -13,6 +13,11 @@ export default Controller.extend({
   workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
+  maxPendingFoodStorage: computed('model.{workerFoodStorage,availableWorkers,material}', function () {
+    return Math.min(this.model.workerFoodStorage+this.model.availableWorkers,
+      Math.floor(this.model.material/100)
+    )
+  }),
 
   actions: {
     async genFood(event) {
@@ -27,6 +32,12 @@ export default Controller.extend({
     },
     async changeHunter(qty) {
       this.model.set('workerHunter', qty)
+      await this.model.save()
+    },
+    async changePendingFoodStorage(qty) {
+      let change = qty - this.model.pendingFoodStorage
+      this.model.set('pendingFoodStorage', qty)
+      this.model.set('material', this.model.material-100*change)
       await this.model.save()
     },
   },
