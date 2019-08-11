@@ -10,6 +10,10 @@ export default Controller.extend({
   isGenMaterialAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
+  workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
+    return // TODO: this.game.getUpgrade('Gathering').isActive &&
+      (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+  }),
 
   actions: {
     async genMaterial(event) {
@@ -20,6 +24,10 @@ export default Controller.extend({
       }
       this.model.set('material', Math.min(this.model.material + incr, this.model.materialStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
+      await this.model.save()
+    },
+    async changeGatherer(qty) {
+      this.model.set('workerGatherer', qty)
       await this.model.save()
     },
   },

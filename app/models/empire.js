@@ -13,12 +13,13 @@ export default Model.extend({
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
-  workerHunter: attr('number', {defaultValue: 0}),
-  workerBreeder: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
+  workerBreeder: attr('number', {defaultValue: 0}),
+  workerHunter: attr('number', {defaultValue: 0}),
+  workerGatherer: attr('number', {defaultValue: 0}),
 
-  availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
-    return this.population - this.workerHunter - this.workerBreeder
+  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', function() {
+    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer
   }),
 
   popProduction: computed('workerBreeder', function() {
@@ -29,8 +30,17 @@ export default Model.extend({
       return 0
     }
   }),
+
   foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
+    }
+    return prod
+  }),
+
+  materialProduction: computed('workerGatherer', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
+    let prod = this.workerGatherer
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
       prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
     }
@@ -74,7 +84,7 @@ export default Model.extend({
   materialStorage: sum('_materialStorage'),
 
   async nextTurn() {
-    // this.set('material', this.material + this.materialProduction)
+    this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)
 
