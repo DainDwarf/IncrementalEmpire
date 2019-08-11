@@ -8,4 +8,5 @@ export default Model.extend({
   popTP: attr('number', { defaultValue: 0}),
   foodTP: attr('number', { defaultValue: 0}),
   materialTP: attr('number', { defaultValue: 0}),
+  spellTP: attr('number', { defaultValue: 0}),
 });

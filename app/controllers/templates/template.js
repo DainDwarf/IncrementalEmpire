@@ -6,9 +6,9 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', function() {
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP)
+    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP)
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
@@ -33,9 +33,9 @@ export default Controller.extend({
     return 10*this.model.materialTP
   }),
 
-  rebirthSpellPoints: computed('model.type', function() {
+  rebirthSpellPoints: computed('model.{type,spellTP}', function() {
     if (this.model.type == "religious") {
-      return 5
+      return 5+5*this.model.spellTP
     } else {
       return 0
     }
@@ -56,6 +56,10 @@ export default Controller.extend({
     },
     async changeMaterial(qty) {
       this.model.set('materialTP', qty)
+      await this.model.save()
+    },
+    async changeSpell(qty) {
+      this.model.set('spellTP', qty)
       await this.model.save()
     },
     async rebirth(event) {
