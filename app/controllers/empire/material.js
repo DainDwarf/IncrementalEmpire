@@ -12,14 +12,21 @@ export default Controller.extend({
     return this.model.dead || (this.model.spellPoints < 50)
   }),
   isGenMaterialStorageAvailable: equal('model.type', "religious"),
+  isGenGathererStorageDisabled: computed('model.{spellPoints,dead}', function() {
+    return this.model.dead || (this.model.spellPoints < 50)
+  }),
+  isGenGathererStorageAvailable: equal('model.type', "religious"),
   workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive
     // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
   maxPendingMaterialStorage: computed('model.{workerMaterialStorage,availableWorkers,material}', function () {
-    return Math.min(this.model.workerMaterialStorage+this.model.availableWorkers,
-      Math.floor(this.model.material/100)
-    )
+    return this.model.workerMaterialStorage +
+      Math.min(this.model.availableWorkers, Math.floor(this.model.material/100))
+  }),
+  maxPendingGathererStorage: computed('model.{workerGathererStorage,availableWorkers,material}', function () {
+    return this.model.workerGathererStorage +
+      Math.min(this.model.availableWorkers, Math.floor(this.model.material/100))
   }),
   maxGatherer: computed('model.{availableWorkers,workerGatherer,maxWorkerGatherer}', function() {
     return Math.min(this.model.availableWorkers+this.model.workerGatherer, this.model.maxWorkerGatherer)
@@ -42,6 +49,12 @@ export default Controller.extend({
       this.model.set('spellPoints', this.model.spellPoints - 50)
       await this.model.save()
     },
+    async genGathererStorage(event) {
+      event.preventDefault();
+      this.model.set('gathererStorage', this.model.gathererStorage + 1)
+      this.model.set('spellPoints', this.model.spellPoints - 50)
+      await this.model.save()
+    },
     async changeGatherer(qty) {
       this.model.set('workerGatherer', qty)
       await this.model.save()
@@ -49,6 +62,12 @@ export default Controller.extend({
     async changePendingMaterialStorage(qty) {
       let change = qty - this.model.pendingMaterialStorage
       this.model.set('pendingMaterialStorage', qty)
+      this.model.set('material', this.model.material-100*change)
+      await this.model.save()
+    },
+    async changePendingGathererStorage(qty) {
+      let change = qty - this.model.pendingGathererStorage
+      this.model.set('pendingGathererStorage', qty)
       this.model.set('material', this.model.material-100*change)
       await this.model.save()
     },

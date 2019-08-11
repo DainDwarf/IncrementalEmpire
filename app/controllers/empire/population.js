@@ -18,13 +18,20 @@ export default Controller.extend({
   isGenPopStorageDisabled: computed('model.{spellPoints,dead}', function () {
     return this.model.dead || (this.model.spellPoints < 50)
   }),
+  isGenBreederStorageAvailable: equal('game.empire.type', "religious"),
+  isGenBreederStorageDisabled: computed('model.{spellPoints,dead}', function () {
+    return this.model.dead || (this.model.spellPoints < 50)
+  }),
   workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
     return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
   maxPendingPopStorage: computed('model.{workerPopStorage,availableWorkers,material}', function () {
-    return Math.min(this.model.workerPopStorage+this.model.availableWorkers,
-      Math.floor(this.model.material/100)
-    )
+    return this.model.workerPopStorage +
+      Math.min(this.model.availableWorkers, Math.floor(this.model.material/100))
+  }),
+  maxPendingBreederStorage: computed('model.{workerBreederStorage,availableWorkers,material}', function () {
+    return this.model.workerBreederStorage +
+      Math.min(this.model.availableWorkers, Math.floor(this.model.material/100))
   }),
   maxBreeder: computed('model.{availableWorkers,workerBreeder,maxWorkerBreeder}', function() {
     return Math.min(this.model.availableWorkers+this.model.workerBreeder, this.model.maxWorkerBreeder)
@@ -43,6 +50,12 @@ export default Controller.extend({
       this.model.set('spellPoints', this.model.spellPoints - 50)
       await this.model.save()
     },
+    async genBreederStorage(event) {
+      event.preventDefault();
+      this.model.set('breederStorage', this.model.breederStorage + 1)
+      this.model.set('spellPoints', this.model.spellPoints - 50)
+      await this.model.save()
+    },
     async changeBreeder(qty) {
       this.model.set('workerBreeder', qty)
       await this.model.save()
@@ -50,6 +63,12 @@ export default Controller.extend({
     async changePendingPopStorage(qty) {
       let change = qty - this.model.pendingPopStorage
       this.model.set('pendingPopStorage', qty)
+      this.model.set('material', this.model.material-100*change)
+      await this.model.save()
+    },
+    async changePendingBreederStorage(qty) {
+      let change = qty - this.model.pendingBreederStorage
+      this.model.set('pendingBreederStorage', qty)
       this.model.set('material', this.model.material-100*change)
       await this.model.save()
     },
