@@ -13,8 +13,8 @@ export default Controller.extend({
   }),
   isGenMaterialStorageAvailable: equal('model.type', "religious"),
   workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return // TODO: this.game.getUpgrade('Gathering').isActive &&
-      (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+    return this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive
+    // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
   maxPendingMaterialStorage: computed('model.{workerMaterialStorage,availableWorkers,material}', function () {
     return Math.min(this.model.workerMaterialStorage+this.model.availableWorkers,
