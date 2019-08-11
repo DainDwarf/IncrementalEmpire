@@ -7,4 +7,5 @@ export default Model.extend({
   // Save only TP attribution. Controller will be in charge to compute what it results into.
   popTP: attr('number', { defaultValue: 0}),
   foodTP: attr('number', { defaultValue: 0}),
+  materialTP: attr('number', { defaultValue: 0}),
 });
