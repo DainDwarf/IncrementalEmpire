@@ -12,8 +12,9 @@ export default Model.extend({
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
-  workerHunter: attr('number', {defaultValue: 0}),
   workerBreeder: attr('number', {defaultValue: 0}),
+  workerHunter: attr('number', {defaultValue: 0}),
+  workerGatherer: attr('number', {defaultValue: 0}),
   popStorage: attr('number', {defaultValue: 1}),
   foodStorage: attr('number', {defaultValue: 1}),
   materialStorage: attr('number', {defaultValue: 1}),
@@ -30,8 +31,8 @@ export default Model.extend({
     return 1000*this.materialStorage
   }),
 
-  availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
-    return this.population - this.workerHunter - this.workerBreeder
+  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', function() {
+    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer
   }),
 
   popProduction: computed('workerBreeder', function() {
@@ -42,6 +43,7 @@ export default Model.extend({
       return 0
     }
   }),
+
   foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
@@ -50,7 +52,16 @@ export default Model.extend({
     return prod
   }),
 
+  materialProduction: computed('workerGatherer', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
+    let prod = this.workerGatherer
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
+    }
+    return prod
+  }),
+
   async nextTurn() {
+    this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)
 
@@ -71,6 +82,11 @@ export default Model.extend({
     // Limit food *after* eating
     if (this.food > this.maxFood) {
       this.set('food', this.maxFood)
+    }
+
+    // Limit material
+    if (this.material > this.maxMaterial) {
+      this.set('material', this.maxMaterial)
     }
 
     this.set('turn', this.turn + 1)
