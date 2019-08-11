@@ -6,9 +6,9 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP}', function() {
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.popTP+this.model.foodTP)
+    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP)
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
@@ -27,6 +27,10 @@ export default Controller.extend({
 
   rebirthFood: computed('model.foodTP', function() {
     return 10*this.model.foodTP
+  }),
+
+  rebirthMaterial: computed('model.materialTP', function() {
+    return 10*this.model.materialTP
   }),
 
   rebirthSpellPoints: computed('model.type', function() {
@@ -48,6 +52,10 @@ export default Controller.extend({
     },
     async changeFood(qty) {
       this.model.set('foodTP', qty)
+      await this.model.save()
+    },
+    async changeMaterial(qty) {
+      this.model.set('materialTP', qty)
       await this.model.save()
     },
     async rebirth(event) {
