@@ -26,6 +26,9 @@ export default Controller.extend({
       Math.floor(this.model.material/100)
     )
   }),
+  maxBreeder: computed('model.{availableWorkers,workerBreeder,maxWorkerBreeder}', function() {
+    return Math.min(this.model.availableWorkers+this.model.workerBreeder, this.model.maxWorkerBreeder)
+  }),
 
   actions: {
     async genPopulation(event) {

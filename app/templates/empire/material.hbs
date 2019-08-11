@@ -22,8 +22,8 @@
 </div>
 <AssignPoint @class="ml-2" @isVisible={{workerGathererAvailable}} @disabled={{model.dead}}
              @value={{model.workerGatherer}} @onChange={{action "changeGatherer"}}
-             @step={{empireCtl.assignValue}} @max={{add model.availableWorkers model.workerGatherer}} as |workers|>
-  Gatherer{{if (gt model.workerGatherer 1) "s"}}: {{workers}}
+             @step={{empireCtl.assignValue}} @max={{maxGatherer}}>
+  Gatherer{{if (gt model.workerGatherer 1) "s"}}: {{model.workerGatherer}}
 </AssignPoint>
 <button type="button"
         class="btn btn-outline-success"

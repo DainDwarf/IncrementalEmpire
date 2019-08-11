@@ -20,6 +20,9 @@ export default Controller.extend({
       Math.floor(this.model.material/100)
     )
   }),
+  maxHunter: computed('model.{availableWorkers,workerHunter,maxWorkerHunter}', function() {
+    return Math.min(this.model.availableWorkers+this.model.workerHunter, this.model.maxWorkerHunter)
+  }),
 
   actions: {
     async genFood(event) {

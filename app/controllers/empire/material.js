@@ -21,6 +21,9 @@ export default Controller.extend({
       Math.floor(this.model.material/100)
     )
   }),
+  maxGatherer: computed('model.{availableWorkers,workerGatherer,maxWorkerGatherer}', function() {
+    return Math.min(this.model.availableWorkers+this.model.workerGatherer, this.model.maxWorkerGatherer)
+  }),
 
   actions: {
     async genMaterial(event) {
