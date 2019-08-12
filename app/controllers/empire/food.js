@@ -70,5 +70,8 @@ export default Controller.extend({
       this.model.set('material', this.model.material-100*change)
       await this.model.save()
     },
+    async clicked() {
+      console.log("Something clicked!")
+    },
   },
 });
