@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Service.extend({
   store: service(),
@@ -62,6 +63,7 @@ export default Service.extend({
     await this.consolidateEmpire()
     await this.consolidateUpgrades()
     await this.consolidateAchievements()
+    await this.consolidateTemplates()
   },
 
   async consolidateSettings() {
@@ -82,6 +84,27 @@ export default Service.extend({
     if (this.empire == undefined) {
       this.set('empire', this.gameTemplate.empire)
       await this.empire.save();
+    }
+    let empire_buildings = await this.store.query('building', { filter: {template_id: 'empire'}})
+    if (empire_buildings == undefined) {
+      empire_buildings = A()
+    } else {
+      empire_buildings = empire_buildings.toArray()
+    }
+    await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
+    this.empire.set('buildings', empire_buildings)
+  },
+
+  async consolidateTemplates() {
+    for (let t of this.templates) {
+      let template_buildings = await this.store.query('building', { filter: {template_id: t.id}})
+      if (template_buildings == undefined) {
+        template_buildings = A()
+      } else {
+        template_buildings = template_buildings.toArray()
+      }
+      await this.buildingFactory.consolidate_all(template_buildings, t.id)
+      t.set('buildings', template_buildings)
     }
   },
 
@@ -159,7 +182,22 @@ export default Service.extend({
     return undefined
   },
 
-  async rebirth(newEmpire) {
+  async rebirth(sourceTemplate) {
+    // Create the new empire for rebirth
+    let newEmpire = await this.store.createRecord('empire', {
+      name: sourceTemplate.model.name,
+      type: sourceTemplate.model.type,
+      population: sourceTemplate.rebirthPop,
+      food: sourceTemplate.rebirthFood,
+      spellPoints: sourceTemplate.rebirthSpellPoints,
+      maxSpellPoints: sourceTemplate.rebirthSpellPoints,
+    })
+    // TODO: Assign template buildings status to empire buildings
+    let empire_buildings = A()
+    await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
+    newEmpire.set('buildings', empire_buildings)
+
+    // Gain rebirth points
     let currentPoints = this.universe.get(this.rebirthPointsType)
     this.universe.set(this.rebirthPointsType, currentPoints+this.rebirthPoints)
     if (this.universe.mana > 0 && ! this.universe.manaUnlocked) {
@@ -168,7 +206,12 @@ export default Service.extend({
     if (this.universe.money > 0 && ! this.universe.moneyUnlocked) {
       this.universe.set('moneyUnlocked', true)
     }
-    this.empire.destroyRecord()
+
+    // Destroy old empire and set the game with the new empire.
+    for (let oldB of this.empire.buildings) {
+      await oldB.destroyRecord()
+    }
+    await this.empire.destroyRecord()
     this.set('empire', newEmpire);
     await this.empire.save();
     await this.universe.save()

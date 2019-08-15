@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Controller.extend({
+  buildingFactory: service(),
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
   hasEconomicalTemplates: computed('this.game.upgrades.@each.isActive', function() {
@@ -24,9 +27,14 @@ export default Controller.extend({
     },
 
     async newTemplate(type) {
+      console.logs
       let t = await this.store.createRecord('template', {
         type: type,
       })
+      //TODO: fill default buildings status
+      let template_buildings = A()
+      await this.buildingFactory.consolidate_all(template_buildings, t.id)
+      t.set('buildings', template_buildings)
       this.game.templates.pushObject(t)
       await t.save()
       this.set('newTemplateModal', false)
@@ -37,8 +45,11 @@ export default Controller.extend({
       let t = await this.store.findRecord('template', id, { backgroundReload: false });
       let destroy = window.confirm('Are you sure? This will delete template ' + t.name)
       if (destroy) {
+        for (let oldB of t.buildings) {
+          await oldB.destroyRecord()
+        }
         await t.destroyRecord()
-        await this.game.loadTemplates()
+        await this.game.loadTemplates() // Pass through the service, as templates is referenced on several places.
         this.set('model', this.game.templates)
         this.tabRouteObj = undefined
         this.transitionToRoute('templates')

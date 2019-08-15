@@ -14,6 +14,7 @@ export default Model.extend({
   maxSpellPoints: attr('number', {defaultValue: 5}),
   workerHunter: attr('number', {defaultValue: 0}),
   workerBreeder: attr('number', {defaultValue: 0}),
+  buildings: undefined, // Array populated by buildingFactory on load or rebirth.
 
   availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
     return this.population - this.workerHunter - this.workerBreeder

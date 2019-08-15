@@ -52,15 +52,7 @@ export default Controller.extend({
     },
     async rebirth(event) {
       event.preventDefault()
-      let newEmpire = await this.store.createRecord('empire', {
-        name: this.model.name,
-        type: this.model.type,
-        population: this.rebirthPop,
-        food: this.rebirthFood,
-        spellPoints: this.rebirthSpellPoints,
-        maxSpellPoints: this.rebirthSpellPoints,
-      })
-      await this.game.rebirth(newEmpire)
+      await this.game.rebirth(this)
       this.transitionToRoute('empire')
     },
   },

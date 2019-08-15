@@ -8,7 +8,7 @@ export default Service.extend({
   // The buildingFactory gives the correct values for each building.
   // It is either used to fill a given building-code, or more generally
   // to consolidate a full list of buildings linked to a template or empire.
-  store: service('store'),
+  store: service(),
 
   async generate(building_code, template_id) {
     let building = await this.store.createRecord('building', {
@@ -16,6 +16,7 @@ export default Service.extend({
       template_id: template_id,
     });
     building = this.consolidate(building)
+    building.save()
     return building
   },
 
