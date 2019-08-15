@@ -86,13 +86,18 @@ export default Service.extend({
       await this.empire.save();
     }
     let empire_buildings = await this.store.query('building', { filter: {template_id: 'empire'}})
-    if (empire_buildings == undefined) {
-      empire_buildings = A()
+    empire_buildings = empire_buildings.toArray()
+    if (empire_buildings.length == 0) {
+      await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
+      //TODO: Maybe put this in the building service?
+      await this.buildingFactory.set(empire_buildings, 'capital-population-1', 'qty', 1)
+      await this.buildingFactory.set(empire_buildings, 'capital-food-1', 'qty', 1)
+      await this.buildingFactory.set(empire_buildings, 'capital-material-1', 'qty', 1)
+      this.empire.set('buildings', empire_buildings)
     } else {
-      empire_buildings = empire_buildings.toArray()
+      await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
+      this.empire.set('buildings', empire_buildings)
     }
-    await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
-    this.empire.set('buildings', empire_buildings)
   },
 
   async consolidateTemplates() {
