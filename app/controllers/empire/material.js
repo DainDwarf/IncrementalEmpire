@@ -15,7 +15,11 @@ export default Controller.extend({
       // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
 
-  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.code.startsWith('capital-')),
+  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
+
+  materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
+    return (100*this.model.materialEfficiency).toFixed(2) + "%"
+  }),
 
   actions: {
     async genMaterial(event) {
@@ -26,10 +30,6 @@ export default Controller.extend({
       }
       this.model.set('material', Math.min(this.model.material + incr, this.model.materialStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
-      await this.model.save()
-    },
-    async changeGatherer(qty) {
-      this.model.set('workerGatherer', qty)
       await this.model.save()
     },
   },

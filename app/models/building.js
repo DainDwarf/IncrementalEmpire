@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
+import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Model.extend({
@@ -15,4 +16,7 @@ export default Model.extend({
   maxWorkers: 0,
   builders: alias('pending'), //Default, can be redefined in buildingFactory.
   materialCost: 0,
+
+  // Helpers
+  isCapital: computed('code', function() { return this.code.startsWith('capital-')}),
 });

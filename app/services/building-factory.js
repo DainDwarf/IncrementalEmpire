@@ -33,7 +33,7 @@ export default Service.extend({
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
-          maxWorkers: 20,
+          maxWorkers: 40,
           foodStorage: 1000,
           foodProduction: 1,
         })
@@ -42,7 +42,7 @@ export default Service.extend({
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
-          maxWorkers: 20,
+          maxWorkers: 40,
           materialStorage: 1000,
           materialProduction: 1,
         })
@@ -95,6 +95,33 @@ export default Service.extend({
           materialStorage: 1000,
         })
       break;
+      case "population-production-1":
+        building.setProperties({
+          name: 'child care',
+          description: 'Give some room for keeping more children',
+          materialCost: 100,
+          maxWorkers: 10,
+          populationProduction: 2,
+        })
+      break;
+      case "food-production-1":
+        building.setProperties({
+          name: 'hunting grounds',
+          description: 'More places to hunt',
+          materialCost: 100,
+          maxWorkers: 20,
+          foodProduction: 2,
+        })
+      break;
+      case "material-production-1":
+        building.setProperties({
+          name: 'woodcutting',
+          description: 'Designate some place to cut down trees',
+          materialCost: 100,
+          maxWorkers: 20,
+          materialProduction: 2,
+        })
+      break;
       default:
         throw 'Unknown code ' + building.code
     }
@@ -115,7 +142,7 @@ export default Service.extend({
 
     // Now, handle the maybe missing buildings
     // Yeah, that is a list of all building codes...
-    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1", "population-storage-1", "population-storage-2", "food-storage-1", "food-storage-2", "material-storage-1", "material-storage-2"]
+    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1", "population-storage-1", "population-storage-2", "food-storage-1", "food-storage-2", "material-storage-1", "material-storage-2", "population-production-1", "food-production-1", "material-production-1"]
     for (let bcode of known_buildings) {
       if (! buildings.findBy('code', bcode)) {
         let new_b = await this.generate(bcode, template_id)

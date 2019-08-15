@@ -6,6 +6,7 @@ import config from 'incremental-empire/config/environment';
 export default Component.extend({
   visible: true,
   type: '',
+  value: '',
 
   debug: config.APP.DEBUG,
   //Rewrite the component property to set when it is actually visible.

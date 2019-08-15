@@ -1,11 +1,10 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { filter, or, lt, gt } from '@ember/object/computed';
+import { filter, or, lt } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
-  popPlural: gt('model.population', 1),
   genPopUpgrade: computed('this.game.upgrades', function() {
     return this.game.getUpgrade('Spontaneous Generation')
   }),
@@ -18,17 +17,17 @@ export default Controller.extend({
     return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
 
-  populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.code.startsWith('capital-')),
+  populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.isCapital),
+
+  populationEfficiencyDisplay: computed('model.populationEfficiency', function() {
+    return (100*this.model.populationEfficiency).toFixed(2) + "%"
+  }),
 
   actions: {
     async genPopulation(event) {
       event.preventDefault();
-        this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
-        this.model.set('spellPoints', this.model.spellPoints - 5)
-        await this.model.save()
-    },
-    async changeBreeder(qty) {
-      this.model.set('workerBreeder', qty)
+      this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
+      this.model.set('spellPoints', this.model.spellPoints - 5)
       await this.model.save()
     },
   },

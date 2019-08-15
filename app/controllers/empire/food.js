@@ -14,7 +14,11 @@ export default Controller.extend({
     return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
 
-  foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.code.startsWith('capital-')),
+  foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.isCapital),
+
+  foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
+    return (100*this.model.foodEfficiency).toFixed(2) + "%"
+  }),
 
   actions: {
     async genFood(event) {
@@ -25,10 +29,6 @@ export default Controller.extend({
       }
       this.model.set('food', Math.min(this.model.food + incr, this.model.foodStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
-      await this.model.save()
-    },
-    async changeHunter(qty) {
-      this.model.set('workerHunter', qty)
       await this.model.save()
     },
   },

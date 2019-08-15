@@ -14,39 +14,68 @@ export default Model.extend({
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
-  workerBreeder: attr('number', {defaultValue: 0}),
-  workerHunter: attr('number', {defaultValue: 0}),
-  workerGatherer: attr('number', {defaultValue: 0}),
 
   _builders: mapBy('buildings', 'builders'),
   builders: sum('_builders'),
-  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', 'builders', function() {
-    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer - this.builders
+  _workers: mapBy('buildings', 'workers'),
+  workers: sum('_workers'),
+  availableWorkers: computed('population', 'workers', 'builders', function() {
+    return this.population - this.workers - this.builders
   }),
 
-  popProduction: computed('workerBreeder', function() {
-    if (this.workerBreeder > 0) {
-      let prod = Math.floor(0.4*this.workerBreeder+1)
-      return prod
+  populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
+  basePopulationProduction: computed('populationProductionBuildings.@each.{workers}', function() {
+    let sum = 0
+    for (let b of this.populationProductionBuildings) {
+      sum = sum + b.workers*b.populationProduction
+    }
+    return sum
+  }),
+  populationEfficiency: 0.4,
+  populationProduction: computed('basePopulationProduction', 'populationEfficiency', function() {
+    if (this.basePopulationProduction > 0) {
+      return Math.floor(this.populationEfficiency*this.basePopulationProduction+1)
     } else {
       return 0
     }
   }),
 
-  foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
-    let prod = this.workerHunter
-    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
+  foodProductionBuildings: filter('buildings', b => b.foodProduction != undefined),
+  baseFoodProduction: computed('foodProductionBuildings.@each.{workers}', function() {
+    let sum = 0
+    for (let b of this.foodProductionBuildings) {
+      sum = sum + b.workers*b.foodProduction
     }
-    return prod
+    return sum
+  }),
+  foodEfficiency: computed('game.{universe.money,upgrades.@each.isActive}', 'type', function() {
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      return Math.max(1, 1+Math.log10(this.game.universe.money))
+    } else {
+      return 1
+    }
+  }),
+  foodProduction: computed('baseFoodProduction', 'foodEfficiency', function() {
+    return Math.floor(this.baseFoodProduction*this.foodEfficiency)
   }),
 
-  materialProduction: computed('workerGatherer', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
-    let prod = this.workerGatherer
-    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
+  materialProductionBuildings: filter('buildings', b => b.materialProduction != undefined),
+  baseMaterialProduction: computed('materialProductionBuildings.@each.{workers}', function() {
+    let sum = 0
+    for (let b of this.materialProductionBuildings) {
+      sum = sum + b.workers*b.materialProduction
     }
-    return prod
+    return sum
+  }),
+  materialEfficiency: computed('game.{universe.money,upgrades.@each.isActive}', 'type', function() {
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      return Math.max(1, 1+Math.log10(this.game.universe.money))
+    } else {
+      return 1
+    }
+  }),
+  materialProduction: computed('baseMaterialProduction', 'materialEfficiency', function() {
+    return Math.floor(this.baseMaterialProduction*this.materialEfficiency)
   }),
 
   capitalPopulation: computed('buildings.@each.{qty,code}', function() {
@@ -111,7 +140,7 @@ export default Model.extend({
 
     this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
-    this.set('population', this.population+this.popProduction)
+    this.set('population', this.population+this.populationProduction)
 
     // Limit population *before* eating
     if (this.population > this.populationStorage) {
