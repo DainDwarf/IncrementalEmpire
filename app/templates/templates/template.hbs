@@ -3,7 +3,7 @@
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
 <div class="ml-2">
-  Capital: {{capitalize capital}}
+  Capital: {{capitalize model.capitalName}}
 </div>
 <AssignPoint @class="ml-2"
              @value={{model.popTP}} @onChange={{action "changePop"}}

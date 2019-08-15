@@ -197,7 +197,6 @@ export default Service.extend({
       spellPoints: sourceTemplate.rebirthSpellPoints,
       maxSpellPoints: sourceTemplate.rebirthSpellPoints,
     })
-    // TODO: Assign template buildings status to empire buildings
     let empire_buildings = A()
     await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
     newEmpire.set('buildings', empire_buildings)
