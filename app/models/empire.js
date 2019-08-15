@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { alias, filterBy, mapBy, sum } from '@ember/object/computed';
+import { alias, filter, mapBy, sum } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -13,12 +13,15 @@ export default Model.extend({
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
-  workerHunter: attr('number', {defaultValue: 0}),
-  workerBreeder: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
+  workerBreeder: attr('number', {defaultValue: 0}),
+  workerHunter: attr('number', {defaultValue: 0}),
+  workerGatherer: attr('number', {defaultValue: 0}),
 
-  availableWorkers: computed('population' ,'workerHunter', 'workerBreeder', function() {
-    return this.population - this.workerHunter - this.workerBreeder
+  _builders: mapBy('buildings', 'builders'),
+  builders: sum('_builders'),
+  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', 'builders', function() {
+    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer - this.builders
   }),
 
   popProduction: computed('workerBreeder', function() {
@@ -29,8 +32,17 @@ export default Model.extend({
       return 0
     }
   }),
+
   foodProduction: computed('workerHunter', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
     let prod = this.workerHunter
+    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
+      prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
+    }
+    return prod
+  }),
+
+  materialProduction: computed('workerGatherer', 'game.{universe.money,upgrades.@each.isActive}', 'type', function() {
+    let prod = this.workerGatherer
     if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
       prod = Math.floor(prod * Math.max(1, 1+Math.log10(this.game.universe.money)))
     }
@@ -63,18 +75,41 @@ export default Model.extend({
 
   capitalName: alias('capitalPopulation.name'),
 
-  __populationStorage: filterBy('buildings', 'populationStorage'),
-  _populationStorage: mapBy('__populationStorage', 'populationStorage'),
-  populationStorage: sum('_populationStorage'),
-  __foodStorage: filterBy('buildings', 'foodStorage'),
-  _foodStorage: mapBy('__foodStorage', 'foodStorage'),
-  foodStorage: sum('_foodStorage'),
-  __materialStorage: filterBy('buildings', 'materialStorage'),
-  _materialStorage: mapBy('__materialStorage', 'materialStorage'),
-  materialStorage: sum('_materialStorage'),
+  populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
+  populationStorage: computed('populationStorageBuildings.@each.qty', function() {
+    let sum = 0
+    for (let b of this.populationStorageBuildings) {
+      sum = sum + b.qty*b.populationStorage
+    }
+    return sum
+  }),
+  foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
+  foodStorage: computed('foodStorageBuildings.@each.qty', function() {
+    let sum = 0
+    for (let b of this.foodStorageBuildings) {
+      sum = sum + b.qty*b.foodStorage
+    }
+    return sum
+  }),
+  materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
+  materialStorage: computed('materialStorageBuildings.@each.qty', function() {
+    let sum = 0
+    for (let b of this.materialStorageBuildings) {
+      sum = sum + b.qty*b.materialStorage
+    }
+    return sum
+  }),
 
   async nextTurn() {
-    // this.set('material', this.material + this.materialProduction)
+    for (let b of this.buildings) {
+      if (b.pending > 0) {
+        b.set('qty', b.qty+b.pending)
+        b.set('pending', 0)
+        b.save()
+      }
+    }
+
+    this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)
 

@@ -1,7 +1,5 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
-import { defineProperty } from '@ember/object';
-import { computed } from '@ember/object';
 
 export default Service.extend({
   // The buildingFactory gives the correct values for each building.
@@ -27,33 +25,75 @@ export default Service.extend({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 10,
+          populationStorage: 100,
+          populationProduction: 1,
         })
-        defineProperty(building, 'populationProduction', computed('workers', 'qty', function() {
-          return building.workers*building.qty}))
-        defineProperty(building, 'populationStorage', computed('qty', function() {
-          return building.qty*100}))
       break;
       case "capital-food-1":
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 20,
+          foodStorage: 1000,
+          foodProduction: 1,
         })
-        defineProperty(building, 'foodProduction', computed('workers', 'qty', function() {
-          return building.workers*building.qty}))
-        defineProperty(building, 'foodStorage', computed('qty', function() {
-          return building.qty*1000}))
       break;
       case "capital-material-1":
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 20,
+          materialStorage: 1000,
+          materialProduction: 1,
         })
-        defineProperty(building, 'materialProduction', computed('workers', 'qty', function() {
-          return building.workers*building.qty}))
-        defineProperty(building, 'materialStorage', computed('qty', function() {
-          return building.qty*1000}))
+      break;
+      case "population-storage-1":
+        building.setProperties({
+          name: 'hut',
+          description: 'A small hut, can accomodate a few people',
+          materialCost: 100,
+          populationStorage: 5,
+        })
+      break;
+      case "population-storage-2":
+        building.setProperties({
+          name: 'house',
+          description: 'A solid house that can accomodate an extended family',
+          materialCost: 1000,
+          populationStorage: 30,
+        })
+      break;
+      case "food-storage-1":
+        building.setProperties({
+          name: 'storage pit',
+          description: 'A place to pile up some of your food. Not very efficient',
+          materialCost: 100,
+          foodStorage: 50,
+        })
+      break;
+      case "food-storage-2":
+        building.setProperties({
+          name: 'granary',
+          description: 'A building specifically designed to hold food',
+          materialCost: 10000,
+          foodStorage: 1000,
+        })
+      break;
+      case "material-storage-1":
+        building.setProperties({
+          name: 'store room',
+          description: 'Add some rooms for all these materials piling up',
+          materialCost: 100,
+          materialStorage: 50,
+        })
+      break;
+      case "material-storage-2":
+        building.setProperties({
+          name: 'storage building',
+          description: 'A building where everyone stores the common good',
+          materialCost: 10000,
+          materialStorage: 1000,
+        })
       break;
       default:
         throw 'Unknown code ' + building.code
@@ -75,7 +115,7 @@ export default Service.extend({
 
     // Now, handle the maybe missing buildings
     // Yeah, that is a list of all building codes...
-    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1"]
+    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1", "population-storage-1", "population-storage-2", "food-storage-1", "food-storage-2", "material-storage-1", "material-storage-2"]
     for (let bcode of known_buildings) {
       if (! buildings.findBy('code', bcode)) {
         let new_b = await this.generate(bcode, template_id)

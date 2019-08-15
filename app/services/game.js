@@ -194,6 +194,7 @@ export default Service.extend({
       type: sourceTemplate.model.type,
       population: sourceTemplate.rebirthPop,
       food: sourceTemplate.rebirthFood,
+      material: sourceTemplate.rebirthMaterial,
       spellPoints: sourceTemplate.rebirthSpellPoints,
       maxSpellPoints: sourceTemplate.rebirthSpellPoints,
     })
@@ -265,7 +266,7 @@ export default Service.extend({
         return 0
       }
     } else if (this.empire.type == "economical") {
-      let res = this.empire.food //TODO: Add other ressources
+      let res = this.empire.food + 3*this.empire.material //TODO: Add other ressources
       let turn = this.empire.turn
       if (turn >= 20) {
         return Math.max(0, Math.floor(
