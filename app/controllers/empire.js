@@ -54,5 +54,9 @@ export default Controller.extend({
       await building.save()
       await this.model.save()
     },
+    async assignWorker(building, qty) {
+      building.set('workers', qty)
+      await building.save()
+    },
   },
 });
