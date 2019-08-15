@@ -76,14 +76,29 @@ export default Model.extend({
   capitalName: alias('capitalPopulation.name'),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  _populationStorage: mapBy('populationStorageBuildings', 'populationStorage'),
-  populationStorage: sum('_populationStorage'),
+  populationStorage: computed('populationStorageBuildings', function() {
+    let sum = 0
+    for (let b of this.populationStorageBuildings) {
+      sum = sum + b.qty*b.populationStorage
+    }
+    return sum
+  }),
   foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
-  _foodStorage: mapBy('foodStorageBuildings', 'foodStorage'),
-  foodStorage: sum('_foodStorage'),
+  foodStorage: computed('foodStorageBuildings', function() {
+    let sum = 0
+    for (let b of this.foodStorageBuildings) {
+      sum = sum + b.qty*b.foodStorage
+    }
+    return sum
+  }),
   materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
-  _materialStorage: mapBy('materialStorageBuildings', 'materialStorage'),
-  materialStorage: sum('_materialStorage'),
+  materialStorage: computed('materialStorageBuildings', function() {
+    let sum = 0
+    for (let b of this.materialStorageBuildings) {
+      sum = sum + b.qty*b.materialStorage
+    }
+    return sum
+  }),
 
   async nextTurn() {
     for (let b of this.buildings) {
