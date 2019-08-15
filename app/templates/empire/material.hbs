@@ -1,1 +1,8 @@
+<div>
+  {{model.name}} has {{model.materialStorage}} warehouse{{if (gt model.materialStorage 1) "s"}} and can store a maximum of {{model.maxMaterial}}.
+</div>
+<hr>
+<div>
+  {{model.name}} has {{model.material}} material.
+</div>
 {{outlet}}

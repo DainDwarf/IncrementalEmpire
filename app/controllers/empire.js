@@ -14,12 +14,21 @@ export default Controller.extend({
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
-    if (this.model.population == this.model.availableWorkers) {
-      return this.model.population
-    } else {
-      return this.model.availableWorkers + "/" + this.model.population
-    }
+  isMaxPop: computed('model.{population,populationStorage}', function() {
+    return this.model.population >= this.model.populationStorage
+  }),
+  isMaxFood: computed('model.{food,foodStorage}', function() {
+    return this.model.food >= this.model.foodStorage
+  }),
+  isMaxMaterial: computed('model.{material,materialStorage}', function() {
+    return this.model.material >= this.model.materialStorage
+  }),
+
+  workerValueDisplay: computed('model.{population,availableWorkers}', function() {
+    return this.model.availableWorkers + "/" + this.model.population
+  }),
+  populationValueDisplay: computed('model.{population,populationStorage}', function() {
+    return this.model.population + "/" + this.model.populationStorage
   }),
 
   actions: {

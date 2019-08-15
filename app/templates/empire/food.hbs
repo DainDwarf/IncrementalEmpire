@@ -1,5 +1,9 @@
 <div>
-  {{model.name}} currently has {{model.food}} food.
+  Your {{model.capitalName}} can store maximum of {{model.capitalFood.foodStorage}} food.
+</div>
+<hr>
+<div>
+  {{model.name}} has {{model.food}} food.
   {{#if model.foodProduction}}
     You generate {{model.foodProduction}} food per turn.
   {{/if}}
