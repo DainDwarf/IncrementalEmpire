@@ -1,14 +1,24 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { sum, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
+  buildingFactory: service(),
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
   remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP}', function() {
     //TODO: Find a more dynamic way to compute this.
     return this.templatePoints - (this.model.popTP+this.model.foodTP)
+  }),
+
+  capital: computed('model.buildings.@each.{qty,name}', function() {
+    for (let b of this.model.buildings) {
+      if (b.code.startsWith('capital-') && b.qty > 0) {
+        return b.name
+      }
+    }
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {

@@ -86,4 +86,11 @@ export default Service.extend({
       }
     }
   },
+
+  //Helper function to set a new value to a building in an array.
+  async set(buildings, code, field, value) {
+    let build = buildings.findBy('code', code)
+    build.set(field, value)
+    build.save()
+  },
 });

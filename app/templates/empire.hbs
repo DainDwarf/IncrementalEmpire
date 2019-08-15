@@ -4,6 +4,9 @@
 <div class="container-fluid">
   <div class="row">
     <nav class="nav nav-pills flex-column border-right w-15">
+      {{#link-to "empire.capital" class="nav-link"}}
+        {{model.capitalName}}
+      {{/link-to}}
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
         {{#if isWrongWorkers}}

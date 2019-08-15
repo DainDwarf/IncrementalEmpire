@@ -36,6 +36,14 @@ export default Model.extend({
     return prod
   }),
 
+  capitalName: computed('buildings.@each.{qty,name}', function() {
+    for (let b of this.buildings) {
+      if (b.code.startsWith('capital-') && b.qty > 0) {
+        return b.name
+      }
+    }
+  }),
+
   async nextTurn() {
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)

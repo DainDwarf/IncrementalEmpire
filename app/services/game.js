@@ -196,6 +196,10 @@ export default Service.extend({
     let empire_buildings = A()
     await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
     newEmpire.set('buildings', empire_buildings)
+    for (let templateB of sourceTemplate.model.buildings) {
+      this.buildingFactory.set(newEmpire.buildings, templateB.code, 'qty', templateB.qty)
+      this.buildingFactory.set(newEmpire.buildings, templateB.code, 'workers', templateB.workers)
+    }
 
     // Gain rebirth points
     let currentPoints = this.universe.get(this.rebirthPointsType)

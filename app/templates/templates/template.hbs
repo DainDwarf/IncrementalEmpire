@@ -2,6 +2,9 @@
   <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/> the {{model.type}} empire
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
+<div class="ml-2">
+  Capital: {{capital}}
+</div>
 <AssignPoint @class="ml-2"
              @value={{model.popTP}} @onChange={{action "changePop"}}
              @max={{add remainingTemplatePoints model.popTP}}>
