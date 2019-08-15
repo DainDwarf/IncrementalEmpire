@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { lt, or } from '@ember/object/computed';
+import { filter, lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
@@ -14,6 +14,8 @@ export default Controller.extend({
     return (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
       // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
+
+  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.code.startsWith('capital-')),
 
   actions: {
     async genMaterial(event) {
