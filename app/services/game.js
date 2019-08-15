@@ -5,6 +5,7 @@ import { computed } from '@ember/object';
 export default Service.extend({
   store: service(),
   notify: service(),
+  buildingFactory: service(),
   gameTemplate: service('game-template'),
   settings: undefined,
   universe: undefined,
