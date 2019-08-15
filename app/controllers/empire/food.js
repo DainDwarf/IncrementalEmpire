@@ -14,7 +14,7 @@ export default Controller.extend({
     return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
 
-  foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.code.startsWith('capital-')),
+  foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.isCapital),
 
   foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
     return (100*this.model.foodEfficiency).toFixed(2) + "%"

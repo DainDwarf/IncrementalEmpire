@@ -15,7 +15,7 @@ export default Controller.extend({
       // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
 
-  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.code.startsWith('capital-')),
+  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
 
   materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
     return (100*this.model.materialEfficiency).toFixed(2) + "%"
