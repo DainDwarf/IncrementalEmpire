@@ -1,14 +1,18 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { sum, filterBy, mapBy } from '@ember/object/computed';
+import { sum, filter, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP}', 'model.buildings.@each.{qty,TPcost}', function() {
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP)
+    let buildingCost = 0
+    for (let b of this.model.buildings) {
+      buildingCost = buildingCost + b.qty*b.TPcost
+    }
+    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP) - buildingCost
   }),
 
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
@@ -41,6 +45,8 @@ export default Controller.extend({
     }
   }),
 
+  nonCapitalBuildings: filter('model.buildings', b => ! b.isCapital),
+
   actions: {
     async updateTemplateName(newName) {
       this.model.set('name', newName)
@@ -57,6 +63,10 @@ export default Controller.extend({
     async changeMaterial(qty) {
       this.model.set('materialTP', qty)
       await this.model.save()
+    },
+    async addBuilding(building, qty) {
+      building.set('qty', qty)
+      await building.save()
     },
     async rebirth(event) {
       event.preventDefault()

@@ -53,6 +53,7 @@ export default Service.extend({
           description: 'A small hut, can accomodate a few people',
           materialCost: 100,
           populationStorage: 5,
+          TPcost: 5,
         })
       break;
       case "population-storage-2":
@@ -61,6 +62,7 @@ export default Service.extend({
           description: 'A solid house that can accomodate an extended family',
           materialCost: 1000,
           populationStorage: 30,
+          TPcost: 30,
         })
       break;
       case "food-storage-1":
@@ -69,6 +71,7 @@ export default Service.extend({
           description: 'A place to pile up some of your food. Not very efficient',
           materialCost: 100,
           foodStorage: 50,
+          TPcost: 5,
         })
       break;
       case "food-storage-2":
@@ -77,6 +80,7 @@ export default Service.extend({
           description: 'A building specifically designed to hold food',
           materialCost: 10000,
           foodStorage: 1000,
+          TPcost: 30,
         })
       break;
       case "material-storage-1":
@@ -85,6 +89,7 @@ export default Service.extend({
           description: 'Add some rooms for all these materials piling up',
           materialCost: 100,
           materialStorage: 50,
+          TPcost: 5,
         })
       break;
       case "material-storage-2":
@@ -93,6 +98,7 @@ export default Service.extend({
           description: 'A building where everyone stores the common good',
           materialCost: 10000,
           materialStorage: 1000,
+          TPcost: 30,
         })
       break;
       case "population-production-1":
@@ -102,6 +108,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 10,
           populationProduction: 2,
+          TPcost: 5,
         })
       break;
       case "food-production-1":
@@ -111,6 +118,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 20,
           foodProduction: 2,
+          TPcost: 5,
         })
       break;
       case "material-production-1":
@@ -120,6 +128,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 20,
           materialProduction: 2,
+          TPcost: 5,
         })
       break;
       default:
