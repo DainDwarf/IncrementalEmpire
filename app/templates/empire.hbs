@@ -9,18 +9,27 @@
       {{/link-to}}
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
+        {{#if isMaxPop}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isWrongWorkers}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+        {{#if isMaxFood}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isLowFood}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
       {{#link-to "empire.material" class="nav-link"}}
         Material <span class="badge badge-pill badge-light">{{model.material}}</span>
+        {{#if isMaxMaterial}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
       {{/link-to}}
     </nav>
     <div class="w-85">

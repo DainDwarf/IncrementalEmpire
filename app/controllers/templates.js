@@ -27,7 +27,6 @@ export default Controller.extend({
     },
 
     async newTemplate(type) {
-      console.logs
       let t = await this.store.createRecord('template', {
         type: type,
       })

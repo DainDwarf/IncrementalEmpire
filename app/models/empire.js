@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
+import { filterBy, mapBy, sum } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -44,9 +45,25 @@ export default Model.extend({
     }
   }),
 
+  __populationStorage: filterBy('buildings', 'populationStorage'),
+  _populationStorage: mapBy('__populationStorage', 'populationStorage'),
+  populationStorage: sum('_populationStorage'),
+  __foodStorage: filterBy('buildings', 'foodStorage'),
+  _foodStorage: mapBy('__foodStorage', 'foodStorage'),
+  foodStorage: sum('_foodStorage'),
+  __materialStorage: filterBy('buildings', 'materialStorage'),
+  _materialStorage: mapBy('__materialStorage', 'materialStorage'),
+  materialStorage: sum('_materialStorage'),
+
   async nextTurn() {
+    // this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)
+
+    // Limit population *before* eating
+    if (this.population > this.populationStorage) {
+      this.set('population', this.populationStorage)
+    }
 
     //Pop eat or die
     if (this.food >= this.population) {
@@ -55,6 +72,16 @@ export default Model.extend({
       this.set('population', this.food)
       this.set('food', 0)
       // TODO: worker destruction?
+    }
+
+    // Limit food *after* eating
+    if (this.food > this.foodStorage) {
+      this.set('food', this.foodStorage)
+    }
+
+    // Limit material
+    if (this.material > this.materialStorage) {
+      this.set('material', this.materialStorage)
     }
 
     this.set('turn', this.turn + 1)

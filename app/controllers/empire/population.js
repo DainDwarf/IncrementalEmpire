@@ -13,7 +13,7 @@ export default Controller.extend({
     return this.game.empire.type == "religious" && this.genPopUpgrade.isActive
   }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
-  isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead'),
+  isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead', 'empireCtl.isMaxPop'),
   workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
     return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
@@ -21,7 +21,7 @@ export default Controller.extend({
   actions: {
     async genPopulation(event) {
       event.preventDefault();
-        this.model.set('population', this.model.population + 1)
+        this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
         this.model.set('spellPoints', this.model.spellPoints - 5)
         await this.model.save()
     },

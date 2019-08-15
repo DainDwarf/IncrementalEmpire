@@ -1,5 +1,5 @@
 <div>
-  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}.
+  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}. You can have a maximum of {{model.populationStorage}}.
   {{#if model.popProduction}}
     You birth {{model.popProduction}} human{{if (gt model.popProduction 1) "s"}} per turn.
   {{/if}}

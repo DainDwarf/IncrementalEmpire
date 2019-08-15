@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { defineProperty } from '@ember/object';
 import { computed } from '@ember/object';
-import { A } from '@ember/array';
 
 export default Service.extend({
   // The buildingFactory gives the correct values for each building.
@@ -21,7 +20,7 @@ export default Service.extend({
   },
 
   // This is a very long function, because it holds the definition of all buildings in the game.
-  consolidate(building, template_id) {
+  consolidate(building) {
     switch(building.code) {
       case "capital-population-1":
         building.setProperties({
@@ -58,7 +57,6 @@ export default Service.extend({
       break;
       default:
         throw 'Unknown code ' + building.code
-      break;
     }
     return building
   },
@@ -68,9 +66,8 @@ export default Service.extend({
     // Update known buildings and destroy unknown ones
     for (let b of buildings) {
       try {
-        this.consolidate(b, template_id)
+        this.consolidate(b)
       } catch(e) {
-        console.error(e)
         buildings.removeObject(b)
         b.destroyRecord()
       }
