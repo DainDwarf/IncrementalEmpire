@@ -23,6 +23,7 @@ export default Component.extend({
       money: 'coins',
       science: 'flask',
       population: 'users',
+      worker: 'hammer',
       magic: 'magic',
     }
     return trans[this.type]

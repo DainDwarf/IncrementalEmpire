@@ -24,12 +24,11 @@ export default Controller.extend({
     return this.model.material >= this.model.materialStorage
   }),
 
-  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
-    if (this.model.population == this.model.availableWorkers) {
-      return this.model.population
-    } else {
-      return this.model.availableWorkers + "/" + this.model.population
-    }
+  workerValueDisplay: computed('model.{population,availableWorkers}', function() {
+    return this.model.availableWorkers + "/" + this.model.population
+  }),
+  populationValueDisplay: computed('model.{population,populationStorage}', function() {
+    return this.model.population + "/" + this.model.populationStorage
   }),
 
   actions: {
