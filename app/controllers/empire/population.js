@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { or, lt, gt } from '@ember/object/computed';
+import { filter, or, lt, gt } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
@@ -17,6 +17,8 @@ export default Controller.extend({
   workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
     return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
   }),
+
+  populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.code.startsWith('capital-')),
 
   actions: {
     async genPopulation(event) {

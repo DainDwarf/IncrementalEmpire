@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { alias, filterBy, mapBy, sum } from '@ember/object/computed';
+import { alias, filter, mapBy, sum } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -18,8 +18,10 @@ export default Model.extend({
   workerHunter: attr('number', {defaultValue: 0}),
   workerGatherer: attr('number', {defaultValue: 0}),
 
-  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', function() {
-    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer
+  _builders: mapBy('buildings', 'builders'),
+  builders: sum('_builders'),
+  availableWorkers: computed('population', 'workerBreeder', 'workerHunter', 'workerGatherer', 'builders', function() {
+    return this.population - this.workerHunter - this.workerBreeder - this.workerGatherer - this.builders
   }),
 
   popProduction: computed('workerBreeder', function() {
@@ -73,17 +75,25 @@ export default Model.extend({
 
   capitalName: alias('capitalPopulation.name'),
 
-  __populationStorage: filterBy('buildings', 'populationStorage'),
-  _populationStorage: mapBy('__populationStorage', 'populationStorage'),
+  populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
+  _populationStorage: mapBy('populationStorageBuildings', 'populationStorage'),
   populationStorage: sum('_populationStorage'),
-  __foodStorage: filterBy('buildings', 'foodStorage'),
-  _foodStorage: mapBy('__foodStorage', 'foodStorage'),
+  foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
+  _foodStorage: mapBy('foodStorageBuildings', 'foodStorage'),
   foodStorage: sum('_foodStorage'),
-  __materialStorage: filterBy('buildings', 'materialStorage'),
-  _materialStorage: mapBy('__materialStorage', 'materialStorage'),
+  materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
+  _materialStorage: mapBy('materialStorageBuildings', 'materialStorage'),
   materialStorage: sum('_materialStorage'),
 
   async nextTurn() {
+    for (let b of this.buildings) {
+      if (b.pending > 0) {
+        b.set('qty', b.qty+b.pending)
+        b.set('pending', 0)
+        b.save()
+      }
+    }
+
     this.set('material', this.material + this.materialProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.popProduction)

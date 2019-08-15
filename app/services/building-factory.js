@@ -55,6 +55,24 @@ export default Service.extend({
         defineProperty(building, 'materialStorage', computed('qty', function() {
           return building.qty*1000}))
       break;
+      case "population-storage-1":
+        building.setProperties({
+          name: 'hut',
+          description: 'A small hut, can accomodate a few people',
+          materialCost: 100,
+        })
+        defineProperty(building, 'populationStorage', computed('qty', function() {
+          return building.qty*5}))
+      break;
+      case "population-storage-2":
+        building.setProperties({
+          name: 'house',
+          description: 'A solid house that can accomodate an extended family',
+          materialCost: 1000,
+        })
+        defineProperty(building, 'populationStorage', computed('qty', function() {
+          return building.qty*30}))
+      break;
       default:
         throw 'Unknown code ' + building.code
     }
@@ -75,7 +93,7 @@ export default Service.extend({
 
     // Now, handle the maybe missing buildings
     // Yeah, that is a list of all building codes...
-    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1"]
+    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1", "population-storage-1", "population-storage-2"]
     for (let bcode of known_buildings) {
       if (! buildings.findBy('code', bcode)) {
         let new_b = await this.generate(bcode, template_id)

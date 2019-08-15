@@ -11,8 +11,8 @@ export default Controller.extend({
     return this.model.type == "religious"
   }),
   workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return // TODO: this.game.getUpgrade('Gathering').isActive &&
-      (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+    return (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+      // TODO: this.game.getUpgrade('Gathering').isActive &&
   }),
 
   actions: {
