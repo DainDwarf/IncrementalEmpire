@@ -3,8 +3,8 @@
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
 <div class="ml-2">
-  Capital: {{capitalize model.capitalName}}
-  <select onchange={{action "selectCapital" value="target.value"}}>
+  Capital:
+  <select class="ml-1" onchange={{action "selectCapital" value="target.value"}}>
     {{#each capitalBuildings as |capital|}}
       <option
         value={{capital.lvl}}
@@ -13,7 +13,7 @@
       >
         {{capitalize capital.name}}
         {{#if capital.TPcost}}
-          <span class="ml-auto">({{capital.TPcost}} TP)</span>
+          ({{capital.TPcost}} TP)
         {{/if}}
       </option>
     {{/each}}
