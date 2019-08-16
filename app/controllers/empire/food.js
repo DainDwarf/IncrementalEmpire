@@ -15,6 +15,7 @@ export default Controller.extend({
   }),
 
   foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.isCapital),
+  foodProductionBuildings: filter('model.foodProductionBuildings', b => ! b.isCapital),
 
   foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
     return (100*this.model.foodEfficiency).toFixed(2) + "%"

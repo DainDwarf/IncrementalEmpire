@@ -16,6 +16,7 @@ export default Controller.extend({
   }),
 
   materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
+  materialProductionBuildings: filter('model.materialProductionBuildings', b => ! b.isCapital),
 
   materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
     return (100*this.model.materialEfficiency).toFixed(2) + "%"

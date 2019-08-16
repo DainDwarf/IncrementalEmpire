@@ -18,19 +18,24 @@
 <div>
   Material production efficiency: {{materialEfficiencyDisplay}}
 </div>
-{{#each model.materialProductionBuildings as |building|}}
+{{#if model.capitalMaterial.maxWorkers}}
+  <AssignPoint @class="ml-2" @disabled={{model.dead}}
+               @value={{model.capitalMaterial.workers}} @onChange={{action "assignWorker" model.capitalMaterial target=empireCtl}}
+               @step={{empireCtl.assignValue}} @max={{min (add model.capitalMaterial.workers model.availableWorkers) (mult model.capitalMaterial.maxWorkers model.capitalMaterial.qty)}}>
+    {{capitalize model.capitalMaterial.name}}: <DisplayValue @tagName="span" @type="worker" @value="{{model.capitalMaterial.workers}}/{{mult model.capitalMaterial.maxWorkers model.capitalMaterial.qty}}"/> (Each producing {{model.capitalMaterial.materialProduction}})
+  </AssignPoint>
+{{/if}}
+{{#each materialProductionBuildings as |building|}}
   <AssignPoint @class="ml-2" @disabled={{model.dead}}
                @value={{building.workers}} @onChange={{action "assignWorker" building target=empireCtl}}
                @step={{empireCtl.assignValue}} @max={{min (add building.workers model.availableWorkers) (mult building.maxWorkers building.qty)}}>
     {{capitalize building.name}}: <DisplayValue @tagName="span" @type="worker" @value="{{building.workers}}/{{mult building.maxWorkers building.qty}}"/> (Each producing {{building.materialProduction}})
   </AssignPoint>
-  {{#if (not building.isCapital)}}
-    <AssignPoint @class="ml-2" @disabled={{model.dead}}
-                 @value={{building.pending}} @onChange={{action "build" building target=empireCtl}}
-                 @step={{empireCtl.assignValue}} @max={{add building.builders (min model.availableWorkers (floor (div model.material building.materialCost)))}}>
-      Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material =&gt; {{building.maxWorkers}} <DisplayValue @tagName="span" @type="worker" /> max)
-    </AssignPoint>
-  {{/if}}
+  <AssignPoint @class="ml-2" @disabled={{model.dead}}
+               @value={{building.pending}} @onChange={{action "build" building target=empireCtl}}
+               @step={{empireCtl.assignValue}} @max={{add building.builders (min model.availableWorkers (floor (div model.material building.materialCost)))}}>
+    Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material =&gt; {{building.maxWorkers}} <DisplayValue @tagName="span" @type="worker" /> max)
+  </AssignPoint>
 {{/each}}
 <button type="button"
         class="btn btn-outline-success mt-1"

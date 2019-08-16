@@ -18,6 +18,7 @@ export default Controller.extend({
   }),
 
   populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.isCapital),
+  populationProductionBuildings: filter('model.populationProductionBuildings', b => ! b.isCapital),
 
   populationEfficiencyDisplay: computed('model.populationEfficiency', function() {
     return (100*this.model.populationEfficiency).toFixed(2) + "%"
