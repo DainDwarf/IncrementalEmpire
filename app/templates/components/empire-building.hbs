@@ -8,18 +8,18 @@
     {{#if (not isLongDisplay)}}
       <span class="float-right">
         {{#if (not building.isCapital)}}
-          <DisplayValue @tagName="span" @type="material" @value={{building.materialCost}}/>
+          <DisplayValue @type="material" @value={{building.materialCost}}/>
           <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.pending}} @onChange={{action "build"}}
                        @step={{step}} @max={{maxBuilds}}>
-            <DisplayValue @tagName="span" @type="building" @value={{building.pending}}/>
+            <DisplayValue @type="building" @value={{building.pending}}/>
           </AssignPoint>
         {{/if}}
         {{#if building.maxWorkers}}
           <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.workers}} @onChange={{action "assignWorker"}}
                        @step={{step}} @max={{maxWorkers}}>
-            <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
+            <DisplayValue @type="worker" @value={{workersDisplay}}/>
           </AssignPoint>
         {{/if}}
       </span>
@@ -34,32 +34,32 @@
         {{#if (not building.isCapital)}}
           <div class="col text-center">
             Build for
-            <DisplayValue @tagName="span" @type="material" @value={{building.materialCost}}/>
-            <DisplayValue @tagName="span" @type="worker" @value="1"/>
+            <DisplayValue @type="material" @value={{building.materialCost}}/>
+            <DisplayValue @type="worker" @value="1"/>
             <AssignPoint @disabled={{empire.dead}}
                          @value={{building.pending}} @onChange={{action "build"}}
                          @step={{step}} @max={{maxBuilds}}>
-              <DisplayValue @tagName="span" @type="building" @value={{building.pending}}/>
+              <DisplayValue @type="building" @value={{building.pending}}/>
             </AssignPoint>
           </div>
         {{/if}}
         {{#if building.maxWorkers}}
           <div class="col text-center">
-            <DisplayValue @tagName="span" @type="worker"/>
+            <DisplayValue @type="worker"/>
             <FaIcon @icon="arrow-right"/>
             {{#if building.populationProduction}}
-              <DisplayValue @tagName="span" @type="population" @value={{building.populationProduction}}/>
+              <DisplayValue @type="population" @value={{building.populationProduction}}/>
             {{/if}}
             {{#if building.foodProduction}}
-              <DisplayValue @tagName="span" @type="food" @value={{building.foodProduction}}/>
+              <DisplayValue @type="food" @value={{building.foodProduction}}/>
             {{/if}}
             {{#if building.materialProduction}}
-              <DisplayValue @tagName="span" @type="material" @value={{building.materialProduction}}/>
+              <DisplayValue @type="material" @value={{building.materialProduction}}/>
             {{/if}}
             <AssignPoint @disabled={{empire.dead}}
                          @value={{building.workers}} @onChange={{action "assignWorker"}}
                          @step={{step}} @max={{maxWorkers}}>
-              <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
+              <DisplayValue @type="worker" @value={{workersDisplay}}/>
             </AssignPoint>
           </div>
         {{/if}}

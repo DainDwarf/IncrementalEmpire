@@ -6,18 +6,18 @@
   Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
 <div>
-  {{model.name}} can store maximum of <DisplayValue @tagName="span" @type="food" @value={{model.foodStorage}}/>
+  {{model.name}} can store maximum of <DisplayValue @type="food" @value={{model.foodStorage}}/>
   {{#each foodStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has <DisplayValue @tagName="span" @type="food" @value={{model.food}}/>
+  {{model.name}} has <DisplayValue @type="food" @value={{model.food}}/>
 </div>
 {{#if model.foodProduction}}
   <div>
-    You generate <DisplayValue @tagName="span" @type="food" @value={{model.foodProduction}}/> per turn.
+    You generate <DisplayValue @type="food" @value={{model.foodProduction}}/> per turn.
   </div>
 {{/if}}
 {{#if empireCtl.isLowFood}}

@@ -6,26 +6,26 @@
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
 <div>
-  {{model.name}} can accomodate a maximum of <DisplayValue @tagName="span" @type="population" @value={{model.populationStorage}}/>
+  {{model.name}} can accomodate a maximum of <DisplayValue @type="population" @value={{model.populationStorage}}/>
   {{#each populationStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has <DisplayValue @tagName="span" @type="population" @value={{model.population}}/>
+  {{model.name}} has <DisplayValue @type="population" @value={{model.population}}/>
 </div>
 {{#if model.populationProduction}}
   <div>
-    You birth <DisplayValue @tagName="span" @type="population" @value={{model.populationProduction}}/> per turn.
+    You birth <DisplayValue @type="population" @value={{model.populationProduction}}/> per turn.
   </div>
 {{/if}}
 <div>
-  They will need <DisplayValue @tagName="span" @type="food" @value={{add model.population model.populationProduction}}/> to survive next turn.
+  They will need <DisplayValue @type="food" @value={{add model.population model.populationProduction}}/> to survive next turn.
 </div>
 {{#if empireCtl.isWrongWorkers}}
   <div class="text-danger">
-    You have <DisplayValue @tagName="span" @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
+    You have <DisplayValue @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
   </div>
 {{/if}}
 <div>

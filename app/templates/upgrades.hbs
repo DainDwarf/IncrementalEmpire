@@ -12,13 +12,13 @@
           <button type="button" class="btn btn-primary" hidden={{upgrade.isActive}} disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}
-              <DisplayValue @tagName="span" @type="mana" @value={{upgrade.manaCost}} />
+              <DisplayValue @type="mana" @value={{upgrade.manaCost}} />
             {{/if}}
             {{#if upgrade.moneyCost}}
-              <DisplayValue @tagName="span" @type="money" @value={{upgrade.moneyCost}} />
+              <DisplayValue @type="money" @value={{upgrade.moneyCost}} />
             {{/if}}
             {{#if upgrade.scienceCost}}
-              <DisplayValue @tagName="span" @type="science" @value={{upgrade.scienceCost}} />
+              <DisplayValue @type="science" @value={{upgrade.scienceCost}} />
             {{/if}}
           </button>
         </div>

@@ -6,18 +6,18 @@
   Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
 <div>
-  {{model.name}} can store maximum of <DisplayValue @tagName="span" @type="material" @value={{model.materialStorage}}/>
+  {{model.name}} can store maximum of <DisplayValue @type="material" @value={{model.materialStorage}}/>
   {{#each materialStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has <DisplayValue @tagName="span" @type="material" @value={{model.material}}/>
+  {{model.name}} has <DisplayValue @type="material" @value={{model.material}}/>
 </div>
 {{#if model.materialProduction}}
   <div>
-    You generate <DisplayValue @tagName="span" @type="material" @value={{model.materialProduction}}/> per turn.
+    You generate <DisplayValue @type="material" @value={{model.materialProduction}}/> per turn.
   </div>
 {{/if}}
 <div>

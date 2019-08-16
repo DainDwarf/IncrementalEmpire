@@ -4,6 +4,7 @@ import { or } from '@ember/object/computed';
 import config from 'incremental-empire/config/environment';
 
 export default Component.extend({
+  tagName: 'span', // Default HTML tag used for displaying the value.
   visible: true,
   type: '',
   value: '',
