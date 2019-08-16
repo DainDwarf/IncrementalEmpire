@@ -1,48 +1,3 @@
-<div>
-  {{model.name}} can accomodate a maximum of {{model.populationStorage}} population.
-  {{#each populationStorageBuildings as |building|}}
-    <AssignPoint @class="ml-2" @disabled={{model.dead}}
-                 @value={{building.pending}} @onChange={{action "build" building target=empireCtl}}
-                 @step={{empireCtl.assignValue}} @max={{add building.builders (min model.availableWorkers (floor (div model.material building.materialCost)))}}>
-      Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material =&gt; {{building.populationStorage}} population max)
-    </AssignPoint>
-  {{/each}}
-</div>
-<hr>
-<div>
-  {{model.name}} has {{model.population}} population.
-  {{#if model.populationProduction}}
-    You birth {{model.populationProduction}} population per turn.
-  {{/if}}
-  They will need {{add model.population model.populationProduction}} food to survive next turn.
-  {{#if empireCtl.isWrongWorkers}}
-    <div class="text-danger">
-      You have {{model.availableWorkers}} workers. Fix the situation before begin able to go to next turn.
-    </div>
-  {{/if}}
-</div>
-<div>
-  Population production efficiency: {{populationEfficiencyDisplay}}
-</div>
-{{#if model.capitalPopulation.maxWorkers}}
-  <AssignPoint @class="ml-2" @disabled={{model.dead}}
-               @value={{model.capitalPopulation.workers}} @onChange={{action "assignWorker" model.capitalPopulation target=empireCtl}}
-               @step={{empireCtl.assignValue}} @max={{min (add model.capitalPopulation.workers model.availableWorkers) (mult model.capitalPopulation.maxWorkers model.capitalPopulation.qty)}}>
-    {{capitalize model.capitalPopulation.name}}: <DisplayValue @tagName="span" @type="worker" @value="{{model.capitalPopulation.workers}}/{{mult model.capitalPopulation.maxWorkers model.capitalPopulation.qty}}"/> (Each producing {{model.capitalPopulation.populationProduction}})
-  </AssignPoint>
-{{/if}}
-{{#each populationProductionBuildings as |building|}}
-  <AssignPoint @class="ml-2" @disabled={{model.dead}}
-               @value={{building.workers}} @onChange={{action "assignWorker" building target=empireCtl}}
-               @step={{empireCtl.assignValue}} @max={{min (add building.workers model.availableWorkers) (mult building.maxWorkers building.qty)}}>
-    {{capitalize building.name}}: <DisplayValue @tagName="span" @type="worker" @value="{{building.workers}}/{{mult building.maxWorkers building.qty}}"/> (Each producing {{building.populationProduction}})
-  </AssignPoint>
-  <AssignPoint @class="ml-2" @disabled={{model.dead}}
-               @value={{building.pending}} @onChange={{action "build" building target=empireCtl}}
-               @step={{empireCtl.assignValue}} @max={{add building.builders (min model.availableWorkers (floor (div model.material building.materialCost)))}}>
-    Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material =&gt; {{building.maxWorkers}} <DisplayValue @tagName="span" @type="worker" /> max)
-  </AssignPoint>
-{{/each}}
 <button type="button"
         class="btn btn-outline-success mt-1"
         hidden={{not isGenPopulationAvailable}}
@@ -50,4 +5,36 @@
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
+<div>
+  {{model.name}} can accomodate a maximum of <DisplayValue @type="population" @value={{model.populationStorage}}/>
+  {{#each populationStorageBuildings as |building|}}
+    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  {{/each}}
+</div>
+<hr>
+<div>
+  {{model.name}} has <DisplayValue @type="population" @value={{model.population}}/>
+</div>
+{{#if model.populationProduction}}
+  <div>
+    You birth <DisplayValue @type="population" @value={{model.populationProduction}}/> per turn.
+  </div>
+{{/if}}
+<div>
+  They will need <DisplayValue @type="food" @value={{add model.population model.populationProduction}}/> to survive next turn.
+</div>
+{{#if empireCtl.isWrongWorkers}}
+  <div class="text-danger">
+    You have <DisplayValue @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
+  </div>
+{{/if}}
+<div>
+  Population production efficiency: {{populationEfficiencyDisplay}}
+</div>
+{{#if model.capitalPopulation.maxWorkers}}
+  <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
+{{/if}}
+{{#each populationProductionBuildings as |building|}}
+  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+{{/each}}
 {{outlet}}

@@ -4,6 +4,7 @@ import { or } from '@ember/object/computed';
 import config from 'incremental-empire/config/environment';
 
 export default Component.extend({
+  tagName: 'span', // Default HTML tag used for displaying the value.
   visible: true,
   type: '',
   value: '',
@@ -24,7 +25,10 @@ export default Component.extend({
       money: 'coins',
       science: 'flask',
       population: 'users',
+      food: 'carrot',
+      material: 'cubes',
       worker: 'hammer',
+      building: 'building',
       magic: 'magic',
     }
     return trans[this.type]

@@ -3,17 +3,17 @@
 </div>
 {{#if model.capitalPopulation.populationStorage}}
   <div>
-    It can accomodate a maximum of {{model.capitalPopulation.populationStorage}} population.
+    It can accomodate a maximum of <DisplayValue @type="population" @value={{model.capitalPopulation.populationStorage}}/>
   </div>
 {{/if}}
 {{#if model.capitalFood.foodStorage}}
   <div>
-    It can store a maximum of {{model.capitalFood.foodStorage}} food.
+    It can store a maximum of <DisplayValue @type="food" @value={{model.capitalFood.foodStorage}}/>
   </div>
 {{/if}}
 {{#if model.capitalMaterial.materialStorage}}
   <div>
-    It can store a maximum of {{model.capitalMaterial.materialStorage}} material.
+    It can store a maximum of <DisplayValue @type="material" @value={{model.capitalMaterial.materialStorage}}/>
   </div>
 {{/if}}
 {{outlet}}
