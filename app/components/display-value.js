@@ -27,6 +27,7 @@ export default Component.extend({
       food: 'carrot',
       material: 'cubes',
       worker: 'hammer',
+      building: 'building',
       magic: 'magic',
     }
     return trans[this.type]

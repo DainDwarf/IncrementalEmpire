@@ -20,6 +20,17 @@ export default Component.extend({
     return this.building.workers + "/" + (this.building.maxWorkers*this.building.qty)
   }),
 
+  // Initialize a monkey-patching on buildings.
+  // This is hacky, unless you come from python like me, I guess.
+  init() {
+    this._super(...arguments)
+    if (this.building.isLongDisplay == undefined) {
+      this.building.isLongDisplay = true
+    }
+  },
+
+  isLongDisplay: alias('building.isLongDisplay'),
+
   actions: {
     async build(qty) {
       let change = qty - this.building.pending
@@ -31,6 +42,9 @@ export default Component.extend({
     async assignWorker(qty) {
       this.building.set('workers', qty)
       await this.building.save()
+    },
+    toggleDisplay() {
+      this.building.toggleProperty('isLongDisplay')
     },
   },
 });

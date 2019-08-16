@@ -1,47 +1,69 @@
 <div class="card mx-2 my-2 building">
   <div class="card-header">
+    <FaIcon @icon={{if isLongDisplay "angle-double-up" "angle-double-down"}} @class="click-icon mr-1" @click={{action "toggleDisplay"}}/>
     {{capitalize building.name}}
     {{#if (not building.isCapital)}}
       <span class="badge badge-pill badge-light">{{building.qty}}</span>
     {{/if}}
-  </div>
-  <div class="card-body">
-    <p class="card-text">{{building.description}}</p>
-  </div>
-  <div class="card-footer">
-    <div class="row">
-      {{#if (not building.isCapital)}}
-        <div class="col text-center">
-          Build for
+    {{#if (not isLongDisplay)}}
+      <span class="float-right">
+        {{#if (not building.isCapital)}}
           <DisplayValue @tagName="span" @type="material" @value={{building.materialCost}}/>
-          <DisplayValue @tagName="span" @type="worker" @value="1"/>
-          <AssignPoint @disabled={{empire.dead}}
+          <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.pending}} @onChange={{action "build"}}
                        @step={{step}} @max={{maxBuilds}}>
-            {{building.pending}}
+            <DisplayValue @tagName="span" @type="building" @value={{building.pending}}/>
           </AssignPoint>
-        </div>
-      {{/if}}
-      {{#if building.maxWorkers}}
-        <div class="col text-center">
-          <DisplayValue @tagName="span" @type="worker"/>
-          <FaIcon @icon="arrow-right"/>
-          {{#if building.populationProduction}}
-            <DisplayValue @tagName="span" @type="population" @value={{building.populationProduction}}/>
-          {{/if}}
-          {{#if building.foodProduction}}
-            <DisplayValue @tagName="span" @type="food" @value={{building.foodProduction}}/>
-          {{/if}}
-          {{#if building.materialProduction}}
-            <DisplayValue @tagName="span" @type="material" @value={{building.materialProduction}}/>
-          {{/if}}
-          <AssignPoint @disabled={{empire.dead}}
+        {{/if}}
+        {{#if building.maxWorkers}}
+          <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.workers}} @onChange={{action "assignWorker"}}
                        @step={{step}} @max={{maxWorkers}}>
             <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
           </AssignPoint>
-        </div>
-      {{/if}}
-    </div>
+        {{/if}}
+      </span>
+    {{/if}}
   </div>
+  {{#if isLongDisplay}}
+    <div class="card-body">
+      <p class="card-text">{{building.description}}</p>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        {{#if (not building.isCapital)}}
+          <div class="col text-center">
+            Build for
+            <DisplayValue @tagName="span" @type="material" @value={{building.materialCost}}/>
+            <DisplayValue @tagName="span" @type="worker" @value="1"/>
+            <AssignPoint @disabled={{empire.dead}}
+                         @value={{building.pending}} @onChange={{action "build"}}
+                         @step={{step}} @max={{maxBuilds}}>
+              <DisplayValue @tagName="span" @type="building" @value={{building.pending}}/>
+            </AssignPoint>
+          </div>
+        {{/if}}
+        {{#if building.maxWorkers}}
+          <div class="col text-center">
+            <DisplayValue @tagName="span" @type="worker"/>
+            <FaIcon @icon="arrow-right"/>
+            {{#if building.populationProduction}}
+              <DisplayValue @tagName="span" @type="population" @value={{building.populationProduction}}/>
+            {{/if}}
+            {{#if building.foodProduction}}
+              <DisplayValue @tagName="span" @type="food" @value={{building.foodProduction}}/>
+            {{/if}}
+            {{#if building.materialProduction}}
+              <DisplayValue @tagName="span" @type="material" @value={{building.materialProduction}}/>
+            {{/if}}
+            <AssignPoint @disabled={{empire.dead}}
+                         @value={{building.workers}} @onChange={{action "assignWorker"}}
+                         @step={{step}} @max={{maxWorkers}}>
+              <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
+            </AssignPoint>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
 </div>
