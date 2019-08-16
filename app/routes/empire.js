@@ -11,7 +11,7 @@ export default Route.extend(EKMixin, {
     return this.game.empire
   },
 
-  nextTurnShortcut: on(keyUp('Space'), function() {
+  nextTurnShortcut: on(keyUp('KeyN'), function() {
     if (! this.controller.nextTurnDisabled) {
       this.controller.send('nextTurn')
     }
