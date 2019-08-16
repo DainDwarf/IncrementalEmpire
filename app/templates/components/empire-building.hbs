@@ -1,14 +1,46 @@
-{{#if building.maxWorkers}}
-  <AssignPoint @class="ml-2" @disabled={{empire.dead}}
-               @value={{building.workers}} @onChange={{action "assignWorker"}}
-               @step={{step}} @max={{maxWorkers}}>
-    {{capitalize building.name}}: <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
-  </AssignPoint>
-{{/if}}
-{{#if (not building.isCapital)}}
-  <AssignPoint @class="ml-2" @disabled={{empire.dead}}
-               @value={{building.pending}} @onChange={{action "build"}}
-               @step={{step}} @max={{maxBuilds}}>
-    Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material)
-  </AssignPoint>
-{{/if}}
+<div class="card mx-2 my-2 building">
+  <div class="card-header">
+    {{capitalize building.name}}
+    {{#if (not building.isCapital)}}
+      <span class="badge badge-pill badge-light">{{building.qty}}</span>
+    {{/if}}
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{building.description}}</p>
+  </div>
+  <div class="card-footer">
+    <div class="row">
+      {{#if (not building.isCapital)}}
+        <div class="col text-center">
+          Build for {{building.materialCost}} material,
+          <DisplayValue @tagName="span" @type="worker" @value="1"/>
+          <AssignPoint @disabled={{empire.dead}}
+                       @value={{building.pending}} @onChange={{action "build"}}
+                       @step={{step}} @max={{maxBuilds}}>
+            {{building.pending}}
+          </AssignPoint>
+        </div>
+      {{/if}}
+      {{#if building.maxWorkers}}
+        <div class="col text-center">
+          <DisplayValue @tagName="span" @type="worker"/>
+          <FaIcon @icon="arrow-right"/>
+          {{#if building.populationProduction}}
+            {{building.populationProduction}} population
+          {{/if}}
+          {{#if building.foodProduction}}
+            {{building.foodProduction}} food
+          {{/if}}
+          {{#if building.materialProduction}}
+            {{building.materialProduction}} material
+          {{/if}}
+          <AssignPoint @disabled={{empire.dead}}
+                       @value={{building.workers}} @onChange={{action "assignWorker"}}
+                       @step={{step}} @max={{maxWorkers}}>
+            <DisplayValue @tagName="span" @type="worker" @value={{workersDisplay}}/>
+          </AssignPoint>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
