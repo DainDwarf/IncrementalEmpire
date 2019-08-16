@@ -16,7 +16,12 @@ export default Model.extend({
   maxWorkers: 0,
   builders: alias('pending'), //Default, can be redefined in buildingFactory.
   materialCost: 0,
+  TPcost: 0,
 
   // Helpers
   isCapital: computed('code', function() { return this.code.startsWith('capital-')}),
+  lvl: computed('code', function() {
+    let s = this.code.split('-')
+    return parseInt(s[s.length-1])
+  }),
 });

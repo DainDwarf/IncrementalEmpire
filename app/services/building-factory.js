@@ -22,14 +22,60 @@ export default Service.extend({
     switch(building.code) {
       case "capital-population-1":
         building.setProperties({
+          name: 'garden',
+          description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+          populationStorage: 10,
+        })
+      break;
+      case "capital-food-1":
+        building.setProperties({
+          name: 'garden',
+          description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+          foodStorage: 100,
+        })
+      break;
+      case "capital-material-1":
+        building.setProperties({
+          name: 'garden',
+          description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+        })
+      break;
+      case "capital-population-2":
+        building.setProperties({
+          name: 'cave',
+          description: 'A cave where your people can try to survive',
+          maxWorkers: 5,
+          populationStorage: 20,
+          populationProduction: 1,
+          TPcost: 2,
+        })
+      break;
+      case "capital-food-2":
+        building.setProperties({
+          name: 'cave',
+          description: 'A cave where your people can try to survive',
+          maxWorkers: 20,
+          foodStorage: 100,
+          foodProduction: 1,
+        })
+      break;
+      case "capital-material-2":
+        building.setProperties({
+          name: 'cave',
+          description: 'A cave where your people can try to survive',
+        })
+      break;
+      case "capital-population-3":
+        building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
           maxWorkers: 10,
           populationStorage: 100,
           populationProduction: 1,
+          TPcost: 10,
         })
       break;
-      case "capital-food-1":
+      case "capital-food-3":
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
@@ -38,7 +84,7 @@ export default Service.extend({
           foodProduction: 1,
         })
       break;
-      case "capital-material-1":
+      case "capital-material-3":
         building.setProperties({
           name: 'tribe',
           description: 'A small tribe settlement, capable of holding a few people.',
@@ -53,6 +99,7 @@ export default Service.extend({
           description: 'A small hut, can accomodate a few people',
           materialCost: 100,
           populationStorage: 5,
+          TPcost: 5,
         })
       break;
       case "population-storage-2":
@@ -61,6 +108,7 @@ export default Service.extend({
           description: 'A solid house that can accomodate an extended family',
           materialCost: 1000,
           populationStorage: 30,
+          TPcost: 30,
         })
       break;
       case "food-storage-1":
@@ -69,6 +117,7 @@ export default Service.extend({
           description: 'A place to pile up some of your food. Not very efficient',
           materialCost: 100,
           foodStorage: 50,
+          TPcost: 5,
         })
       break;
       case "food-storage-2":
@@ -77,6 +126,7 @@ export default Service.extend({
           description: 'A building specifically designed to hold food',
           materialCost: 10000,
           foodStorage: 1000,
+          TPcost: 30,
         })
       break;
       case "material-storage-1":
@@ -85,6 +135,7 @@ export default Service.extend({
           description: 'Add some rooms for all these materials piling up',
           materialCost: 100,
           materialStorage: 50,
+          TPcost: 5,
         })
       break;
       case "material-storage-2":
@@ -93,6 +144,7 @@ export default Service.extend({
           description: 'A building where everyone stores the common good',
           materialCost: 10000,
           materialStorage: 1000,
+          TPcost: 30,
         })
       break;
       case "population-production-1":
@@ -102,6 +154,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 10,
           populationProduction: 2,
+          TPcost: 5,
         })
       break;
       case "food-production-1":
@@ -111,6 +164,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 20,
           foodProduction: 2,
+          TPcost: 5,
         })
       break;
       case "material-production-1":
@@ -120,6 +174,7 @@ export default Service.extend({
           materialCost: 100,
           maxWorkers: 20,
           materialProduction: 2,
+          TPcost: 5,
         })
       break;
       default:
@@ -141,8 +196,27 @@ export default Service.extend({
     }
 
     // Now, handle the maybe missing buildings
-    // Yeah, that is a list of all building codes...
-    let known_buildings = ["capital-population-1", "capital-food-1", "capital-material-1", "population-storage-1", "population-storage-2", "food-storage-1", "food-storage-2", "material-storage-1", "material-storage-2", "population-production-1", "food-production-1", "material-production-1"]
+    // Yeah, that is a list of all building codes... I hope to find a better way to not put all of them TWICE.
+    let known_buildings = [
+        "capital-population-1",
+        "capital-population-2",
+        "capital-population-3",
+        "capital-food-1",
+        "capital-food-2",
+        "capital-food-3",
+        "capital-material-1",
+        "capital-material-2",
+        "capital-material-3",
+        "population-storage-1",
+        "population-storage-2",
+        "food-storage-1",
+        "food-storage-2",
+        "material-storage-1",
+        "material-storage-2",
+        "population-production-1",
+        "food-production-1",
+        "material-production-1",
+    ]
     for (let bcode of known_buildings) {
       if (! buildings.findBy('code', bcode)) {
         let new_b = await this.generate(bcode, template_id)
