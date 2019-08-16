@@ -17,6 +17,7 @@ export default Model.extend({
   builders: alias('pending'), //Default, can be redefined in buildingFactory.
   materialCost: 0,
   TPcost: 0,
+  spellCost: 0,
 
   // Helpers
   isCapital: computed('code', function() { return this.code.startsWith('capital-')}),

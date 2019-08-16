@@ -100,6 +100,7 @@ export default Service.extend({
           materialCost: 100,
           populationStorage: 5,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       case "population-storage-2":
@@ -109,6 +110,7 @@ export default Service.extend({
           materialCost: 1000,
           populationStorage: 30,
           TPcost: 30,
+          spellCost: 100,
         })
       break;
       case "food-storage-1":
@@ -118,6 +120,7 @@ export default Service.extend({
           materialCost: 100,
           foodStorage: 50,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       case "food-storage-2":
@@ -127,6 +130,7 @@ export default Service.extend({
           materialCost: 10000,
           foodStorage: 1000,
           TPcost: 30,
+          spellCost: 100,
         })
       break;
       case "material-storage-1":
@@ -136,6 +140,7 @@ export default Service.extend({
           materialCost: 100,
           materialStorage: 50,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       case "material-storage-2":
@@ -145,6 +150,7 @@ export default Service.extend({
           materialCost: 10000,
           materialStorage: 1000,
           TPcost: 30,
+          spellCost: 100,
         })
       break;
       case "population-production-1":
@@ -155,6 +161,7 @@ export default Service.extend({
           maxWorkers: 10,
           populationProduction: 2,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       case "food-production-1":
@@ -165,6 +172,7 @@ export default Service.extend({
           maxWorkers: 20,
           foodProduction: 2,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       case "material-production-1":
@@ -175,6 +183,7 @@ export default Service.extend({
           maxWorkers: 20,
           materialProduction: 2,
           TPcost: 5,
+          spellCost: 20,
         })
       break;
       default:
