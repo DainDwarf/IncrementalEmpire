@@ -21,10 +21,10 @@
   Population production efficiency: {{populationEfficiencyDisplay}}
 </div>
 {{#if model.capitalPopulation.maxWorkers}}
-    <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
 {{/if}}
 {{#each populationProductionBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
 {{/each}}
 <button type="button"
         class="btn btn-outline-success mt-1"

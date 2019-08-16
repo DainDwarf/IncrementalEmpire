@@ -20,10 +20,10 @@
   Food production efficiency: {{foodEfficiencyDisplay}}
 </div>
 {{#if model.capitalFood.maxWorkers}}
-    <EmpireBuilding @building={{model.capitalFood}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{model.capitalFood}} @step={{empireCtl.assignValue}}/>
 {{/if}}
 {{#each foodProductionBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
 {{/each}}
 <button type="button"
         class="btn btn-outline-success mt-1"

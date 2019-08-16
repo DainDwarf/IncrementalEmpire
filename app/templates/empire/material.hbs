@@ -15,10 +15,10 @@
   Material production efficiency: {{materialEfficiencyDisplay}}
 </div>
 {{#if model.capitalMaterial.maxWorkers}}
-    <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
 {{/if}}
 {{#each materialProductionBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
 {{/each}}
 <button type="button"
         class="btn btn-outline-success mt-1"
