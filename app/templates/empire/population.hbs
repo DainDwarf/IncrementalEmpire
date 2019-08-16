@@ -1,22 +1,26 @@
 <div>
-  {{model.name}} can accomodate a maximum of {{model.populationStorage}} population.
+  {{model.name}} can accomodate a maximum of <DisplayValue @tagName="span" @type="population" @value={{model.populationStorage}}/>
   {{#each populationStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has {{model.population}} population.
-  {{#if model.populationProduction}}
-    You birth {{model.populationProduction}} population per turn.
-  {{/if}}
-  They will need {{add model.population model.populationProduction}} food to survive next turn.
-  {{#if empireCtl.isWrongWorkers}}
-    <div class="text-danger">
-      You have {{model.availableWorkers}} workers. Fix the situation before begin able to go to next turn.
-    </div>
-  {{/if}}
+  {{model.name}} has <DisplayValue @tagName="span" @type="population" @value={{model.population}}/>
 </div>
+{{#if model.populationProduction}}
+  <div>
+    You birth <DisplayValue @tagName="span" @type="population" @value={{model.populationProduction}}/> per turn.
+  </div>
+{{/if}}
+<div>
+  They will need <DisplayValue @tagName="span" @type="food" @value={{add model.population model.populationProduction}}/> to survive next turn.
+</div>
+{{#if empireCtl.isWrongWorkers}}
+  <div class="text-danger">
+    You have <DisplayValue @tagName="span" @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success mt-1"
         hidden={{not isGenPopulationAvailable}}

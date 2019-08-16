@@ -12,7 +12,8 @@
     <div class="row">
       {{#if (not building.isCapital)}}
         <div class="col text-center">
-          Build for {{building.materialCost}} material,
+          Build for
+          <DisplayValue @tagName="span" @type="material" @value={{building.materialCost}}/>
           <DisplayValue @tagName="span" @type="worker" @value="1"/>
           <AssignPoint @disabled={{empire.dead}}
                        @value={{building.pending}} @onChange={{action "build"}}
@@ -26,13 +27,13 @@
           <DisplayValue @tagName="span" @type="worker"/>
           <FaIcon @icon="arrow-right"/>
           {{#if building.populationProduction}}
-            {{building.populationProduction}} population
+            <DisplayValue @tagName="span" @type="population" @value={{building.populationProduction}}/>
           {{/if}}
           {{#if building.foodProduction}}
-            {{building.foodProduction}} food
+            <DisplayValue @tagName="span" @type="food" @value={{building.foodProduction}}/>
           {{/if}}
           {{#if building.materialProduction}}
-            {{building.materialProduction}} material
+            <DisplayValue @tagName="span" @type="material" @value={{building.materialProduction}}/>
           {{/if}}
           <AssignPoint @disabled={{empire.dead}}
                        @value={{building.workers}} @onChange={{action "assignWorker"}}

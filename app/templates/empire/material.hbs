@@ -1,16 +1,18 @@
 <div>
-  {{model.name}} can store maximum of {{model.materialStorage}} material.
+  {{model.name}} can store maximum of <DisplayValue @tagName="span" @type="material" @value={{model.materialStorage}}/>
   {{#each materialStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has {{model.material}} material.
-  {{#if model.materialProduction}}
-    You generate {{model.materialProduction}} material per turn.
-  {{/if}}
+  {{model.name}} has <DisplayValue @tagName="span" @type="material" @value={{model.material}}/>
 </div>
+{{#if model.materialProduction}}
+  <div>
+    You generate <DisplayValue @tagName="span" @type="material" @value={{model.materialProduction}}/> per turn.
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success mt-1"
         hidden={{not isGenMaterialAvailable}}

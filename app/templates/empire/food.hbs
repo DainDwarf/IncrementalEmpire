@@ -1,16 +1,18 @@
 <div>
-  {{model.name}} can store maximum of {{model.foodStorage}} food.
+  {{model.name}} can store maximum of <DisplayValue @tagName="span" @type="food" @value={{model.foodStorage}}/>
   {{#each foodStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
 <div>
-  {{model.name}} has {{model.food}} food.
-  {{#if model.foodProduction}}
-    You generate {{model.foodProduction}} food per turn.
-  {{/if}}
+  {{model.name}} has <DisplayValue @tagName="span" @type="food" @value={{model.food}}/>
 </div>
+{{#if model.foodProduction}}
+  <div>
+    You generate <DisplayValue @tagName="span" @type="food" @value={{model.foodProduction}}/> per turn.
+  </div>
+{{/if}}
 {{#if empireCtl.isLowFood}}
   <div class="text-danger">
     You will lose some population next turn.

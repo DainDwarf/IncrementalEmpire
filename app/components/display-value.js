@@ -24,6 +24,8 @@ export default Component.extend({
       money: 'coins',
       science: 'flask',
       population: 'users',
+      food: 'carrot',
+      material: 'cubes',
       worker: 'hammer',
       magic: 'magic',
     }
