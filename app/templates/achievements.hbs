@@ -1,7 +1,7 @@
 <div class="row mx-2 my-2">
   {{#each displayedAchievements as |achievement|}}
-    <div class="col-sm-3">
-      <div class="card {{unless achievement.isActive "text-muted"}}">
+    <div class="col-sm-3 my-2">
+      <div class="card h-100 {{unless achievement.isActive "text-muted"}}">
         <div class="card-header {{if achievement.isActive "bg-success"}}">
           {{achievement.name}}
         </div>
