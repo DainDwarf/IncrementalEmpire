@@ -4,6 +4,20 @@
 </div>
 <div class="ml-2">
   Capital: {{capitalize model.capitalName}}
+  <select onchange={{action "selectCapital" value="target.value"}}>
+    {{#each capitalBuildings as |capital|}}
+      <option
+        value={{capital.lvl}}
+        selected={{eq capital selectedCapital}}
+        disabled={{gt capital.TPcost (add selectedCapital.TPcost remainingTemplatePoints)}}
+      >
+        {{capitalize capital.name}}
+        {{#if capital.TPcost}}
+          <span class="ml-auto">({{capital.TPcost}} TP)</span>
+        {{/if}}
+      </option>
+    {{/each}}
+  </select>
 </div>
 <AssignPoint @class="ml-2"
              @value={{model.popTP}} @onChange={{action "changePop"}}

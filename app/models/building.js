@@ -20,4 +20,8 @@ export default Model.extend({
 
   // Helpers
   isCapital: computed('code', function() { return this.code.startsWith('capital-')}),
+  lvl: computed('code', function() {
+    let s = this.code.split('-')
+    return parseInt(s[s.length-1])
+  }),
 });

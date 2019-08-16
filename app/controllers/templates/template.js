@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { sum, filter, filterBy, mapBy } from '@ember/object/computed';
+import { sort, sum, filter, filterBy, mapBy } from '@ember/object/computed';
 
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
@@ -46,6 +46,17 @@ export default Controller.extend({
   }),
 
   nonCapitalBuildings: filter('model.buildings', b => ! b.isCapital),
+  // Since capital building is scattered across ressource parts, only get the population ones
+  _capitalBuildings: filter('model.buildings', b => b.code.startsWith('capital-population-')),
+  _capitalSort: computed(() => ['lvl:asc']),
+  capitalBuildings: sort('_capitalBuildings', '_capitalSort'),
+  selectedCapital: computed('_capitalBuildings.@each.qty', function() {
+    for (let b of this._capitalBuildings) {
+      if (b.qty > 0) {
+        return b
+      }
+    }
+  }),
 
   actions: {
     async updateTemplateName(newName) {
@@ -67,6 +78,21 @@ export default Controller.extend({
     async addBuilding(building, qty) {
       building.set('qty', qty)
       await building.save()
+    },
+    async selectCapital(lvl) {
+      // Save the lvl, because it will change soon
+      let previousLvl = this.selectedCapital.lvl
+      if (this.selectedCapital.lvl != lvl) {
+        for (let b of this.model.buildings) {
+          if (b.code.match('capital-.*-'+previousLvl)) {
+            b.set('qty', 0)
+            b.save()
+          } else if (b.code.match('capital-.*-'+lvl)) {
+            b.set('qty', 1)
+            b.save()
+          }
+        }
+      }
     },
     async rebirth(event) {
       event.preventDefault()
