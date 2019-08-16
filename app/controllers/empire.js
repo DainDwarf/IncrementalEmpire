@@ -47,16 +47,5 @@ export default Controller.extend({
     deadModalAck() {
       this.set('deadModal', false)
     },
-    async build(building, qty) {
-      let change = qty - building.pending
-      building.set('pending', qty)
-      this.model.set('material', this.model.material - change * building.materialCost)
-      await building.save()
-      await this.model.save()
-    },
-    async assignWorker(building, qty) {
-      building.set('workers', qty)
-      await building.save()
-    },
   },
 });

@@ -1,0 +1,14 @@
+{{#if building.maxWorkers}}
+  <AssignPoint @class="ml-2" @disabled={{empire.dead}}
+               @value={{building.workers}} @onChange={{action "assignWorker"}}
+               @step={{step}} @max={{min (add building.workers empire.availableWorkers) (mult building.maxWorkers building.qty)}}>
+    {{capitalize building.name}}: <DisplayValue @tagName="span" @type="worker" @value="{{building.workers}}/{{mult building.maxWorkers building.qty}}"/>
+  </AssignPoint>
+{{/if}}
+{{#if (not building.isCapital)}}
+  <AssignPoint @class="ml-2" @disabled={{empire.dead}}
+               @value={{building.pending}} @onChange={{action "build"}}
+               @step={{step}} @max={{add building.builders (min empire.availableWorkers (floor (div empire.material building.materialCost)))}}>
+    Construct more {{building.name}}: {{building.qty}} ({{building.pending}}) ({{building.materialCost}} material)
+  </AssignPoint>
+{{/if}}
