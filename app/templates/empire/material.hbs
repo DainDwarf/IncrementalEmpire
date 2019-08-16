@@ -1,3 +1,10 @@
+<button type="button"
+        class="btn btn-outline-success mt-1"
+        hidden={{not isGenMaterialAvailable}}
+        disabled={{isGenMaterialDisabled}}
+        onclick={{action "genMaterial"}}>
+  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
+</button>
 <div>
   {{model.name}} can store maximum of <DisplayValue @tagName="span" @type="material" @value={{model.materialStorage}}/>
   {{#each materialStorageBuildings as |building|}}
@@ -13,13 +20,6 @@
     You generate <DisplayValue @tagName="span" @type="material" @value={{model.materialProduction}}/> per turn.
   </div>
 {{/if}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenMaterialAvailable}}
-        disabled={{isGenMaterialDisabled}}
-        onclick={{action "genMaterial"}}>
-  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
-</button>
 <div>
   Material production efficiency: {{materialEfficiencyDisplay}}
 </div>

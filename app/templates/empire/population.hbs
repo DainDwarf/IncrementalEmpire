@@ -1,3 +1,10 @@
+<button type="button"
+        class="btn btn-outline-success mt-1"
+        hidden={{not isGenPopulationAvailable}}
+        disabled={{isGenPopulationDisabled}}
+        onclick={{action "genPopulation"}}>
+  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
+</button>
 <div>
   {{model.name}} can accomodate a maximum of <DisplayValue @tagName="span" @type="population" @value={{model.populationStorage}}/>
   {{#each populationStorageBuildings as |building|}}
@@ -21,13 +28,6 @@
     You have <DisplayValue @tagName="span" @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
   </div>
 {{/if}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenPopulationAvailable}}
-        disabled={{isGenPopulationDisabled}}
-        onclick={{action "genPopulation"}}>
-  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
-</button>
 <div>
   Population production efficiency: {{populationEfficiencyDisplay}}
 </div>
