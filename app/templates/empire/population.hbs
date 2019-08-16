@@ -17,6 +17,13 @@
     </div>
   {{/if}}
 </div>
+<button type="button"
+        class="btn btn-outline-success mt-1"
+        hidden={{not isGenPopulationAvailable}}
+        disabled={{isGenPopulationDisabled}}
+        onclick={{action "genPopulation"}}>
+  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
+</button>
 <div>
   Population production efficiency: {{populationEfficiencyDisplay}}
 </div>
@@ -26,11 +33,4 @@
 {{#each populationProductionBuildings as |building|}}
   <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
 {{/each}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenPopulationAvailable}}
-        disabled={{isGenPopulationDisabled}}
-        onclick={{action "genPopulation"}}>
-  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
-</button>
 {{outlet}}

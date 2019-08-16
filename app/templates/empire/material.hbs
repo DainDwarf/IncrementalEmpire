@@ -11,6 +11,13 @@
     You generate {{model.materialProduction}} material per turn.
   {{/if}}
 </div>
+<button type="button"
+        class="btn btn-outline-success mt-1"
+        hidden={{not isGenMaterialAvailable}}
+        disabled={{isGenMaterialDisabled}}
+        onclick={{action "genMaterial"}}>
+  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
+</button>
 <div>
   Material production efficiency: {{materialEfficiencyDisplay}}
 </div>
@@ -20,11 +27,4 @@
 {{#each materialProductionBuildings as |building|}}
   <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
 {{/each}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenMaterialAvailable}}
-        disabled={{isGenMaterialDisabled}}
-        onclick={{action "genMaterial"}}>
-  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
-</button>
 {{outlet}}
