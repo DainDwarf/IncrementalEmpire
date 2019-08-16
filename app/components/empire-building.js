@@ -1,10 +1,24 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Component.extend({
   empire: alias('game.empire'),
   building: undefined, //This is the main thing that NEEDS to be defined.
   step: '+1',
+  maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
+    return Math.min(
+      this.building.workers+this.empire.availableWorkers,
+      this.building.maxWorkers*this.building.qty
+    )
+  }),
+  maxBuilds: computed('empire.{availableWorkers,material}', 'building.{builders,materialCost}', function() {
+    return this.building.builders + Math.min(this.empire.availableWorkers,
+      Math.floor(this.empire.material/this.building.materialCost))
+  }),
+  workersDisplay: computed('building.{workers.maxWorkers,qty}', function() {
+    return this.building.workers + "/" + (this.building.maxWorkers*this.building.qty)
+  }),
 
   actions: {
     async build(qty) {
