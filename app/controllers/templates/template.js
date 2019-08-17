@@ -15,6 +15,10 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
+  materialAvailable: computed('game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Material').isActive
+  }),
+
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
     if (this.game.getAchievement('Have 10 population').isActive) {

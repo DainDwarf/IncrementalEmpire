@@ -25,12 +25,14 @@
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
-      {{#link-to "empire.material" class="nav-link"}}
-        Material <span class="badge badge-pill badge-light">{{model.material}}</span>
-        {{#if isMaxMaterial}}
-          <span class="float-right text-danger">MAX</span>
-        {{/if}}
-      {{/link-to}}
+      {{#if materialAvailable}}
+        {{#link-to "empire.material" class="nav-link"}}
+          Material <span class="badge badge-pill badge-light">{{model.material}}</span>
+          {{#if isMaxMaterial}}
+            <span class="float-right text-danger">MAX</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
     </nav>
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">

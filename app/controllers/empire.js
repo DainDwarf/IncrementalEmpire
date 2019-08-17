@@ -31,6 +31,10 @@ export default Controller.extend({
     return this.model.population + "/" + this.model.populationStorage
   }),
 
+  materialAvailable: computed('game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Material').isActive
+  }),
+
   actions: {
     setAssign(val) {
       this.set('assignValue', val)

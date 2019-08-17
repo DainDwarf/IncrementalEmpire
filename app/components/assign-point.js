@@ -8,6 +8,8 @@ export default Component.extend({
   value: 0,
   step: '+1',
   onChange() {}, //Action to trigger when a new value has been selected
+  hidden: false,
+  attributeBindings: ['hidden'],
 
   _inputValue: '', //Only for display of yielded input field
   init() {

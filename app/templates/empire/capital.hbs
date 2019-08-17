@@ -11,7 +11,7 @@
     It can store a maximum of <DisplayValue @type="food" @value={{model.capitalFood.foodStorage}}/>
   </div>
 {{/if}}
-{{#if model.capitalMaterial.materialStorage}}
+{{#if (and empireCtl.materialAvailable model.capitalMaterial.materialStorage)}}
   <div>
     It can store a maximum of <DisplayValue @type="material" @value={{model.capitalMaterial.materialStorage}}/>
   </div>

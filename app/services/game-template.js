@@ -41,6 +41,9 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Universal Worker', moneyCost: 50,
         description: 'Workers are available in all empire types'
       }),
+      await this.store.createRecord('upgrade', {name: 'Material', moneyCost: 50000,
+        description: 'Discover a new ressource for your people. The material is more precious than food for economical empires.'
+      }),
     ]
     this.achievements = []
     var ach
