@@ -29,6 +29,9 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
         description: 'Unlock a new empire type with different rules'
       }),
+      await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50000,
+        description: 'Magically make buildings appear.'
+      }),
       await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 1,
         description: 'Humans can work to generate ressources in economical empires.'
       }),
