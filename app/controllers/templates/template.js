@@ -15,6 +15,10 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
+  canAssignSpell: computed('type', 'game.achievements.@each.isActive', function() {
+    return this.model.type == "religious" && this.game.getAchievement('Reach 1000 mana').isActive
+  }),
+
   materialAvailable: computed('game.upgrades.@each.isActive', function() {
     return this.game.getUpgrade('Material').isActive
   }),

@@ -176,9 +176,14 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.material', 1000))
     })
     this.achievements.push(ach)
-    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 mana', templatePoint: 0, description: 'You can have one more empire template'})
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 mana', templatePoint: 1, description: 'You can have one more empire template'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 100))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 1000 mana', templatePoint: 3, description: 'You can use template points to get more magic in your empire templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 1000))
     })
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Unlock Economical Empires', templatePoint: 2, description: 'You can now choose a Cave as the beginning habitat for your new empires'})

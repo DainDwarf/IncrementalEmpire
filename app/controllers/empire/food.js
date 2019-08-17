@@ -37,6 +37,7 @@ export default Controller.extend({
       this.model.set('food', Math.min(this.model.food + incr, this.model.foodStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
       await this.model.save()
+      await this.game.checkAchievements()
     },
   },
 });

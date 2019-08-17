@@ -37,6 +37,7 @@ export default Controller.extend({
       this.model.set('material', Math.min(this.model.material + incr, this.model.materialStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
       await this.model.save()
+      await this.game.checkAchievements()
     },
   },
 });

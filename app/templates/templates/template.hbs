@@ -34,7 +34,7 @@
              @max={{add remainingTemplatePoints model.materialTP}}>
   <DisplayValue @type="material" @value={{rebirthMaterial}}/> ({{model.materialTP}} TP)
 </AssignPoint>
-<AssignPoint @class="ml-2" @isVisible={{eq model.type "religious"}}
+<AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
              @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
              @max={{add remainingTemplatePoints model.spellTP}}>
   Max spell points: {{rebirthSpellPoints}} ({{model.spellTP}} TP)
