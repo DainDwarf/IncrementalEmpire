@@ -7,7 +7,7 @@ export default Controller.extend({
   buildingFactory: service(),
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
-  hasEconomicalTemplates: computed('this.game.upgrades.@each.isActive', function() {
+  hasEconomicalTemplates: computed('game.upgrades.@each.isActive', function() {
     return this.game.getUpgrade('Economical Empires').isActive
   }),
   hasCulturalTemplates: false,

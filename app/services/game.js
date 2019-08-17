@@ -266,7 +266,7 @@ export default Service.extend({
         return 0
       }
     } else if (this.empire.type == "economical") {
-      let res = this.empire.food + 3*this.empire.material //TODO: Add other ressources
+      let res = 0.5*this.empire.food + 3*this.empire.material //TODO: Add other ressources
       let turn = this.empire.turn
       if (turn >= 20) {
         return Math.max(0, Math.floor(
