@@ -109,7 +109,7 @@ export default Model.extend({
   capitalName: alias('capitalPopulation.name'),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  populationStorage: computed('populationStorageBuildings.@each.qty', function() {
+  populationStorage: computed('populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
       sum = sum + b.qty*b.populationStorage
@@ -117,7 +117,7 @@ export default Model.extend({
     return sum
   }),
   foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
-  foodStorage: computed('foodStorageBuildings.@each.qty', function() {
+  foodStorage: computed('foodStorageBuildings.@each.{qty,foodStorage}', function() {
     let sum = 0
     for (let b of this.foodStorageBuildings) {
       sum = sum + b.qty*b.foodStorage
@@ -125,7 +125,7 @@ export default Model.extend({
     return sum
   }),
   materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
-  materialStorage: computed('materialStorageBuildings.@each.qty', function() {
+  materialStorage: computed('materialStorageBuildings.@each.{qty,materialStorage}', function() {
     let sum = 0
     for (let b of this.materialStorageBuildings) {
       sum = sum + b.qty*b.materialStorage
