@@ -84,7 +84,7 @@ export default Service.extend({
         building.setProperties({
           name: 'cave',
           description: 'A cave where your people can try to survive',
-          maxWorkers: 20,
+          maxWorkers: 10,
           foodStorage: 100,
           foodProduction: 1,
           isEmpireAvailable: true,
@@ -96,6 +96,9 @@ export default Service.extend({
           name: 'cave',
           description: 'A cave where your people can try to survive',
           isEmpireAvailable: true,
+          maxWorkers: 10,
+          materialProduction: 1,
+          materialStorage: 100,
         })
         this._templateVisibility(building, 'Unlock Economical Empires')
       break;
