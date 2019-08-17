@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias, and, equal } from '@ember/object/computed';
+import { alias, and, equal, or } from '@ember/object/computed';
 
 export default Component.extend({
   empire: alias('game.empire'),
@@ -32,6 +32,9 @@ export default Component.extend({
   isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
     return this.empire.type == "religious" && this.game.getUpgrade('Holy Building').isActive
   }),
+
+  // Need at least one button available to give a footer in long display.
+  displayFooter: or('canAssignWorker', 'canBuild', 'isHolyBuildingAvailable'),
 
   // Initialize a monkey-patching on buildings.
   // This is hacky, unless you come from python like me, I guess.
