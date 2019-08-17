@@ -1,39 +1,40 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { lt, or } from '@ember/object/computed';
+import { filter, lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
   isGenFoodOnCooldown: lt('model.spellPoints', 1),
-  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead'),
+  isGenFoodDisabled: or('isGenFoodOnCooldown', 'model.dead', 'empireCtl.isMaxFood'),
   isGenFoodAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
-  workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+
+  foodStorageBuildings: filter('model.foodStorageBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+
+  foodProductionBuildings: filter('model.foodProductionBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+  displayProduction: computed('foodProductionBuildings', 'model.{workerAssignAvailable,capitalFood.maxWorkers}', function() {
+    return (this.foodProductionBuildings.length > 0)
+      ||   (this.model.workerAssignAvailable && (this.model.capitalFood.maxWorkers > 0))
+  }),
+
+  foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
+    return (100*this.model.foodEfficiency).toFixed(2) + "%"
   }),
 
   actions: {
     async genFood(event) {
       event.preventDefault();
-      let incr = 1
-      if (this.game.getUpgrade('Click Power').isActive
-        && this.game.universe.mana > 0
-      ) {
-        incr = this.game.universe.mana
-      }
-      this.model.set('food', this.model.food + incr)
+      this.model.set('food', Math.min(this.model.food + this.empireCtl.ressourceSpellEfficiency, this.model.foodStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
+      this.model.incrementProperty('spellCount')
       await this.model.save()
-    },
-    async lessHunter(qty) {
-      this.model.set('workerHunter', Math.max(this.model.workerHunter-qty, 0))
-      await this.model.save()
-    },
-    async moreHunter(qty) {
-      this.model.set('workerHunter', this.model.workerHunter+Math.min(qty, this.model.availableWorkers))
-      await this.model.save()
+      await this.game.checkAchievements()
     },
   },
 });

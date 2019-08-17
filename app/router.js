@@ -11,8 +11,7 @@ Router.map(function() {
     this.route('population');
     this.route('food');
     this.route('material');
-    this.route('metal');
-    this.route('energy');
+    this.route('capital');
   });
   this.route('upgrades');
   this.route('templates', function() {

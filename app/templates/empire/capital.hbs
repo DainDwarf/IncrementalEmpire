@@ -1,0 +1,19 @@
+<div>
+  {{model.name}}'s capital is a {{model.capitalName}}.
+</div>
+{{#if model.capitalPopulation.populationStorage}}
+  <div>
+    It can accomodate a maximum of <DisplayValue @type="population" @value={{model.capitalPopulation.populationStorage}}/>
+  </div>
+{{/if}}
+{{#if model.capitalFood.foodStorage}}
+  <div>
+    It can store a maximum of <DisplayValue @type="food" @value={{model.capitalFood.foodStorage}}/>
+  </div>
+{{/if}}
+{{#if (and empireCtl.materialAvailable model.capitalMaterial.materialStorage)}}
+  <div>
+    It can store a maximum of <DisplayValue @type="material" @value={{model.capitalMaterial.materialStorage}}/>
+  </div>
+{{/if}}
+{{outlet}}

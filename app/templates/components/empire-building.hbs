@@ -1,0 +1,113 @@
+<div class="card mx-2 my-2 building">
+  <div class="card-header">
+    <FaIcon @icon={{if isLongDisplay "angle-double-up" "angle-double-down"}} @class="click-icon mr-1" @click={{action "toggleDisplay"}}/>
+    {{capitalize building.name}}
+    {{#if (not building.isCapital)}}
+      <span class="badge badge-pill badge-light">{{building.qty}}</span>
+    {{/if}}
+    {{#if (not isLongDisplay)}}
+      <span class="float-right">
+        <button type="button"
+                class="btn btn-outline-success mt-1"
+                hidden={{not isHolyBuildingAvailable}}
+                disabled={{isHolyBuildingDisabled}}
+                onclick={{action "holyBuilding"}}>
+          <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
+        </button>
+        {{#if canBuild}}
+          <DisplayValue @type="material" @value={{building.materialCost}}/>
+          <AssignPoint @disabled={{empire.dead}} @tagName="span"
+                       @value={{building.pending}} @onChange={{action "build"}}
+                       @step={{step}} @max={{maxBuilds}}>
+            <DisplayValue @type="building" @value={{building.pending}}/>
+          </AssignPoint>
+        {{/if}}
+        {{#if canAssignWorker}}
+          <AssignPoint @disabled={{empire.dead}} @tagName="span"
+                       @value={{building.workers}} @onChange={{action "assignWorker"}}
+                       @step={{step}} @max={{maxWorkers}}>
+            <DisplayValue @type="worker" @value={{workersDisplay}}/>
+          </AssignPoint>
+        {{/if}}
+      </span>
+    {{/if}}
+  </div>
+  {{#if isLongDisplay}}
+    <div class="card-body">
+      <p class="card-text">{{building.description}}</p>
+      {{#if (or building.canStore building.canProduce)}}
+        <footer class="mx-1">
+          <small>
+            {{#if building.canStore}}
+              <div>
+                {{if building.isCapital "The" "Each"}} {{building.name}} can store
+                {{#if building.populationStorage}}
+                  <DisplayValue @type="population" @value={{building.populationStorage}}/>
+                {{/if}}
+                {{#if building.foodStorage}}
+                  <DisplayValue @type="food" @value={{building.foodStorage}}/>
+                {{/if}}
+                {{#if building.materialStorage}}
+                  <DisplayValue @type="material" @value={{building.materialStorage}}/>
+                {{/if}}
+              </div>
+            {{/if}}
+            {{#if building.maxWorkers}}
+              <div>
+                {{if building.isCapital "The" "Each"}} {{building.name}} can hold
+                <DisplayValue @type="worker" @value={{building.maxWorkers}}/>
+              </div>
+            {{/if}}
+          </small>
+        </footer>
+      {{/if}}
+    </div>
+    <div class="card-footer" hidden={{not displayFooter}}>
+      <div class="row">
+        <button type="button"
+                class="btn btn-outline-success mt-1 text-nowrap"
+                hidden={{not isHolyBuildingAvailable}}
+                disabled={{isHolyBuildingDisabled}}
+                onclick={{action "holyBuilding"}}>
+          Holy Building <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
+        </button>
+        {{#if canBuild}}
+          <div class="col text-center">
+            <span class="text-nowrap">
+              Build for
+              <DisplayValue @type="material" @value={{building.materialCost}}/>
+              <DisplayValue @type="worker" @value="1"/>
+            </span>
+            <AssignPoint @disabled={{empire.dead}}
+                         @value={{building.pending}} @onChange={{action "build"}}
+                         @step={{step}} @max={{maxBuilds}}>
+              <DisplayValue @type="building" @value={{building.pending}}/>
+            </AssignPoint>
+          </div>
+        {{/if}}
+        {{#if canAssignWorker}}
+          <div class="col text-center">
+            <span class="text-nowrap">
+              <DisplayValue @type="worker"/>
+              <FaIcon @icon="arrow-right"/>
+              {{#if building.populationProduction}}
+                <DisplayValue @type="population" @value={{building.populationProduction}}/>
+              {{/if}}
+              {{#if building.foodProduction}}
+                <DisplayValue @type="food" @value={{building.foodProduction}}/>
+              {{/if}}
+              {{#if building.materialProduction}}
+                <DisplayValue @type="material" @value={{building.materialProduction}}/>
+              {{/if}}
+            </span>
+            <AssignPoint @disabled={{empire.dead}}
+                         @value={{building.workers}} @onChange={{action "assignWorker"}}
+                         @step={{step}} @max={{maxWorkers}}>
+              <DisplayValue @type="worker" @value={{workersDisplay}}/>
+            </AssignPoint>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+</div>

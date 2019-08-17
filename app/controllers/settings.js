@@ -8,8 +8,12 @@ export default Controller.extend({
       this.game.universe.set('name', newName)
       await this.game.universe.save()
     },
+    async toggleBuildingDisplay() {
+      this.model.toggleProperty('defaultLongDisplay')
+      await this.model.save()
+    },
     async toggleDisplay() {
-      this.model.set('displayText', ! this.model.displayText)
+      this.model.toggleProperty('displayText')
       await this.model.save()
     },
     async importEverything() {
@@ -17,7 +21,7 @@ export default Controller.extend({
       await this.game.load()
     },
     async exportEverything() {
-      await this.store.exportData(['universes', 'empires', 'upgrades', 'achievements', 'templates', 'settings'])
+      await this.store.exportData(['universes', 'empires', 'upgrades', 'achievements', 'templates', 'settings', 'buildings'])
         .then(data => this.set('saveData', btoa(data)))
     },
     async destroyEverything(event) {

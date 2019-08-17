@@ -1,24 +1,51 @@
 <div>
-  {{model.name}} currently has {{model.population}} human{{if popPlural "s"}}. {{if popPlural "They" "It"}} will need {{model.population}} food to survive next turn.
-  {{#if model.popProduction}}
-    You birth {{model.popProduction}} human{{if (gt model.popProduction 1) "s"}} per turn.
-  {{/if}}
-  {{#if empireCtl.isWrongWorkers}}
-    <div class="text-danger">
-      You have {{model.availableWorkers}} workers. Fix the situation before begin able to use next turn.
-    </div>
-  {{/if}}
+  {{model.name}} has <DisplayValue @type="population" @value={{model.population}}/>
+  and can accomodate a maximum of <DisplayValue @type="population" @value={{model.populationStorage}}/>
 </div>
-<AssignPoint @class="ml-2" @isVisible={{workerBreederAvailable}} @disabled={{model.dead}}
-             @onLess={{action "lessBreeder"}} @onMore={{action "moreBreeder"}}
-             @canBeLess={{gt model.workerBreeder 0}} @canBeMore={{gt model.availableWorkers 0}}>
-  Breeder{{if (gt model.workerBreeder 1) "s"}}: {{model.workerBreeder}}
-</AssignPoint>
+<div>
+  They will need <DisplayValue @type="food" @value={{add model.population model.populationProduction}}/> to survive next turn
+</div>
+{{#if model.populationProduction}}
+  <div>
+    You birth <DisplayValue @type="population" @value={{model.populationProduction}}/> per turn
+  </div>
+{{/if}}
+{{#if empireCtl.isWrongWorkers}}
+  <div class="text-danger">
+    You have <DisplayValue @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
+  </div>
+{{/if}}
 <button type="button"
-        class="btn btn-outline-success"
+        class="btn btn-outline-success mt-1"
         hidden={{not isGenPopulationAvailable}}
         disabled={{isGenPopulationDisabled}}
         onclick={{action "genPopulation"}}>
-  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
+  Spontaneous Generation
+  <small>
+    <DisplayValue @type="magic" @value="5" />
+    <FaIcon @icon="arrow-right"/>
+    <DisplayValue @type="population" @value="1" />
+  </small>
 </button>
-{{outlet}}
+{{#if populationStorageBuildings}}
+  <hr>
+  <h3>Storage</h3>
+  <div>
+    {{#each populationStorageBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}
+{{#if displayProduction}}
+  <hr>
+  <h3>Production</h3>
+  <div>
+    Population production efficiency: {{populationEfficiencyDisplay}}
+    {{#if model.capitalPopulation.maxWorkers}}
+      <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
+    {{/if}}
+    {{#each populationProductionBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}

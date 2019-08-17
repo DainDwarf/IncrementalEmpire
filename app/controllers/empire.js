@@ -5,24 +5,48 @@ import { gt, lt, or } from '@ember/object/computed';
 export default Controller.extend({
   tabRoute: 'empire.population',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
-  happinessUnlocked: false,
   deadModal: false,
+  assignValue: '+1',
 
   isWrongWorkers: lt('model.availableWorkers', 0),
-  isLowFood: computed('model.{food,population}', function() {
-    return this.model.food < this.model.population
+  isLowFood: computed('model.{food,population,foodProduction}', function() {
+    return this.model.food+this.model.foodProduction < this.model.population
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  populationValueDisplay: computed('model.{population,availableWorkers}', function() {
-    if (this.model.population == this.model.availableWorkers) {
-      return this.model.population
-    } else {
-      return this.model.availableWorkers + "/" + this.model.population
+  isMaxPop: computed('model.{population,populationStorage}', function() {
+    return this.model.population >= this.model.populationStorage
+  }),
+  isMaxFood: computed('model.{food,foodStorage}', function() {
+    return this.model.food >= this.model.foodStorage
+  }),
+  isMaxMaterial: computed('model.{material,materialStorage}', function() {
+    return this.model.material >= this.model.materialStorage
+  }),
+
+  workerValueDisplay: computed('model.{population,availableWorkers}', function() {
+    return this.model.availableWorkers + "/" + this.model.population
+  }),
+  populationValueDisplay: computed('model.{population,populationStorage}', function() {
+    return this.model.population + "/" + this.model.populationStorage
+  }),
+
+  materialAvailable: computed('game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Material').isActive
+  }),
+
+  ressourceSpellEfficiency: computed('game.upgrades.@each.isActive', function() {
+    let eff = 1
+    if (this.game.getUpgrade('Click Power').isActive) {
+      eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
     }
+    return eff
   }),
 
   actions: {
+    setAssign(val) {
+      this.set('assignValue', val)
+    },
     async nextTurn() {
       await this.model.nextTurn()
       await this.game.checkAchievements()

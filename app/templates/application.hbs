@@ -9,7 +9,6 @@
   {{/link-to}}
   <ul class="navbar-nav">
     <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.manaUnlocked}} @type="mana" @value={{model.mana}} />
-    <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.cultureUnlocked}} @type="culture" @value={{model.culture}} />
     <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.moneyUnlocked}} @type="money" @value={{model.money}} />
     <DisplayValue @tagName="li" @class="nav-item mx-2" @visible={{model.scienceUnlocked}} @type="science" @value={{model.science}} />
   </ul>
@@ -25,7 +24,7 @@
       {{#link-to "templates" class="nav-link"}}
         Templates
         {{#if game.rebirthPoints}}
-          <DisplayValue @tagName="span" @class="badge badge-pill badge-secondary" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
+          <DisplayValue @class="badge badge-pill badge-secondary" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
         {{/if}}
       {{/link-to}}
     </li>

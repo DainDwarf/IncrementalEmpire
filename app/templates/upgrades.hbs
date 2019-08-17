@@ -1,25 +1,29 @@
 <div class="row mx-2 my-2">
   {{#each model as |upgrade|}}
-    <div class="col-sm-3">
-      <div class="card">
+    <div class="col-sm-3 my-2">
+      <div class="card h-100">
         <div class="card-header {{if upgrade.isActive "bg-success"}}">
           {{upgrade.name}}
         </div>
         <div class="card-body">
           <p class="card-text">{{upgrade.description}}</p>
+        </div>
+        <div class="card-footer text-center">
+          {{#if debug}}
+            <button type="button" class="btn btn-secondary" onclick={{action "debugToggle" upgrade}}>
+              {{if upgrade.isActive "Deactivate" "Activate"}}
+            </button>
+          {{/if}}
           <button type="button" class="btn btn-primary" hidden={{upgrade.isActive}} disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}
-              <DisplayValue @tagName="span" @type="mana" @value={{upgrade.manaCost}} />
-            {{/if}}
-            {{#if upgrade.cultureCost}}
-              <DisplayValue @tagName="span" @type="culture" @value={{upgrade.cultureCost}} />
+              <DisplayValue @type="mana" @value={{upgrade.manaCost}} />
             {{/if}}
             {{#if upgrade.moneyCost}}
-              <DisplayValue @tagName="span" @type="money" @value={{upgrade.moneyCost}} />
+              <DisplayValue @type="money" @value={{upgrade.moneyCost}} />
             {{/if}}
             {{#if upgrade.scienceCost}}
-              <DisplayValue @tagName="span" @type="science" @value={{upgrade.scienceCost}} />
+              <DisplayValue @type="science" @value={{upgrade.scienceCost}} />
             {{/if}}
           </button>
         </div>

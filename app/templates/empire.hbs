@@ -4,36 +4,59 @@
 <div class="container-fluid">
   <div class="row">
     <nav class="nav nav-pills flex-column border-right w-15">
+      {{#link-to "empire.capital" class="nav-link"}}
+        {{capitalize model.capitalName}}
+      {{/link-to}}
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
+        {{#if isMaxPop}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isWrongWorkers}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
       {{#link-to "empire.food" class="nav-link"}}
         Food <span class="badge badge-pill badge-light">{{model.food}}</span>
+        {{#if isMaxFood}}
+          <span class="float-right text-danger">MAX</span>
+        {{/if}}
         {{#if isLowFood}}
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
-      {{#link-to "empire.material" class="nav-link"}}
-        Material <span class="badge badge-pill badge-light">{{model.material}}</span>
-      {{/link-to}}
-      {{#link-to "empire.metal" class="nav-link"}}
-        Metal <span class="badge badge-pill badge-light">{{model.metal}}</span>
-      {{/link-to}}
-      {{#link-to "empire.energy" class="nav-link"}}
-        Energy <span class="badge badge-pill badge-light">{{model.energy}}</span>
-      {{/link-to}}
+      {{#if materialAvailable}}
+        {{#link-to "empire.material" class="nav-link"}}
+          Material <span class="badge badge-pill badge-light">{{model.material}}</span>
+          {{#if isMaxMaterial}}
+            <span class="float-right text-danger">MAX</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
     </nav>
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav mr-auto">
           <li>{{capitalize model.type}} empire</li>
+          {{#if model.workerAssignAvailable}}
+            <DisplayValue @tagName="li" @class="nav-item mx-2" @type="worker" @value={{workerValueDisplay}}/>
+          {{/if}}
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
-          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="happiness" @visible={{happinessUnlocked}} @value="67%" />
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
         </ul>
+        <div class="dropdown mr-2">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
+            Assign {{assignValue}}
+          </button>
+          <div class="dropdown-menu">
+            <button class="dropdown-item {{if (eq assignValue "+1"  ) "active"}}" type="button" onclick={{action "setAssign" "+1"}}>+1</button>
+            <button class="dropdown-item {{if (eq assignValue "+10" ) "active"}}" type="button" onclick={{action "setAssign" "+10"}}>+10</button>
+            <button class="dropdown-item {{if (eq assignValue "+100") "active"}}" type="button" onclick={{action "setAssign" "+100"}}>+100</button>
+            <button class="dropdown-item {{if (eq assignValue "10 %") "active"}}" type="button" onclick={{action "setAssign" "10 %"}}>10 %</button>
+            <button class="dropdown-item {{if (eq assignValue "50 %") "active"}}" type="button" onclick={{action "setAssign" "50 %"}}>50 %</button>
+            <button class="dropdown-item {{if (eq assignValue "MAX" ) "active"}}" type="button" onclick={{action "setAssign" "MAX"}}>MAX</button>
+          </div>
+        </div>
         <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{nextTurnDisabled}}>Turn {{model.turn}}</button>
       </nav>
       <div class="container h-100 {{if model.dead "bg-secondary"}}">
