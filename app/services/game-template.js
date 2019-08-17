@@ -27,7 +27,7 @@ export default Service.extend({
         description: 'Your god powers for generating ressources is improved by your current mana'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
-        description: 'Unlock a new empire type with different rules'
+        description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select economical empires'
       }),
       await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 50000,
         description: 'Generate some material through to power of your magic'
