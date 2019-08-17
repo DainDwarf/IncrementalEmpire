@@ -38,7 +38,7 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 5,
         description: 'Humans can work to generate ressources in economical empires'
       }),
-      await this.store.createRecord('upgrade', {name: 'Builder', moneyCost: 50000,
+      await this.store.createRecord('upgrade', {name: 'Builder', moneyCost: 10,
         description: 'Humans can use material to build new buildings'
       }),
       await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 50000,
