@@ -44,7 +44,7 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 100,
         description: 'Can build production buildings'
       }),
-      await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 50000,
+      await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 100,
         description: 'Can build better storage buildings'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,

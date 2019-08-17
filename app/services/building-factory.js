@@ -153,9 +153,9 @@ export default Service.extend({
           name: 'house',
           description: 'A solid house that can accomodate an extended family',
           materialCost: 1000,
-          populationStorage: 30,
-          TPcost: 30,
-          spellCost: 100,
+          populationStorage: 50,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
       break;
@@ -175,10 +175,10 @@ export default Service.extend({
         building.setProperties({
           name: 'granary',
           description: 'A building specifically designed to hold food',
-          materialCost: 10000,
-          foodStorage: 1000,
-          TPcost: 30,
-          spellCost: 100,
+          materialCost: 1000,
+          foodStorage: 500,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
       break;
@@ -198,10 +198,10 @@ export default Service.extend({
         building.setProperties({
           name: 'storage building',
           description: 'A building where everyone stores the common good',
-          materialCost: 10000,
-          materialStorage: 1000,
-          TPcost: 30,
-          spellCost: 100,
+          materialCost: 1000,
+          materialStorage: 500,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
       break;
