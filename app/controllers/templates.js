@@ -17,6 +17,9 @@ export default Controller.extend({
     if (this.game.getAchievement('Reach 100 mana').isActive) {
       maxTemplate = maxTemplate + 1
     }
+    if (this.game.getAchievement('Reach 100 money').isActive) {
+      maxTemplate = maxTemplate + 1
+    }
     return this.model.length < maxTemplate
   }),
   newTemplateModal: false,

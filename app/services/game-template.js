@@ -176,6 +176,11 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.material', 1000))
     })
     this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 money', templatePoint: 1, description: 'You can have one more empire template'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.money', 100))
+    })
+    this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 mana', templatePoint: 1, description: 'You can have one more empire template'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 100))
