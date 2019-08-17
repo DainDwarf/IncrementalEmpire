@@ -18,6 +18,7 @@ export default Model.extend({
   materialCost: 0,
   TPcost: 0,
   spellCost: 0,
+  isEmpireAvailable: true,
 
   // Helpers
   isCapital: computed('code', function() { return this.code.startsWith('capital-')}),

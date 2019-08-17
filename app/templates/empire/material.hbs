@@ -14,21 +14,25 @@
         onclick={{action "genMaterial"}}>
   Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
-<hr>
-<h3>Storage</h3>
-<div>
-  {{#each materialStorageBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-  {{/each}}
-</div>
-<hr>
-<h3>Production</h3>
-<div>
-  Material production efficiency: {{materialEfficiencyDisplay}}
-  {{#if model.capitalMaterial.maxWorkers}}
-    <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
-  {{/if}}
-  {{#each materialProductionBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-  {{/each}}
-</div>
+{{#if displayStorage}}
+  <hr>
+  <h3>Storage</h3>
+  <div>
+    {{#each materialStorageBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}
+{{#if displayProduction}}
+  <hr>
+  <h3>Production</h3>
+  <div>
+    Material production efficiency: {{materialEfficiencyDisplay}}
+    {{#if model.capitalMaterial.maxWorkers}}
+      <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
+    {{/if}}
+    {{#each materialProductionBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}

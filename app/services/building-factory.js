@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
+import { computed, defineProperty } from '@ember/object';
 
 export default Service.extend({
   // The buildingFactory gives the correct values for each building.
@@ -15,6 +16,20 @@ export default Service.extend({
     building = this.consolidate(building)
     building.save()
     return building
+  },
+
+  // Helper function to define the `isEmpireAvailable` property based on a given upgrade.
+  // If the `dependant_upgrade` is undefined, it will use a default computed property.
+  _empireVisibility(building, dependant_upgrade) {
+    if (dependant_upgrade == undefined) {
+      defineProperty(building, 'isEmpireAvailable', computed('qty', 'game.upgrades.@each.isActive', function() {
+        return building.game.getUpgrade('Builder').isActive || building.qty > 0
+      }))
+    } else {
+      defineProperty(building, 'isEmpireAvailable', computed('qty', 'game.upgrades.@each.isActive', function() {
+        return (building.game.getUpgrade('Builder').isActive && building.game.getUpgrade(dependant_upgrade).isActive) || building.qty > 0
+      }))
+    }
   },
 
   // This is a very long function, because it holds the definition of all buildings in the game.
@@ -102,6 +117,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building)
       break;
       case "population-storage-2":
         building.setProperties({
@@ -112,6 +128,7 @@ export default Service.extend({
           TPcost: 30,
           spellCost: 100,
         })
+        this._empireVisibility(building, 'Storage 2')
       break;
       case "food-storage-1":
         building.setProperties({
@@ -122,6 +139,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building)
       break;
       case "food-storage-2":
         building.setProperties({
@@ -132,6 +150,7 @@ export default Service.extend({
           TPcost: 30,
           spellCost: 100,
         })
+        this._empireVisibility(building, 'Storage 2')
       break;
       case "material-storage-1":
         building.setProperties({
@@ -142,6 +161,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building)
       break;
       case "material-storage-2":
         building.setProperties({
@@ -152,6 +172,7 @@ export default Service.extend({
           TPcost: 30,
           spellCost: 100,
         })
+        this._empireVisibility(building, 'Storage 2')
       break;
       case "population-production-1":
         building.setProperties({
@@ -163,6 +184,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building, 'Production 1')
       break;
       case "food-production-1":
         building.setProperties({
@@ -174,6 +196,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building, 'Production 1')
       break;
       case "material-production-1":
         building.setProperties({
@@ -185,6 +208,7 @@ export default Service.extend({
           TPcost: 5,
           spellCost: 20,
         })
+        this._empireVisibility(building, 'Production 1')
       break;
       default:
         throw 'Unknown code ' + building.code

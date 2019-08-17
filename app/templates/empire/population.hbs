@@ -22,21 +22,25 @@
         onclick={{action "genPopulation"}}>
   Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
 </button>
-<hr>
-<h3>Storage</h3>
-<div>
-  {{#each populationStorageBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-  {{/each}}
-</div>
-<hr>
-<h3>Production</h3>
-<div>
-  Population production efficiency: {{populationEfficiencyDisplay}}
-  {{#if model.capitalPopulation.maxWorkers}}
-    <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
-  {{/if}}
-  {{#each populationProductionBuildings as |building|}}
-    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-  {{/each}}
-</div>
+{{#if displayStorage}}
+  <hr>
+  <h3>Storage</h3>
+  <div>
+    {{#each populationStorageBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}
+{{#if displayProduction}}
+  <hr>
+  <h3>Production</h3>
+  <div>
+    Population production efficiency: {{populationEfficiencyDisplay}}
+    {{#if model.capitalPopulation.maxWorkers}}
+      <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
+    {{/if}}
+    {{#each populationProductionBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}

@@ -1,15 +1,17 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias, and, equal, or } from '@ember/object/computed';
+import { alias, and, or, not } from '@ember/object/computed';
 
 export default Component.extend({
+  hidden: not('building.isEmpireAvailable'),
+  attributeBindings: ['hidden'],
   empire: alias('game.empire'),
   building: undefined, //This is the main thing that NEEDS to be defined.
   step: '+1',
 
   canAssignWorker: and('building.maxWorkers', 'empire.workerAssignAvailable'),
-  canBuild: computed('empire.workerAssignAvailable', 'building.isCapital', function() {
-    return this.empire.workerAssignAvailable && ! this.building.isCapital
+  canBuild: computed('game.upgrades.@each.isActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
+    return this.empire.workerAssignAvailable && ! this.building.isCapital && this.game.getUpgrade('Builder').isActive
   }),
 
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {

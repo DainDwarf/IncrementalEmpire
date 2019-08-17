@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { filter, lt, or } from '@ember/object/computed';
+import { mapBy, and, sum, filter, lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
@@ -16,7 +16,14 @@ export default Controller.extend({
   }),
 
   materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
+  // This is ugly: Use sum to do a reduced `or`, because ember's functional sucks balls.
+  _displayStorage: mapBy('materialStorageBuildings', 'isEmpireAvailable'),
+  displayStorage: sum('_displayStorage'),
+
   materialProductionBuildings: filter('model.materialProductionBuildings', b => ! b.isCapital),
+  __displayProduction: mapBy('materialProductionBuildings', 'isEmpireAvailable'),
+  _displayProduction: sum('__displayProduction'),
+  displayProduction: and('_displayProduction', 'model.workerAssignAvailable'),
 
   materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
     return (100*this.model.materialEfficiency).toFixed(2) + "%"
