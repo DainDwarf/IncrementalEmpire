@@ -1,3 +1,17 @@
+<div>
+  {{model.name}} has <DisplayValue @type="food" @value={{model.food}}/>
+  and can store maximum of <DisplayValue @type="food" @value={{model.foodStorage}}/>
+</div>
+{{#if model.foodProduction}}
+  <div>
+    You generate <DisplayValue @type="food" @value={{model.foodProduction}}/> per turn
+  </div>
+{{/if}}
+{{#if empireCtl.isLowFood}}
+  <div class="text-danger">
+    You will lose some population next turn
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success mt-1"
         hidden={{not isGenFoodAvailable}}
@@ -5,33 +19,21 @@
         onclick={{action "genFood"}}>
   Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
+<hr>
+<h3>Storage</h3>
 <div>
-  {{model.name}} can store maximum of <DisplayValue @type="food" @value={{model.foodStorage}}/>
   {{#each foodStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
-<div>
-  {{model.name}} has <DisplayValue @type="food" @value={{model.food}}/>
-</div>
-{{#if model.foodProduction}}
-  <div>
-    You generate <DisplayValue @type="food" @value={{model.foodProduction}}/> per turn.
-  </div>
-{{/if}}
-{{#if empireCtl.isLowFood}}
-  <div class="text-danger">
-    You will lose some population next turn.
-  </div>
-{{/if}}
+<h3>Production</h3>
 <div>
   Food production efficiency: {{foodEfficiencyDisplay}}
+  {{#if model.capitalFood.maxWorkers}}
+    <EmpireBuilding @building={{model.capitalFood}} @step={{empireCtl.assignValue}}/>
+  {{/if}}
+  {{#each foodProductionBuildings as |building|}}
+    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  {{/each}}
 </div>
-{{#if model.capitalFood.maxWorkers}}
-  <EmpireBuilding @building={{model.capitalFood}} @step={{empireCtl.assignValue}}/>
-{{/if}}
-{{#each foodProductionBuildings as |building|}}
-  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-{{/each}}
-{{outlet}}

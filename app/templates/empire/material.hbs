@@ -1,3 +1,12 @@
+<div>
+  {{model.name}} has <DisplayValue @type="material" @value={{model.material}}/>
+  and can store maximum of <DisplayValue @type="material" @value={{model.materialStorage}}/>
+</div>
+{{#if model.materialProduction}}
+  <div>
+    You generate <DisplayValue @type="material" @value={{model.materialProduction}}/> per turn
+  </div>
+{{/if}}
 <button type="button"
         class="btn btn-outline-success mt-1"
         hidden={{not isGenMaterialAvailable}}
@@ -5,28 +14,21 @@
         onclick={{action "genMaterial"}}>
   Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
 </button>
+<hr>
+<h3>Storage</h3>
 <div>
-  {{model.name}} can store maximum of <DisplayValue @type="material" @value={{model.materialStorage}}/>
   {{#each materialStorageBuildings as |building|}}
     <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
   {{/each}}
 </div>
 <hr>
-<div>
-  {{model.name}} has <DisplayValue @type="material" @value={{model.material}}/>
-</div>
-{{#if model.materialProduction}}
-  <div>
-    You generate <DisplayValue @type="material" @value={{model.materialProduction}}/> per turn.
-  </div>
-{{/if}}
+<h3>Production</h3>
 <div>
   Material production efficiency: {{materialEfficiencyDisplay}}
+  {{#if model.capitalMaterial.maxWorkers}}
+    <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
+  {{/if}}
+  {{#each materialProductionBuildings as |building|}}
+    <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+  {{/each}}
 </div>
-{{#if model.capitalMaterial.maxWorkers}}
-  <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
-{{/if}}
-{{#each materialProductionBuildings as |building|}}
-  <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
-{{/each}}
-{{outlet}}
