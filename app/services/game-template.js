@@ -69,6 +69,78 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.turn', 100))
     })
     this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 huts', templatePoint: 1, description: 'You can now have huts in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'hut') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 storage pits', templatePoint: 1, description: 'You can now have storage pits in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'storage pit') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 storage rooms', templatePoint: 1, description: 'You can now have storage rooms in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'storage room') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 child cares', templatePoint: 1, description: 'You can now have child cares in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'child care') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 hunting grounds', templatePoint: 1, description: 'You can now have hunting grounds in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'hunting ground') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 woodcutters', templatePoint: 1, description: 'You can now have woodcutters in your templates'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
+        for (let b of a.game.empire.buildings) {
+          if (b.name == 'woodcutting') {
+            return b.qty >= 10
+          }
+        }
+        return false
+      }))
+    })
+    this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {name: 'Have 10 population', templatePoint: 1, description: 'Template Point gives 2x more population'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 10))

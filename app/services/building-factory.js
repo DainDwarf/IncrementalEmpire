@@ -143,6 +143,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building)
+        this._templateVisibility(building, 'Have 10 huts')
       break;
       case "population-storage-2":
         building.setProperties({
@@ -165,6 +166,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building)
+        this._templateVisibility(building, 'Have 10 storage pits')
       break;
       case "food-storage-2":
         building.setProperties({
@@ -187,6 +189,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building)
+        this._templateVisibility(building, 'Have 10 storage rooms')
       break;
       case "material-storage-2":
         building.setProperties({
@@ -210,10 +213,11 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building, 'Production 1')
+        this._templateVisibility(building, 'Have 10 child cares')
       break;
       case "food-production-1":
         building.setProperties({
-          name: 'hunting grounds',
+          name: 'hunting ground',
           description: 'More places to hunt',
           materialCost: 100,
           maxWorkers: 20,
@@ -222,6 +226,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building, 'Production 1')
+        this._templateVisibility(building, 'Have 10 hunting grounds')
       break;
       case "material-production-1":
         building.setProperties({
@@ -234,6 +239,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building, 'Production 1')
+        this._templateVisibility(building, 'Have 10 woodcutters')
       break;
       default:
         throw 'Unknown code ' + building.code
