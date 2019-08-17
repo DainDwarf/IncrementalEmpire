@@ -61,7 +61,7 @@ export default Controller.extend({
 
   rebirthSpellPoints: computed('model.{type,spellTP}', function() {
     if (this.model.type == "religious") {
-      return 5+5*this.model.spellTP
+      return 5+this.model.spellTP
     } else {
       return 0
     }
