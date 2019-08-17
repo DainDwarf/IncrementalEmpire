@@ -84,6 +84,26 @@ export default Service.extend({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.population', 1000))
     })
     this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 100 food', templatePoint: 1, description: 'Template Point gives 2x more food'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.food', 100))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 1000 food', templatePoint: 2, description: 'Template Point gives 2x more food'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.food', 1000))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 100 material', templatePoint: 1, description: 'Template Point gives 2x more material'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.material', 100))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {name: 'Have 1000 material', templatePoint: 2, description: 'Template Point gives 2x more material'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', gte('game.empire.material', 1000))
+    })
+    this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 mana', templatePoint: 0, description: 'You can have one more empire template'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 100))

@@ -34,11 +34,25 @@ export default Controller.extend({
   }),
 
   rebirthFood: computed('model.foodTP', function() {
-    return 10*this.model.foodTP
+    let TPratio = 10
+    if (this.game.getAchievement('Have 100 food').isActive) {
+      TPratio = TPratio * 2
+    }
+    if (this.game.getAchievement('Have 1000 food').isActive) {
+      TPratio = TPratio * 2
+    }
+    return this.model.foodTP*TPratio
   }),
 
   rebirthMaterial: computed('model.materialTP', function() {
-    return 10*this.model.materialTP
+    let TPratio = 10
+    if (this.game.getAchievement('Have 100 material').isActive) {
+      TPratio = TPratio * 2
+    }
+    if (this.game.getAchievement('Have 1000 material').isActive) {
+      TPratio = TPratio * 2
+    }
+    return this.model.materialTP*TPratio
   }),
 
   rebirthSpellPoints: computed('model.{type,spellTP}', function() {
