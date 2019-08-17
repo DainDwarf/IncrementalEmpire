@@ -29,10 +29,10 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select economical empires'
       }),
-      await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 50000,
+      await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 20,
         description: 'Generate some material through the power of your magic'
       }),
-      await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50000,
+      await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50,
         description: 'Magically make buildings appear'
       }),
       await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 5,

@@ -32,7 +32,9 @@ export default Component.extend({
     return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
   }),
   isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
-    return this.empire.type == "religious" && this.game.getUpgrade('Holy Building').isActive
+    return this.empire.type == "religious"
+      &&   this.game.getUpgrade('Holy Building').isActive
+      &&   this.building.spellCost > 0
   }),
 
   // Need at least one button available to give a footer in long display.

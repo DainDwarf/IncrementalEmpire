@@ -211,9 +211,9 @@ export default Service.extend({
           description: 'Give some room for keeping more children',
           materialCost: 100,
           maxWorkers: 10,
-          populationProduction: 2,
+          populationProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 30,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 child cares')
@@ -224,9 +224,9 @@ export default Service.extend({
           description: 'More places to hunt',
           materialCost: 100,
           maxWorkers: 20,
-          foodProduction: 2,
+          foodProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 30,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 hunting grounds')
@@ -237,9 +237,9 @@ export default Service.extend({
           description: 'Designate some place to cut down trees',
           materialCost: 100,
           maxWorkers: 20,
-          materialProduction: 2,
+          materialProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 30,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 woodcutters')
