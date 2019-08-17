@@ -12,7 +12,12 @@
         hidden={{not isGenMaterialAvailable}}
         disabled={{isGenMaterialDisabled}}
         onclick={{action "genMaterial"}}>
-  Magic Anvil<DisplayValue @tagName="small" @type="magic" @value="1" />
+  Magic Anvil
+  <small>
+    <DisplayValue @type="magic" @value="1"/>
+    <FaIcon @icon="arrow-right"/>
+    <DisplayValue @type="material" @value={{empireCtl.ressourceSpellEfficiency}}/>
+  </small>
 </button>
 {{#if materialStorageBuildings}}
   <hr>

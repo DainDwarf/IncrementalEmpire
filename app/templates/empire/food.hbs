@@ -17,7 +17,12 @@
         hidden={{not isGenFoodAvailable}}
         disabled={{isGenFoodDisabled}}
         onclick={{action "genFood"}}>
-  Horn of Plenty <DisplayValue @tagName="small" @type="magic" @value="1" />
+  Horn of Plenty
+  <small>
+    <DisplayValue @type="magic" @value="1"/>
+    <FaIcon @icon="arrow-right"/>
+    <DisplayValue @type="food" @value={{empireCtl.ressourceSpellEfficiency}}/>
+  </small>
 </button>
 {{#if foodStorageBuildings}}
   <hr>

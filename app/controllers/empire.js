@@ -35,6 +35,14 @@ export default Controller.extend({
     return this.game.getUpgrade('Material').isActive
   }),
 
+  ressourceSpellEfficiency: computed('game.upgrades.@each.isActive', function() {
+    let eff = 1
+    if (this.game.getUpgrade('Click Power').isActive) {
+      eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
+    }
+    return eff
+  }),
+
   actions: {
     setAssign(val) {
       this.set('assignValue', val)

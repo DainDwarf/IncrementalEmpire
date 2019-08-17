@@ -30,11 +30,7 @@ export default Controller.extend({
   actions: {
     async genMaterial(event) {
       event.preventDefault();
-      let incr = 1
-      if (this.game.getUpgrade('Click Power').isActive) {
-        incr = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
-      }
-      this.model.set('material', Math.min(this.model.material + incr, this.model.materialStorage))
+      this.model.set('material', Math.min(this.model.material + this.empireCtl.ressourceSpellEfficiency, this.model.materialStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
       await this.model.save()
       await this.game.checkAchievements()
