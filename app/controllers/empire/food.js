@@ -10,12 +10,18 @@ export default Controller.extend({
   isGenFoodAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
-  workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
-  }),
 
-  foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.isCapital),
-  foodProductionBuildings: filter('model.foodProductionBuildings', b => ! b.isCapital),
+  foodStorageBuildings: filter('model.foodStorageBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+
+  foodProductionBuildings: filter('model.foodProductionBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+  displayProduction: computed('foodProductionBuildings', 'model.{workerAssignAvailable,capitalFood.maxWorkers}', function() {
+    return (this.foodProductionBuildings.length > 0)
+      ||   (this.model.workerAssignAvailable && (this.model.capitalFood.maxWorkers > 0))
+  }),
 
   foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
     return (100*this.model.foodEfficiency).toFixed(2) + "%"

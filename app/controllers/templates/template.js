@@ -15,6 +15,10 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
+  materialAvailable: computed('game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Material').isActive
+  }),
+
   rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
     let TPratio = 1
     if (this.game.getAchievement('Have 10 population').isActive) {
@@ -30,11 +34,25 @@ export default Controller.extend({
   }),
 
   rebirthFood: computed('model.foodTP', function() {
-    return 10*this.model.foodTP
+    let TPratio = 10
+    if (this.game.getAchievement('Have 100 food').isActive) {
+      TPratio = TPratio * 2
+    }
+    if (this.game.getAchievement('Have 1000 food').isActive) {
+      TPratio = TPratio * 2
+    }
+    return this.model.foodTP*TPratio
   }),
 
   rebirthMaterial: computed('model.materialTP', function() {
-    return 10*this.model.materialTP
+    let TPratio = 10
+    if (this.game.getAchievement('Have 100 material').isActive) {
+      TPratio = TPratio * 2
+    }
+    if (this.game.getAchievement('Have 1000 material').isActive) {
+      TPratio = TPratio * 2
+    }
+    return this.model.materialTP*TPratio
   }),
 
   rebirthSpellPoints: computed('model.{type,spellTP}', function() {
@@ -45,9 +63,9 @@ export default Controller.extend({
     }
   }),
 
-  nonCapitalBuildings: filter('model.buildings', b => ! b.isCapital),
+  displayedBuildings: filter('model.buildings.@each.{isCapital,isTemplateAvailable}', b => !b.isCapital && b.isTemplateAvailable),
   // Since capital building is scattered across ressource parts, only get the population ones
-  _capitalBuildings: filter('model.buildings', b => b.code.startsWith('capital-population-')),
+  _capitalBuildings: filter('model.buildings.@each.{code,isTemplateAvailable}', b => (b.code.startsWith('capital-population-') && b.isTemplateAvailable)),
   _capitalSort: computed(() => ['lvl:asc']),
   capitalBuildings: sort('_capitalBuildings', '_capitalSort'),
   selectedCapital: computed('_capitalBuildings.@each.qty', function() {

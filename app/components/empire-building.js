@@ -1,11 +1,19 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias, equal } from '@ember/object/computed';
+import { alias, and, or, not } from '@ember/object/computed';
 
 export default Component.extend({
+  hidden: not('building.isEmpireAvailable'),
+  attributeBindings: ['hidden'],
   empire: alias('game.empire'),
   building: undefined, //This is the main thing that NEEDS to be defined.
   step: '+1',
+
+  canAssignWorker: and('building.maxWorkers', 'empire.workerAssignAvailable'),
+  canBuild: computed('game.upgrades.@each.isActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
+    return this.empire.workerAssignAvailable && ! this.building.isCapital && this.game.getUpgrade('Builder').isActive
+  }),
+
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
     return Math.min(
       this.building.workers+this.empire.availableWorkers,
@@ -23,7 +31,12 @@ export default Component.extend({
   isHolyBuildingDisabled: computed('empire.{spellPoints,dead}', 'building.spellCost', function() {
     return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
   }),
-  isHolyBuildingAvailable: equal('empire.type', "religious"),
+  isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
+    return this.empire.type == "religious" && this.game.getUpgrade('Holy Building').isActive
+  }),
+
+  // Need at least one button available to give a footer in long display.
+  displayFooter: or('canAssignWorker', 'canBuild', 'isHolyBuildingAvailable'),
 
   // Initialize a monkey-patching on buildings.
   // This is hacky, unless you come from python like me, I guess.

@@ -9,6 +9,11 @@
           <p class="card-text">{{upgrade.description}}</p>
         </div>
         <div class="card-footer text-center">
+          {{#if debug}}
+            <button type="button" class="btn btn-secondary" onclick={{action "debugToggle" upgrade}}>
+              {{if upgrade.isActive "Deactivate" "Activate"}}
+            </button>
+          {{/if}}
           <button type="button" class="btn btn-primary" hidden={{upgrade.isActive}} disabled={{upgrade.cannotBuy}} onclick={{action "buy" upgrade}}>
             Buy for
             {{#if upgrade.manaCost}}

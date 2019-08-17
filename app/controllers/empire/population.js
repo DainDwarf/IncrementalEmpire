@@ -13,12 +13,18 @@ export default Controller.extend({
   }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead', 'empireCtl.isMaxPop'),
-  workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
-    return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
-  }),
 
-  populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.isCapital),
-  populationProductionBuildings: filter('model.populationProductionBuildings', b => ! b.isCapital),
+  populationStorageBuildings: filter('model.populationStorageBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+
+  populationProductionBuildings: filter('model.populationProductionBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+  displayProduction: computed('populationProductionBuildings', 'model.{workerAssignAvailable,capitalPopulation.maxWorkers}', function() {
+    return (this.populationProductionBuildings.length > 0)
+      ||   (this.model.workerAssignAvailable && this.model.capitalPopulation.maxWorkers > 0)
+  }),
 
   populationEfficiencyDisplay: computed('model.populationEfficiency', function() {
     return (100*this.model.populationEfficiency).toFixed(2) + "%"
