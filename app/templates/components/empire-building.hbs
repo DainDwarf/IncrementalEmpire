@@ -38,26 +38,26 @@
       {{#if (or building.canStore building.canProduce)}}
         <footer class="mx-1">
           <small>
-          {{#if building.canStore}}
-            <div>
-              {{if building.isCapital "The" "Each"}} {{building.name}} can store
-              {{#if building.populationStorage}}
-                <DisplayValue @type="population" @value={{building.populationStorage}}/>
-              {{/if}}
-              {{#if building.foodStorage}}
-                <DisplayValue @type="food" @value={{building.foodStorage}}/>
-              {{/if}}
-              {{#if building.materialStorage}}
-                <DisplayValue @type="material" @value={{building.materialStorage}}/>
-              {{/if}}
-            </div>
-          {{/if}}
-          {{#if building.maxWorkers}}
-            <div>
-              {{if building.isCapital "The" "Each"}} {{building.name}} can hold
-              <DisplayValue @type="worker" @value={{building.maxWorkers}}/>
-            </div>
-          {{/if}}
+            {{#if building.canStore}}
+              <div>
+                {{if building.isCapital "The" "Each"}} {{building.name}} can store
+                {{#if building.populationStorage}}
+                  <DisplayValue @type="population" @value={{building.populationStorage}}/>
+                {{/if}}
+                {{#if building.foodStorage}}
+                  <DisplayValue @type="food" @value={{building.foodStorage}}/>
+                {{/if}}
+                {{#if building.materialStorage}}
+                  <DisplayValue @type="material" @value={{building.materialStorage}}/>
+                {{/if}}
+              </div>
+            {{/if}}
+            {{#if building.maxWorkers}}
+              <div>
+                {{if building.isCapital "The" "Each"}} {{building.name}} can hold
+                <DisplayValue @type="worker" @value={{building.maxWorkers}}/>
+              </div>
+            {{/if}}
           </small>
         </footer>
       {{/if}}

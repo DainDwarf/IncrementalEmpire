@@ -108,6 +108,13 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
+  ressourceStorageBoost: computed('type', 'game.upgrades.@each.isActive', function() {
+    if (this.type == "economical" && this.game.getUpgrade('Hoarding').isActive) {
+      return 4
+    } else {
+      return 1
+    }
+  }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
   populationStorage: computed('populationStorageBuildings.@each.{qty,populationStorage}', function() {
@@ -118,18 +125,26 @@ export default Model.extend({
     return sum
   }),
   foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
-  foodStorage: computed('foodStorageBuildings.@each.{qty,foodStorage}', function() {
+  foodStorage: computed('ressourceStorageBoost', 'foodStorageBuildings.@each.{qty,foodStorage}', function() {
     let sum = 0
     for (let b of this.foodStorageBuildings) {
-      sum = sum + b.qty*b.foodStorage
+      if (!b.isCapital) {
+        sum = sum + this.ressourceStorageBoost*b.qty*b.foodStorage
+      } else {
+        sum = sum + b.qty*b.foodStorage
+      }
     }
     return sum
   }),
   materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
-  materialStorage: computed('materialStorageBuildings.@each.{qty,materialStorage}', function() {
+  materialStorage: computed('ressourceStorageBoost', 'materialStorageBuildings.@each.{qty,materialStorage}', function() {
     let sum = 0
     for (let b of this.materialStorageBuildings) {
-      sum = sum + b.qty*b.materialStorage
+      if (!b.isCapital) {
+        sum = sum + this.ressourceStorageBoost*b.qty*b.materialStorage
+      } else {
+        sum = sum + b.qty*b.materialStorage
+      }
     }
     return sum
   }),

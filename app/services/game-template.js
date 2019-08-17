@@ -44,7 +44,10 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 100,
         description: 'Can build production buildings'
       }),
-      await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 100,
+      await this.store.createRecord('upgrade', {name: 'Hoarding', moneyCost: 100,
+        description: 'Your ressource storage buildings provide 4x more storage in economical empires'
+      }),
+      await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 200,
         description: 'Can build better storage buildings'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,

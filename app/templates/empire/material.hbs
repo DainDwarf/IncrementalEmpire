@@ -23,6 +23,9 @@
   <hr>
   <h3>Storage</h3>
   <div>
+    {{#if (not-eq model.ressourceStorageBoost 1)}}
+      Material storage bonus: {{model.ressourceStorageBoost}}x
+    {{/if}}
     {{#each materialStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
     {{/each}}
