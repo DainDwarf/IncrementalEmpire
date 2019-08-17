@@ -142,7 +142,7 @@ export default Service.extend({
           description: 'A small hut, can accomodate a few people',
           materialCost: 100,
           populationStorage: 5,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
@@ -165,7 +165,7 @@ export default Service.extend({
           description: 'A place to pile up some of your food. Not very efficient',
           materialCost: 100,
           foodStorage: 50,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
@@ -188,7 +188,7 @@ export default Service.extend({
           description: 'Add some rooms for all these materials piling up',
           materialCost: 100,
           materialStorage: 50,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
@@ -209,11 +209,11 @@ export default Service.extend({
         building.setProperties({
           name: 'child care',
           description: 'Give some room for keeping more children',
-          materialCost: 100,
-          maxWorkers: 10,
+          materialCost: 300,
+          maxWorkers: 5,
           populationProduction: 1,
           TPcost: 5,
-          spellCost: 30,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 child cares')
@@ -222,11 +222,11 @@ export default Service.extend({
         building.setProperties({
           name: 'hunting ground',
           description: 'More places to hunt',
-          materialCost: 100,
+          materialCost: 300,
           maxWorkers: 20,
           foodProduction: 1,
           TPcost: 5,
-          spellCost: 30,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 hunting grounds')
@@ -235,11 +235,11 @@ export default Service.extend({
         building.setProperties({
           name: 'woodcutting',
           description: 'Designate some place to cut down trees',
-          materialCost: 100,
+          materialCost: 300,
           maxWorkers: 20,
           materialProduction: 1,
           TPcost: 5,
-          spellCost: 30,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 woodcutters')
