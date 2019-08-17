@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
-import { defineProperty } from '@ember/object';
+import { computed, defineProperty } from '@ember/object';
 import { gte, lte } from '@ember/object/computed';
 
 export default Service.extend({
@@ -87,6 +87,21 @@ export default Service.extend({
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Reach 100 mana', templatePoint: 0, description: 'You can have one more empire template'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', gte('game.universe.mana', 100))
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Unlock Economical Empires', templatePoint: 2, description: 'You can now choose a Cave as the beginning habitat for your new empires'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.upgrades.@each.isActive', function() { return a.game.getUpgrade('Economical Empires').isActive })),
+    })
+    this.achievements.push(ach)
+    ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Fill the cave', templatePoint: 4, description: 'You have too many people for a cave. You can now choose to start new empires as a Tribe.'})
+    ach.reopen({
+      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.{populationStorage,foodStorage,materialStorage,population,food,material,capitalName}', function() {
+        return a.game.empire.population >= a.game.empire.populationStorage
+          &&   a.game.empire.food >= a.game.empire.foodStorage
+          &&   a.game.empire.material >= a.game.empire.materialStorage
+          &&   a.game.empire.capitalName == "cave"
+      })),
     })
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: true, name: 'Lose an empire', templatePoint: 1, description: 'You let all the population die, you monster!'})

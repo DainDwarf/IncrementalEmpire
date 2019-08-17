@@ -7,12 +7,13 @@ export default Controller.extend({
   actions: {
     async buy(upgrade) {
       await this.game.buyUpgrade(upgrade)
+      await this.game.checkAchievements()
     },
     async debugToggle(upgrade) {
       if (this.debug) {
         upgrade.toggleProperty('isActive')
         await upgrade.save()
-        await this.game.buyUpgrade(upgrade)
+        await this.game.checkAchievements()
       }
     },
   },

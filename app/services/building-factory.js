@@ -32,6 +32,13 @@ export default Service.extend({
     }
   },
 
+  // Helper function to define the `isTemplateAvailable` property based on a given achievement.
+  _templateVisibility(building, dependant_achievement) {
+    defineProperty(building, 'isTemplateAvailable', computed('game.achievements.@each.isActive', function() {
+      return building.game.getAchievement(dependant_achievement).isActive
+    }))
+  },
+
   // This is a very long function, because it holds the definition of all buildings in the game.
   consolidate(building) {
     switch(building.code) {
@@ -40,6 +47,8 @@ export default Service.extend({
           name: 'garden',
           description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
           populationStorage: 10,
+          isEmpireAvailable: true,
+          isTemplateAvailable: true,
         })
       break;
       case "capital-food-1":
@@ -47,12 +56,16 @@ export default Service.extend({
           name: 'garden',
           description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
           foodStorage: 100,
+          isEmpireAvailable: true,
+          isTemplateAvailable: true,
         })
       break;
       case "capital-material-1":
         building.setProperties({
           name: 'garden',
           description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+          isEmpireAvailable: true,
+          isTemplateAvailable: true,
         })
       break;
       case "capital-population-2":
@@ -63,7 +76,9 @@ export default Service.extend({
           populationStorage: 20,
           populationProduction: 1,
           TPcost: 2,
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Unlock Economical Empires')
       break;
       case "capital-food-2":
         building.setProperties({
@@ -72,13 +87,17 @@ export default Service.extend({
           maxWorkers: 20,
           foodStorage: 100,
           foodProduction: 1,
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Unlock Economical Empires')
       break;
       case "capital-material-2":
         building.setProperties({
           name: 'cave',
           description: 'A cave where your people can try to survive',
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Unlock Economical Empires')
       break;
       case "capital-population-3":
         building.setProperties({
@@ -88,7 +107,9 @@ export default Service.extend({
           populationStorage: 100,
           populationProduction: 1,
           TPcost: 10,
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Fill the cave')
       break;
       case "capital-food-3":
         building.setProperties({
@@ -97,7 +118,9 @@ export default Service.extend({
           maxWorkers: 40,
           foodStorage: 1000,
           foodProduction: 1,
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Fill the cave')
       break;
       case "capital-material-3":
         building.setProperties({
@@ -106,7 +129,9 @@ export default Service.extend({
           maxWorkers: 40,
           materialStorage: 1000,
           materialProduction: 1,
+          isEmpireAvailable: true,
         })
+        this._templateVisibility(building, 'Fill the cave')
       break;
       case "population-storage-1":
         building.setProperties({

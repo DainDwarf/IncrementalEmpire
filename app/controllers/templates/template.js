@@ -49,9 +49,9 @@ export default Controller.extend({
     }
   }),
 
-  nonCapitalBuildings: filter('model.buildings', b => ! b.isCapital),
+  displayedBuildings: filter('model.buildings.@each.{isCapital,isTemplateAvailable}', b => !b.isCapital && b.isTemplateAvailable),
   // Since capital building is scattered across ressource parts, only get the population ones
-  _capitalBuildings: filter('model.buildings', b => b.code.startsWith('capital-population-')),
+  _capitalBuildings: filter('model.buildings.@each.{code,isTemplateAvailable}', b => (b.code.startsWith('capital-population-') && b.isTemplateAvailable)),
   _capitalSort: computed(() => ['lvl:asc']),
   capitalBuildings: sort('_capitalBuildings', '_capitalSort'),
   selectedCapital: computed('_capitalBuildings.@each.qty', function() {
