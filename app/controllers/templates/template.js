@@ -15,7 +15,7 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
-  canAssignSpell: computed('type', 'game.achievements.@each.isActive', function() {
+  canAssignSpell: computed('model.type', 'game.achievements.@each.isActive', function() {
     return this.model.type == "religious" && this.game.getAchievement('Cast 100 spells').isActive
   }),
 
