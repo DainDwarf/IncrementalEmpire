@@ -158,6 +158,7 @@ export default Service.extend({
           spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 houses')
       break;
       case "food-storage-1":
         building.setProperties({
@@ -181,6 +182,7 @@ export default Service.extend({
           spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 granaries')
       break;
       case "material-storage-1":
         building.setProperties({
@@ -204,6 +206,7 @@ export default Service.extend({
           spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 storage buildings')
       break;
       case "population-production-1":
         building.setProperties({
