@@ -3,4 +3,5 @@ const { Model, attr } = DS;
 
 export default Model.extend({
   displayText: attr('boolean', {defaultValue: false}),
+  defaultLongDisplay: attr('boolean', {defaultValue: true}),
 });

@@ -1,16 +1,23 @@
-<div class="container-fluid">
-  Game name: <Input value={{game.universe.name}} @focus-out={{action "updateUniverseName"}}/>
+<div class="mx-2 my-2">
+  <h3>Display</h3>
+  <div>
+    Game name: <Input value={{game.universe.name}} @focus-out={{action "updateUniverseName"}}/>
+  </div>
+  <div>
+    Building default display : <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleBuildingDisplay"}}>{{if model.defaultLongDisplay "Extended" "Minimized"}}</button>
+  </div>
+  <div>
+    Values display: <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleDisplay"}}>{{if model.displayText "Text" "Icon"}}</button>
+  </div>
+  <hr>
+  <h3>Save</h3>
+  <div class="container-fluid">
+    <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "exportEverything"}}>Export save data</button>
+    <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "importEverything"}}>Import save data</button>
+    <button type="button" class="btn btn-danger my-2" onclick={{action "destroyEverything"}}>Clear save data</button>
+    <span>(Reload the page after changing the save)</span>
+  </div>
+  <div class="container w-100">
+    <Textarea class="w-100" @value={{saveData}} rows="8" placeholder="Copy your save data here."/>
+  </div>
 </div>
-<div class="container-fluid">
-  <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleDisplay"}}>Display {{if model.displayText "icon" "text"}}</button>
-</div>
-<div class="container-fluid">
-  <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "exportEverything"}}>Export save data</button>
-  <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "importEverything"}}>Import save data</button>
-  <button type="button" class="btn btn-danger my-2" onclick={{action "destroyEverything"}}>Clear save data</button>
-  <span>(Reload the page after changing the save)</span>
-</div>
-<div class="container w-100">
-  <Textarea class="w-100" @value={{saveData}} rows="8" placeholder="Copy your save data here."/>
-</div>
-{{outlet}}
