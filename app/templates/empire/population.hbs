@@ -20,7 +20,12 @@
         hidden={{not isGenPopulationAvailable}}
         disabled={{isGenPopulationDisabled}}
         onclick={{action "genPopulation"}}>
-  Spontaneous Generation <DisplayValue @tagName="small" @type="magic" @value="5" />
+  Spontaneous Generation
+  <small>
+    <DisplayValue @type="magic" @value="5" />
+    <FaIcon @icon="arrow-right"/>
+    <DisplayValue @type="population" @value="1" />
+  </small>
 </button>
 {{#if populationStorageBuildings}}
   <hr>

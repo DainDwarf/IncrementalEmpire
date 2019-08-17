@@ -13,6 +13,7 @@ export default Model.extend({
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
+  spellCount: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
 
   _builders: mapBy('buildings', 'builders'),
@@ -107,9 +108,16 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
+  ressourceStorageBoost: computed('type', 'game.upgrades.@each.isActive', function() {
+    if (this.type == "economical" && this.game.getUpgrade('Hoarding').isActive) {
+      return 4
+    } else {
+      return 1
+    }
+  }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  populationStorage: computed('populationStorageBuildings.@each.qty', function() {
+  populationStorage: computed('populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
       sum = sum + b.qty*b.populationStorage
@@ -117,18 +125,26 @@ export default Model.extend({
     return sum
   }),
   foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
-  foodStorage: computed('foodStorageBuildings.@each.qty', function() {
+  foodStorage: computed('ressourceStorageBoost', 'foodStorageBuildings.@each.{qty,foodStorage}', function() {
     let sum = 0
     for (let b of this.foodStorageBuildings) {
-      sum = sum + b.qty*b.foodStorage
+      if (!b.isCapital) {
+        sum = sum + this.ressourceStorageBoost*b.qty*b.foodStorage
+      } else {
+        sum = sum + b.qty*b.foodStorage
+      }
     }
     return sum
   }),
   materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
-  materialStorage: computed('materialStorageBuildings.@each.qty', function() {
+  materialStorage: computed('ressourceStorageBoost', 'materialStorageBuildings.@each.{qty,materialStorage}', function() {
     let sum = 0
     for (let b of this.materialStorageBuildings) {
-      sum = sum + b.qty*b.materialStorage
+      if (!b.isCapital) {
+        sum = sum + this.ressourceStorageBoost*b.qty*b.materialStorage
+      } else {
+        sum = sum + b.qty*b.materialStorage
+      }
     }
     return sum
   }),

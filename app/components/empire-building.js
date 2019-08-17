@@ -32,7 +32,9 @@ export default Component.extend({
     return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
   }),
   isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
-    return this.empire.type == "religious" && this.game.getUpgrade('Holy Building').isActive
+    return this.empire.type == "religious"
+      &&   this.game.getUpgrade('Holy Building').isActive
+      &&   this.building.spellCost > 0
   }),
 
   // Need at least one button available to give a footer in long display.
@@ -43,7 +45,7 @@ export default Component.extend({
   init() {
     this._super(...arguments)
     if (this.building.isLongDisplay == undefined) {
-      this.building.isLongDisplay = true
+      this.building.isLongDisplay = this.game.settings.defaultLongDisplay
     }
   },
 
@@ -53,6 +55,7 @@ export default Component.extend({
     async holyBuilding() {
       this.building.set('qty', this.building.qty+1)
       this.empire.set('spellPoints', this.empire.spellPoints - this.building.spellCost)
+      this.empire.incrementProperty('spellCount')
       await this.building.save()
       await this.empire.save()
     },

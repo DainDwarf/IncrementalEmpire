@@ -8,8 +8,12 @@ export default Controller.extend({
       this.game.universe.set('name', newName)
       await this.game.universe.save()
     },
+    async toggleBuildingDisplay() {
+      this.model.toggleProperty('defaultLongDisplay')
+      await this.model.save()
+    },
     async toggleDisplay() {
-      this.model.set('displayText', ! this.model.displayText)
+      this.model.toggleProperty('displayText')
       await this.model.save()
     },
     async importEverything() {

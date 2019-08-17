@@ -15,8 +15,8 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
-  canAssignSpell: computed('type', 'game.achievements.@each.isActive', function() {
-    return this.model.type == "religious" && this.game.getAchievement('Reach 1000 mana').isActive
+  canAssignSpell: computed('model.type', 'game.achievements.@each.isActive', function() {
+    return this.model.type == "religious" && this.game.getAchievement('Cast 100 spells').isActive
   }),
 
   materialAvailable: computed('game.upgrades.@each.isActive', function() {
@@ -61,7 +61,7 @@ export default Controller.extend({
 
   rebirthSpellPoints: computed('model.{type,spellTP}', function() {
     if (this.model.type == "religious") {
-      return 5+5*this.model.spellTP
+      return 5+this.model.spellTP
     } else {
       return 0
     }

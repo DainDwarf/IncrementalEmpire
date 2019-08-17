@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, or } from '@ember/object/computed';
 
 export default Model.extend({
   code: attr('string'),                       // Code unique to a given template, to find the building
@@ -27,4 +27,6 @@ export default Model.extend({
     let s = this.code.split('-')
     return parseInt(s[s.length-1])
   }),
+  canStore: or('populationStorage', 'foodStorage', 'materialStorage'),
+  canProduce: or('populationProduction', 'foodProduction', 'materialProduction'),
 });

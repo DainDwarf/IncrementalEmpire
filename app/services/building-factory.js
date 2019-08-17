@@ -84,7 +84,7 @@ export default Service.extend({
         building.setProperties({
           name: 'cave',
           description: 'A cave where your people can try to survive',
-          maxWorkers: 20,
+          maxWorkers: 10,
           foodStorage: 100,
           foodProduction: 1,
           isEmpireAvailable: true,
@@ -96,6 +96,9 @@ export default Service.extend({
           name: 'cave',
           description: 'A cave where your people can try to survive',
           isEmpireAvailable: true,
+          maxWorkers: 10,
+          materialProduction: 1,
+          materialStorage: 100,
         })
         this._templateVisibility(building, 'Unlock Economical Empires')
       break;
@@ -139,7 +142,7 @@ export default Service.extend({
           description: 'A small hut, can accomodate a few people',
           materialCost: 100,
           populationStorage: 5,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
@@ -150,11 +153,12 @@ export default Service.extend({
           name: 'house',
           description: 'A solid house that can accomodate an extended family',
           materialCost: 1000,
-          populationStorage: 30,
-          TPcost: 30,
-          spellCost: 100,
+          populationStorage: 50,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 houses')
       break;
       case "food-storage-1":
         building.setProperties({
@@ -162,7 +166,7 @@ export default Service.extend({
           description: 'A place to pile up some of your food. Not very efficient',
           materialCost: 100,
           foodStorage: 50,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
@@ -172,12 +176,13 @@ export default Service.extend({
         building.setProperties({
           name: 'granary',
           description: 'A building specifically designed to hold food',
-          materialCost: 10000,
-          foodStorage: 1000,
-          TPcost: 30,
-          spellCost: 100,
+          materialCost: 1000,
+          foodStorage: 500,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 granaries')
       break;
       case "material-storage-1":
         building.setProperties({
@@ -185,32 +190,33 @@ export default Service.extend({
           description: 'Add some rooms for all these materials piling up',
           materialCost: 100,
           materialStorage: 50,
-          TPcost: 5,
+          TPcost: 3,
           spellCost: 20,
         })
         this._empireVisibility(building)
-        this._templateVisibility(building, 'Have 10 storage rooms')
+        this._templateVisibility(building, 'Have 10 store rooms')
       break;
       case "material-storage-2":
         building.setProperties({
           name: 'storage building',
           description: 'A building where everyone stores the common good',
-          materialCost: 10000,
-          materialStorage: 1000,
-          TPcost: 30,
-          spellCost: 100,
+          materialCost: 1000,
+          materialStorage: 500,
+          TPcost: 10,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Storage 2')
+        this._templateVisibility(building, 'Have 20 storage buildings')
       break;
       case "population-production-1":
         building.setProperties({
           name: 'child care',
           description: 'Give some room for keeping more children',
-          materialCost: 100,
-          maxWorkers: 10,
-          populationProduction: 2,
+          materialCost: 300,
+          maxWorkers: 5,
+          populationProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 child cares')
@@ -219,11 +225,11 @@ export default Service.extend({
         building.setProperties({
           name: 'hunting ground',
           description: 'More places to hunt',
-          materialCost: 100,
+          materialCost: 300,
           maxWorkers: 20,
-          foodProduction: 2,
+          foodProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 hunting grounds')
@@ -232,11 +238,11 @@ export default Service.extend({
         building.setProperties({
           name: 'woodcutting',
           description: 'Designate some place to cut down trees',
-          materialCost: 100,
+          materialCost: 300,
           maxWorkers: 20,
-          materialProduction: 2,
+          materialProduction: 1,
           TPcost: 5,
-          spellCost: 20,
+          spellCost: 50,
         })
         this._empireVisibility(building, 'Production 1')
         this._templateVisibility(building, 'Have 10 woodcutters')

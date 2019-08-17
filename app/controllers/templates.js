@@ -7,7 +7,7 @@ export default Controller.extend({
   buildingFactory: service(),
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
-  hasEconomicalTemplates: computed('this.game.upgrades.@each.isActive', function() {
+  hasEconomicalTemplates: computed('game.upgrades.@each.isActive', function() {
     return this.game.getUpgrade('Economical Empires').isActive
   }),
   hasCulturalTemplates: false,
@@ -15,6 +15,9 @@ export default Controller.extend({
   canAddTemplate: computed('model.length', 'game.achievements.@each.isActive', function() {
     let maxTemplate = 1
     if (this.game.getAchievement('Reach 100 mana').isActive) {
+      maxTemplate = maxTemplate + 1
+    }
+    if (this.game.getAchievement('Reach 100 money').isActive) {
       maxTemplate = maxTemplate + 1
     }
     return this.model.length < maxTemplate
