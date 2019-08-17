@@ -2,7 +2,7 @@
   Game name: <Input value={{game.universe.name}} @focus-out={{action "updateUniverseName"}}/>
 </div>
 <div class="container-fluid">
-  <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleDisplay"}}>Display {{if model.displayText "text" "icon"}}</button>
+  <button type="button" class="btn my-2 btn-outline-primary" onclick={{action "toggleDisplay"}}>Display {{if model.displayText "icon" "text"}}</button>
 </div>
 <div class="container-fluid">
   <button type="button" class="btn my-2 btn-outline-secondary" onclick={{action "exportEverything"}}>Export save data</button>
