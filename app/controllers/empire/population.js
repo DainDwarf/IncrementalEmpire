@@ -35,6 +35,7 @@ export default Controller.extend({
       event.preventDefault();
       this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
       this.model.set('spellPoints', this.model.spellPoints - 5)
+      this.model.incrementProperty('spellCount')
       await this.model.save()
       await this.game.checkAchievements()
     },

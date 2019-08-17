@@ -32,6 +32,7 @@ export default Controller.extend({
       event.preventDefault();
       this.model.set('material', Math.min(this.model.material + this.empireCtl.ressourceSpellEfficiency, this.model.materialStorage))
       this.model.set('spellPoints', this.model.spellPoints - 1)
+      this.model.incrementProperty('spellCount')
       await this.model.save()
       await this.game.checkAchievements()
     },

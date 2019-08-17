@@ -53,6 +53,7 @@ export default Component.extend({
     async holyBuilding() {
       this.building.set('qty', this.building.qty+1)
       this.empire.set('spellPoints', this.empire.spellPoints - this.building.spellCost)
+      this.empire.incrementProperty('spellCount')
       await this.building.save()
       await this.empire.save()
     },

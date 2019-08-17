@@ -16,7 +16,7 @@ export default Controller.extend({
   }),
 
   canAssignSpell: computed('type', 'game.achievements.@each.isActive', function() {
-    return this.model.type == "religious" && this.game.getAchievement('Reach 1000 mana').isActive
+    return this.model.type == "religious" && this.game.getAchievement('Cast 100 spells').isActive
   }),
 
   materialAvailable: computed('game.upgrades.@each.isActive', function() {

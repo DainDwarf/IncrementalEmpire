@@ -13,6 +13,7 @@ export default Model.extend({
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
+  spellCount: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
 
   _builders: mapBy('buildings', 'builders'),
