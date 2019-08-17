@@ -192,7 +192,7 @@ export default Service.extend({
           spellCost: 20,
         })
         this._empireVisibility(building)
-        this._templateVisibility(building, 'Have 10 storage rooms')
+        this._templateVisibility(building, 'Have 10 store rooms')
       break;
       case "material-storage-2":
         building.setProperties({

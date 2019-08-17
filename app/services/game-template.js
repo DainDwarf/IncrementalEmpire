@@ -30,7 +30,7 @@ export default Service.extend({
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select economical empires'
       }),
       await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 50000,
-        description: 'Generate some material through to power of your magic'
+        description: 'Generate some material through the power of your magic'
       }),
       await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50000,
         description: 'Magically make buildings appear'
@@ -41,7 +41,7 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Builder', moneyCost: 10,
         description: 'Humans can use material to build new buildings'
       }),
-      await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 50000,
+      await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 100,
         description: 'Can build production buildings'
       }),
       await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 50000,
@@ -93,11 +93,11 @@ export default Service.extend({
       }))
     })
     this.achievements.push(ach)
-    ach = await this.store.createRecord('achievement', {name: 'Have 10 storage rooms', templatePoint: 1, description: 'You can now have storage rooms in your templates'})
+    ach = await this.store.createRecord('achievement', {name: 'Have 10 store rooms', templatePoint: 1, description: 'You can now have store rooms in your templates'})
     ach.reopen({
       conditionFactory: (a) => defineProperty(a, 'condition', computed('game.empire.buildings.@each.qty', function() {
         for (let b of a.game.empire.buildings) {
-          if (b.name == 'storage room') {
+          if (b.name == 'store room') {
             return b.qty >= 10
           }
         }
