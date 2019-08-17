@@ -29,11 +29,14 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
         description: 'Unlock a new empire type with different rules'
       }),
+      await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 50000,
+        description: 'Generate some material through to power of your magic'
+      }),
       await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50000,
-        description: 'Magically make buildings appear.'
+        description: 'Magically make buildings appear'
       }),
       await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 1,
-        description: 'Humans can work to generate ressources in economical empires.'
+        description: 'Humans can work to generate ressources in economical empires'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,
         description: 'Your ressource production in economical empires is improved by your current money'
@@ -42,7 +45,7 @@ export default Service.extend({
         description: 'Workers are available in all empire types'
       }),
       await this.store.createRecord('upgrade', {name: 'Material', moneyCost: 50000,
-        description: 'Discover a new ressource for your people. The material is more precious than food for economical empires.'
+        description: 'Discover a new ressource for your people. Material is more precious than food for economical empires'
       }),
     ]
     this.achievements = []

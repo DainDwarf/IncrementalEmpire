@@ -7,8 +7,8 @@ export default Controller.extend({
   empireCtl: controller('empire'),
   isGenMaterialOnCooldown: lt('model.spellPoints', 1),
   isGenMaterialDisabled: or('isGenMaterialOnCooldown', 'model.dead', 'empireCtl.isMaxMaterial'),
-  isGenMaterialAvailable: computed('model.type', function() {
-    return this.model.type == "religious"
+  isGenMaterialAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
+    return this.model.type == "religious" && this.game.getUpgrade('Magic Anvil').isActive
   }),
   workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
