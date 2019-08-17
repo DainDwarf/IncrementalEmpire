@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { mapBy, and, sum, filter, lt, or } from '@ember/object/computed';
+import { filter, lt, or } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
@@ -11,15 +11,17 @@ export default Controller.extend({
     return this.model.type == "religious" && this.game.getUpgrade('Magic Anvil').isActive
   }),
 
-  materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
-  // This is ugly: Use sum to do a reduced `or`, because ember's functional sucks balls.
-  _displayStorage: mapBy('materialStorageBuildings', 'isEmpireAvailable'),
-  displayStorage: sum('_displayStorage'),
+  materialStorageBuildings: filter('model.materialStorageBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
 
-  materialProductionBuildings: filter('model.materialProductionBuildings', b => ! b.isCapital),
-  __displayProduction: mapBy('materialProductionBuildings', 'isEmpireAvailable'),
-  _displayProduction: sum('__displayProduction'),
-  displayProduction: and('_displayProduction', 'model.workerAssignAvailable'),
+  materialProductionBuildings: filter('model.materialProductionBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+  displayProduction: computed('materialProductionBuildings', 'model.{workerAssignAvailable,capitalMaterial.maxWorkers}', function() {
+    return (this.materialProductionBuildings.length > 0)
+      ||   (this.model.workerAssignAvailable && (this.model.capitalMaterial.maxWorkers > 0))
+  }),
 
   materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
     return (100*this.model.materialEfficiency).toFixed(2) + "%"

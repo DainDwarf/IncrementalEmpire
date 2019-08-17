@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { mapBy, sum, and, filter, or, lt } from '@ember/object/computed';
+import { filter, or, lt } from '@ember/object/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
@@ -14,15 +14,17 @@ export default Controller.extend({
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead', 'empireCtl.isMaxPop'),
 
-  populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.isCapital),
-  // This is ugly: Use sum to do a reduced `or`, because ember's functional sucks balls.
-  _displayStorage: mapBy('populationStorageBuildings', 'isEmpireAvailable'),
-  displayStorage: sum('_displayStorage'),
+  populationStorageBuildings: filter('model.populationStorageBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
 
-  populationProductionBuildings: filter('model.populationProductionBuildings', b => ! b.isCapital),
-  __displayProduction: mapBy('populationProductionBuildings', 'isEmpireAvailable'),
-  _displayProduction: sum('__displayProduction'),
-  displayProduction: and('_displayProduction', 'model.workerAssignAvailable'),
+  populationProductionBuildings: filter('model.populationProductionBuildings.@each.{isCapital,isEmpireAvailable}',
+    b => ! b.isCapital && b.isEmpireAvailable
+  ),
+  displayProduction: computed('populationProductionBuildings', 'model.{workerAssignAvailable,capitalPopulation.maxWorkers}', function() {
+    return (this.populationProductionBuildings.length > 0)
+      ||   (this.model.workerAssignAvailable && this.model.capitalPopulation.maxWorkers > 0)
+  }),
 
   populationEfficiencyDisplay: computed('model.populationEfficiency', function() {
     return (100*this.model.populationEfficiency).toFixed(2) + "%"
