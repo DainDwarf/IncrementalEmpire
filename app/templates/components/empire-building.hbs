@@ -35,6 +35,20 @@
   {{#if isLongDisplay}}
     <div class="card-body">
       <p class="card-text">{{building.description}}</p>
+      <footer class="mx-1">
+        <small>
+          Each can store
+          {{#if building.populationStorage}}
+            <DisplayValue @type="population" @value={{building.populationStorage}}/>
+          {{/if}}
+          {{#if building.foodStorage}}
+            <DisplayValue @type="food" @value={{building.foodStorage}}/>
+          {{/if}}
+          {{#if building.materialStorage}}
+            <DisplayValue @type="material" @value={{building.materialStorage}}/>
+          {{/if}}
+        </small>
+      </footer>
     </div>
     <div class="card-footer" hidden={{not displayFooter}}>
       <div class="row">
