@@ -10,9 +10,6 @@ export default Controller.extend({
   isGenFoodAvailable: computed('model.type', function() {
     return this.model.type == "religious"
   }),
-  workerHunterAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Hunting').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
-  }),
 
   foodStorageBuildings: filter('model.foodStorageBuildings', b => ! b.isCapital),
   foodProductionBuildings: filter('model.foodProductionBuildings', b => ! b.isCapital),

@@ -14,7 +14,7 @@
                 onclick={{action "holyBuilding"}}>
           <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
         </button>
-        {{#if (not building.isCapital)}}
+        {{#if canBuild}}
           <DisplayValue @type="material" @value={{building.materialCost}}/>
           <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.pending}} @onChange={{action "build"}}
@@ -22,7 +22,7 @@
             <DisplayValue @type="building" @value={{building.pending}}/>
           </AssignPoint>
         {{/if}}
-        {{#if building.maxWorkers}}
+        {{#if canAssignWorker}}
           <AssignPoint @disabled={{empire.dead}} @tagName="span"
                        @value={{building.workers}} @onChange={{action "assignWorker"}}
                        @step={{step}} @max={{maxWorkers}}>
@@ -45,7 +45,7 @@
                 onclick={{action "holyBuilding"}}>
           Holy Building <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
         </button>
-        {{#if (not building.isCapital)}}
+        {{#if canBuild}}
           <div class="col text-center">
             <span class="text-nowrap">
               Build for
@@ -59,7 +59,7 @@
             </AssignPoint>
           </div>
         {{/if}}
-        {{#if building.maxWorkers}}
+        {{#if canAssignWorker}}
           <div class="col text-center">
             <span class="text-nowrap">
               <DisplayValue @type="worker"/>

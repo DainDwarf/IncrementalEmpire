@@ -29,11 +29,8 @@ export default Service.extend({
       await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
         description: 'Unlock a new empire type with different rules'
       }),
-      await this.store.createRecord('upgrade', {name: 'Hunting', moneyCost: 1,
-        description: 'Humans can now hunt for food'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Birth', moneyCost: 1,
-        description: 'Humans can now make other humans... You know how.'
+      await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 1,
+        description: 'Humans can work to generate ressources in economical empires.'
       }),
       await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,
         description: 'Your ressource production in economical empires is improved by your current money'

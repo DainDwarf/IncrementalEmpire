@@ -23,6 +23,10 @@ export default Model.extend({
     return this.population - this.workers - this.builders
   }),
 
+  workerAssignAvailable: computed('type', 'game.upgrades.@each.isActive', function() {
+    return this.game.getUpgrade('Worker').isActive && (this.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
+  }),
+
   populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
   basePopulationProduction: computed('populationProductionBuildings.@each.{workers}', function() {
     let sum = 0
