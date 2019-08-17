@@ -10,10 +10,6 @@ export default Controller.extend({
   isGenMaterialAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
     return this.model.type == "religious" && this.game.getUpgrade('Magic Anvil').isActive
   }),
-  workerGathererAvailable: computed('model.type', 'game.upgrades.@each.isActive', function() {
-    return (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
-      // TODO: this.game.getUpgrade('Gathering').isActive &&
-  }),
 
   materialStorageBuildings: filter('model.materialStorageBuildings', b => ! b.isCapital),
   // This is ugly: Use sum to do a reduced `or`, because ember's functional sucks balls.

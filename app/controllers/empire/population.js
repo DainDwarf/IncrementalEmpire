@@ -13,9 +13,6 @@ export default Controller.extend({
   }),
   isGenPopulationOnCooldown: lt('model.spellPoints', 5),
   isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead', 'empireCtl.isMaxPop'),
-  workerBreederAvailable: computed('model.type', 'game.upgrades.@each.isActive',function() {
-    return this.game.getUpgrade('Birth').isActive && (this.model.type == "economical" || this.game.getUpgrade('Universal Worker').isActive)
-  }),
 
   populationStorageBuildings: filter('model.populationStorageBuildings', b => ! b.isCapital),
   // This is ugly: Use sum to do a reduced `or`, because ember's functional sucks balls.
