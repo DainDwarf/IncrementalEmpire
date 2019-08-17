@@ -17,7 +17,7 @@ export default Service.extend({
   async generate() {
     this.settings = await this.store.createRecord('setting');
     this.universe = await this.store.createRecord('universe');
-    this.empire = await this.store.createRecord('empire');
+    this.empire = await this.store.createRecord('empire', {name: 'Eden'});
     // Ember array not needed, the whole class is "const".
     this.upgrades = [
       await this.store.createRecord('upgrade', {name: 'Spontaneous Generation', manaCost: 1,
