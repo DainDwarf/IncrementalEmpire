@@ -2,7 +2,7 @@ import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
 import { alias, filter, mapBy, sum } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),

@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
 import { gte, lte } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Service.extend({
   store: service(),

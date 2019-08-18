@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
-import achievement from 'incremental-empire/utils/achievement';
+import { achievement } from 'incremental-empire/utils/computed';
 
 // The buildingFactory gives the correct values for each building.
 // It is either used to fill a given building-code, or more generally
