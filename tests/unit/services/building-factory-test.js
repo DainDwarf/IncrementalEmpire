@@ -215,6 +215,8 @@ module('Unit | Service | buildingFactory', function(hooks) {
     assert.equal(populationStorage1.qty, 5)
     assert.ok(populationStorage1.name)
     assert.ok(populationStorage1.description)
+
+    assert.equal(buildings.length, buildingFactory.buildingPlan.size)
   })
 
   test('consolidate_all | Empty buildings', async function(assert) {
@@ -223,6 +225,6 @@ module('Unit | Service | buildingFactory', function(hooks) {
 
     await buildingFactory.consolidate_all(buildings, 'empire')
 
-    assert.notEqual(buildings.length, 0)
+    assert.equal(buildings.length, buildingFactory.buildingPlan.size)
   })
 });
