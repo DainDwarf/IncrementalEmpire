@@ -17,7 +17,7 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
-  _canAssignSpell: achievement('Case 100 spells'),
+  _canAssignSpell: achievement('Cast 100 spells'),
   canAssignSpell: computed('model.type', '_canAssignSpell', function() {
     return this.model.type == "religious" && this._canAssignSpell
   }),

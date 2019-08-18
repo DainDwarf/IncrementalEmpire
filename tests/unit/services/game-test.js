@@ -129,5 +129,4 @@ module('Unit | Service | game', function(hooks) {
     await game.checkAchievements()
     assert.ok(firstAchievement.isActive)
   });
-
 });

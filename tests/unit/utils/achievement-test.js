@@ -42,4 +42,14 @@ module('Unit | Utility | achievement', function(hooks) {
     assert.ok(ach.isActive)
     assert.ok(empire.achievementOK)
   });
+
+  test('upgradeTypoError', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
+    let empire = game.empire
+    defineProperty(empire, 'achievementBAD', achievement('Sbleurlk')),
+    assert.throws(() => {
+      empire.achievementBAD
+    })
+  });
 });

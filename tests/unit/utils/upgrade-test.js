@@ -43,4 +43,16 @@ module('Unit | Utility | upgrade', function(hooks) {
     assert.ok(up.isActive)
     assert.ok(empire.upgradeOK)
   });
+
+  test('upgradeTypoError', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+    store.createRecord('universe')
+    await game.load()
+    let empire = game.empire
+    defineProperty(empire, 'upgradeBAD', upgrade('Sbleurlk')),
+    assert.throws(() => {
+      empire.upgradeBAD
+    })
+  });
 });
