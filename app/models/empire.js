@@ -17,6 +17,15 @@ export default Model.extend({
   spellCount: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
 
+  //Helper function to get a building from the empire.
+  getBuilding: function(code) {
+    for (let b of this.buildings) {
+      if (b.code == code) {
+        return b
+      }
+    }
+  },
+
   _builders: mapBy('buildings', 'builders'),
   builders: sum('_builders'),
   _workers: mapBy('buildings', 'workers'),

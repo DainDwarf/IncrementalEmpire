@@ -47,7 +47,7 @@ export default Component.extend({
   // This is hacky, unless you come from python like me, I guess.
   init() {
     this._super(...arguments)
-    if (this.building.isLongDisplay == undefined) {
+    if (this.building && this.building.isLongDisplay == undefined) {
       this.building.isLongDisplay = this.game.settings.defaultLongDisplay
     }
   },
