@@ -8,6 +8,7 @@ export default Service.extend({
   notify: service(),
   buildingFactory: service(),
   upgradeFactory: service(),
+  achievementFactory: service(),
   gameTemplate: service('game-template'),
   settings: undefined,
   universe: undefined,
@@ -115,35 +116,11 @@ export default Service.extend({
   },
 
   async consolidateUpgrades() {
-    this.upgradeFactory.consolidate_all(this.upgrades)
+    await this.upgradeFactory.consolidate_all(this.upgrades)
   },
 
   async consolidateAchievements() {
-    for (let a of this.gameTemplate.achievements) {
-      let savedA = this.getAchievement(a.name)
-      if (savedA == undefined) {
-        a.conditionFactory(a)
-        this.achievements.pushObject(a)
-        await a.save()
-      } else {
-        savedA.set('templatePoint', a.templatePoint)
-        savedA.set('description', a.description)
-        a.conditionFactory(savedA)
-      }
-    }
-    for (let savedA of this.achievements) {
-      let found = false
-      for (let a of this.gameTemplate.achievements) {
-        if (a.name == savedA.name) {
-          found=true
-          break
-        }
-      }
-      if (! found) {
-        this.achievements.removeObject(savedA)
-        savedA.destroyRecord()
-      }
-    }
+    await this.achievementFactory.consolidate_all(this.achievements)
   },
 
   getUpgrade(name) {

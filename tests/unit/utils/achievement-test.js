@@ -27,7 +27,7 @@ module('Unit | Utility | achievement', function(hooks) {
     resetStorages();
   });
 
-  test('upgradeCMP', async function(assert) {
+  test('achievementCMP', async function(assert) {
     let game = this.owner.lookup('service:game');
     await game.load()
     let ach = game.getAchievement('Have 10 population')
@@ -43,7 +43,7 @@ module('Unit | Utility | achievement', function(hooks) {
     assert.ok(empire.achievementOK)
   });
 
-  test('upgradeTypoError', async function(assert) {
+  test('achievementTypoError', async function(assert) {
     let game = this.owner.lookup('service:game');
     await game.load()
     let empire = game.empire
