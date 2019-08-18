@@ -12,7 +12,6 @@ export default Service.extend({
   settings: undefined,
   universe: undefined,
   empire: undefined,
-  upgrades: undefined,
   achievements: undefined,
 
   async generate() {
@@ -20,47 +19,6 @@ export default Service.extend({
     this.universe = await this.store.createRecord('universe');
     this.empire = await this.store.createRecord('empire', {name: 'Eden'});
     // Ember array not needed, the whole class is "const".
-    this.upgrades = [
-      await this.store.createRecord('upgrade', {name: 'Spontaneous Generation', manaCost: 1,
-        description: 'You can now create more humans'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Click Power', manaCost: 5,
-        description: 'Your god powers for generating ressources is improved by your current mana'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Economical Empires', manaCost: 20,
-        description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select economical empires'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Magic Anvil', manaCost: 20,
-        description: 'Generate some material through the power of your magic'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Holy Building', manaCost: 50,
-        description: 'Magically make buildings appear'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Worker', moneyCost: 5,
-        description: 'Humans can work to generate ressources in economical empires'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Builder', moneyCost: 10,
-        description: 'Humans can use material to build new buildings'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Production 1', moneyCost: 100,
-        description: 'Can build production buildings'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Hoarding', moneyCost: 100,
-        description: 'Your ressource storage buildings provide 4x more storage in economical empires'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Storage 2', moneyCost: 200,
-        description: 'Can build better storage buildings'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Economical Power', moneyCost: 5,
-        description: 'Your ressource production in economical empires is improved by your current money'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Universal Worker', moneyCost: 50, manaCost: 50,
-        description: 'Workers are available in all empire types'
-      }),
-      await this.store.createRecord('upgrade', {name: 'Material', moneyCost: 5,
-        description: 'Discover a new ressource for your people. Material is more precious than food for economical empires'
-      }),
-    ]
     this.achievements = []
     var ach
     ach = await this.store.createRecord('achievement', {name: 'Reach turn 10', templatePoint: 1, description: 'You can now assign template points to restart with more population'})
