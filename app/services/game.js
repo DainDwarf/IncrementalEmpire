@@ -9,7 +9,6 @@ export default Service.extend({
   buildingFactory: service(),
   upgradeFactory: service(),
   achievementFactory: service(),
-  gameTemplate: service('game-template'),
   settings: undefined,
   universe: undefined,
   empire: undefined,
@@ -57,9 +56,8 @@ export default Service.extend({
     this.set('templates', query.toArray()) //No need to consolidate afaik.
   },
 
+  // Helper function to add or fix models if missing after loading.
   async consolidateSave() {
-    // Helper function to add models if missing after loading.
-    await this.gameTemplate.generate()
     await this.consolidateSettings()
     await this.consolidateUniverse()
     await this.consolidateEmpire()
@@ -70,22 +68,25 @@ export default Service.extend({
 
   async consolidateSettings() {
     if (this.settings == undefined) {
-      this.set('settings', this.gameTemplate.settings)
-      await this.settings.save();
+      let settings = await this.store.createRecord('setting')
+      await settings.save();
+      this.set('settings', settings)
     }
   },
 
   async consolidateUniverse() {
     if (this.universe == undefined) {
-      this.set('universe', this.gameTemplate.universe)
-      await this.universe.save();
+      let universe = await this.store.createRecord('universe')
+      await universe.save();
+      this.set('universe', universe)
     }
   },
 
   async consolidateEmpire() {
     if (this.empire == undefined) {
-      this.set('empire', this.gameTemplate.empire)
-      await this.empire.save();
+      let empire = await this.store.createRecord('empire', {name: 'Eden'})
+      await empire.save();
+      this.set('empire', empire)
     }
     let empire_buildings = await this.store.query('building', { filter: {template_id: 'empire'}})
     empire_buildings = empire_buildings.toArray()
