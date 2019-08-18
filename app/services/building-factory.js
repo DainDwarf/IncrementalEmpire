@@ -3,10 +3,10 @@ import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
 import achievement from 'incremental-empire/utils/achievement';
 
+// The buildingFactory gives the correct values for each building.
+// It is either used to fill a given building-code, or more generally
+// to consolidate a full list of buildings linked to a template or empire.
 export default Service.extend({
-  // The buildingFactory gives the correct values for each building.
-  // It is either used to fill a given building-code, or more generally
-  // to consolidate a full list of buildings linked to a template or empire.
   store: service(),
 
   async generate(building_code, template_id) {
