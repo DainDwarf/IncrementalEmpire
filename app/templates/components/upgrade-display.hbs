@@ -1,0 +1,31 @@
+<div class="card h-100">
+  <div class="card-header {{if model.isActive "bg-success"}}">
+    {{model.name}}
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{model.description}}</p>
+  </div>
+  {{#if displayFooter}}
+    <div class="card-footer text-center">
+      {{#if debug}}
+        <button type="button" class="btn btn-secondary" onclick={{action "debugToggle"}}>
+          {{if model.isActive "Deactivate" "Activate"}}
+        </button>
+      {{/if}}
+      {{#if (not model.isActive)}}
+        <button type="button" class="btn btn-primary" disabled={{model.cannotBuy}} onclick={{action "buy"}}>
+          Buy for
+          {{#if model.manaCost}}
+            <DisplayValue @type="mana" @value={{model.manaCost}} />
+          {{/if}}
+          {{#if model.moneyCost}}
+            <DisplayValue @type="money" @value={{model.moneyCost}} />
+          {{/if}}
+          {{#if model.scienceCost}}
+            <DisplayValue @type="science" @value={{model.scienceCost}} />
+          {{/if}}
+        </button>
+      {{/if}}
+    </div>
+  {{/if}}
+</div>
