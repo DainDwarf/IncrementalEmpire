@@ -4,6 +4,10 @@ import { computed, defineProperty } from '@ember/object';
 import { gte, lte } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
+function setCondition(achievement, macro) {
+  defineProperty(achievement, 'condition', macro)
+}
+
 export default Service.extend({
   store: service(),
   achievementPlan: undefined, // Map that will hold all the achievement definitions
@@ -16,14 +20,14 @@ export default Service.extend({
         description: 'You can now assign template points to restart with more population',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.turn', 10))
+      setCondition(achievement, gte('game.empire.turn', 10))
     })
     this.achievementPlan.set('Reach turn 100', (achievement) => {
       achievement.setProperties({
         description: 'A century old empire',
         templatePoint: 2,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.turn', 100))
+      setCondition(achievement, gte('game.empire.turn', 100))
     })
     this.achievementPlan.set('Have 10 huts', (achievement) => {
       achievement.setProperties({
@@ -156,84 +160,84 @@ export default Service.extend({
         description: 'Template Point gives 2x more population',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.population', 10))
+      setCondition(achievement, gte('game.empire.population', 10))
     })
     this.achievementPlan.set('Have 100 population', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more population',
         templatePoint: 2,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.population', 100))
+      setCondition(achievement, gte('game.empire.population', 100))
     })
     this.achievementPlan.set('Have 1000 population', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more population',
         templatePoint: 3,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.population', 1000))
+      setCondition(achievement, gte('game.empire.population', 1000))
     })
     this.achievementPlan.set('Have 100 food', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more food',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.food', 100))
+      setCondition(achievement, gte('game.empire.food', 100))
     })
     this.achievementPlan.set('Have 1000 food', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more food',
         templatePoint: 2,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.food', 1000))
+      setCondition(achievement, gte('game.empire.food', 1000))
     })
     this.achievementPlan.set('Have 100 material', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more material',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.material', 100))
+      setCondition(achievement, gte('game.empire.material', 100))
     })
     this.achievementPlan.set('Have 1000 material', (achievement) => {
       achievement.setProperties({
         description: 'Template Point gives 2x more material',
         templatePoint: 2,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.material', 1000))
+      setCondition(achievement, gte('game.empire.material', 1000))
     })
     this.achievementPlan.set('Reach 100 money', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.universe.money', 100))
+      setCondition(achievement, gte('game.universe.money', 100))
     })
     this.achievementPlan.set('Reach 100 mana', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.universe.mana', 100))
+      setCondition(achievement, gte('game.universe.mana', 100))
     })
     this.achievementPlan.set('Cast 100 spells', (achievement) => {
       achievement.setProperties({
         description: 'Cast 100 spells in a single empire. You can use template points to get more magic in your empire templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', gte('game.empire.spellCount', 100))
+      setCondition(achievement, gte('game.empire.spellCount', 100))
     })
     this.achievementPlan.set('Unlock Economical Empires', (achievement) => {
       achievement.setProperties({
         description: 'You can now choose a Cave as the beginning habitat for your new empires',
         templatePoint: 2,
       })
-      defineProperty(achievement, 'condition', upgrade('Economical Empires'))
+      setCondition(achievement, upgrade('Economical Empires'))
     })
     this.achievementPlan.set('Fill the cave', (achievement) => {
       achievement.setProperties({
         description: 'You have too many people for a cave. You can now choose to start new empires as a Tribe.',
         templatePoint: 4,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.{populationStorage,foodStorage,materialStorage,population,food,material,capitalName}', function() {
+      setCondition(achievement, computed('game.empire.{populationStorage,foodStorage,materialStorage,population,food,material,capitalName}', function() {
         return achievement.game.empire.population >= achievement.game.empire.populationStorage
           &&   achievement.game.empire.food >= achievement.game.empire.foodStorage
           &&   achievement.game.empire.material >= achievement.game.empire.materialStorage
@@ -246,7 +250,7 @@ export default Service.extend({
         templatePoint: 1,
         isHidden: true,
       })
-      defineProperty(achievement, 'condition', lte('game.empire.population', 0))
+      setCondition(achievement, lte('game.empire.population', 0))
     })
   },
 
