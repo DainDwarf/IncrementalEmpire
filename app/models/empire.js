@@ -32,6 +32,13 @@ export default Model.extend({
   }),
 
   economicalPower: upgrade('Economical Power'),
+  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'type', function() {
+    if (this.economicalPower && this.type == "economical") {
+      return Math.max(1, 1+Math.log10(this.game.universe.money))
+    } else {
+      return 1
+    }
+  }),
 
   populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
   basePopulationProduction: computed('populationProductionBuildings.@each.{workers}', function() {
@@ -58,13 +65,7 @@ export default Model.extend({
     }
     return sum
   }),
-  foodEfficiency: computed('game.universe.money', 'economicalPower', 'type', function() {
-    if (this.economicalPower && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
-      return 1
-    }
-  }),
+  foodEfficiency: alias('ressourceEfficiency'),
   foodProduction: computed('baseFoodProduction', 'foodEfficiency', function() {
     return Math.floor(this.baseFoodProduction*this.foodEfficiency)
   }),
@@ -77,13 +78,7 @@ export default Model.extend({
     }
     return sum
   }),
-  materialEfficiency: computed('game.universe.money', 'type', 'economicalPower', function() {
-    if (this.economicalPower && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
-      return 1
-    }
-  }),
+  materialEfficiency: alias('ressourceEfficiency'),
   materialProduction: computed('baseMaterialProduction', 'materialEfficiency', function() {
     return Math.floor(this.baseMaterialProduction*this.materialEfficiency)
   }),
