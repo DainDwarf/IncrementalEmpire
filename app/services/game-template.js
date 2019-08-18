@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
 import { gte, lte } from '@ember/object/computed';
+import upgrade from 'incremental-empire/utils/upgrade';
 
 export default Service.extend({
   // This is the game plan: Everything that should exist on the start.
@@ -232,7 +233,7 @@ export default Service.extend({
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Unlock Economical Empires', templatePoint: 2, description: 'You can now choose a Cave as the beginning habitat for your new empires'})
     ach.reopen({
-      conditionFactory: (a) => defineProperty(a, 'condition', computed('game.upgrades.@each.isActive', function() { return a.game.getUpgrade('Economical Empires').isActive })),
+      conditionFactory: (a) => defineProperty(a, 'condition', upgrade('Economical Empires'))
     })
     this.achievements.push(ach)
     ach = await this.store.createRecord('achievement', {isHidden: false, name: 'Fill the cave', templatePoint: 4, description: 'You have too many people for a cave. You can now choose to start new empires as a Tribe.'})

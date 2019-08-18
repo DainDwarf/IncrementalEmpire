@@ -1,6 +1,8 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { sort, sum, filter, filterBy, mapBy } from '@ember/object/computed';
+import upgrade from 'incremental-empire/utils/upgrade';
+import achievement from 'incremental-empire/utils/achievement';
 
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
@@ -15,45 +17,51 @@ export default Controller.extend({
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
-  canAssignSpell: computed('model.type', 'game.achievements.@each.isActive', function() {
-    return this.model.type == "religious" && this.game.getAchievement('Cast 100 spells').isActive
+  _canAssignSpell: achievement('Case 100 spells'),
+  canAssignSpell: computed('model.type', '_canAssignSpell', function() {
+    return this.model.type == "religious" && this._canAssignSpell
   }),
 
-  materialAvailable: computed('game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Material').isActive
-  }),
+  materialAvailable: upgrade('Material'),
 
-  rebirthPop: computed('model.popTP', 'game.achievements.@each.isActive', function() {
+  _TPratio10population: achievement('Have 10 population'),
+  _TPratio100population: achievement('Have 100 population'),
+  _TPratio1000population: achievement('Have 1000 population'),
+  rebirthPop: computed('model.popTP', '_TPratio10population', '_TPratio100population', '_TPratio1000population', function() {
     let TPratio = 1
-    if (this.game.getAchievement('Have 10 population').isActive) {
+    if (this._TPratio10population) {
       TPratio = TPratio * 2
     }
-    if (this.game.getAchievement('Have 100 population').isActive) {
+    if (this._TPratio100population) {
       TPratio = TPratio * 2
     }
-    if (this.game.getAchievement('Have 1000 population').isActive) {
+    if (this._TPratio1000population) {
       TPratio = TPratio * 2
     }
     return 1+this.model.popTP*TPratio
   }),
 
-  rebirthFood: computed('model.foodTP', function() {
+  _TPratio100food: achievement('Have 100 food'),
+  _TPratio1000food: achievement('Have 1000 food'),
+  rebirthFood: computed('model.foodTP', '_TPratio100food', '_TPratio1000food', function() {
     let TPratio = 10
-    if (this.game.getAchievement('Have 100 food').isActive) {
+    if (this._TPratio100food) {
       TPratio = TPratio * 2
     }
-    if (this.game.getAchievement('Have 1000 food').isActive) {
+    if (this._TPratio1000food) {
       TPratio = TPratio * 2
     }
     return this.model.foodTP*TPratio
   }),
 
-  rebirthMaterial: computed('model.materialTP', function() {
+  _TPratio100material: achievement('Have 100 material'),
+  _TPratio1000material: achievement('Have 1000 material'),
+  rebirthMaterial: computed('model.materialTP', '_TPratio100material', '_TPratio1000material', function() {
     let TPratio = 10
-    if (this.game.getAchievement('Have 100 material').isActive) {
+    if (this._TPratio100material) {
       TPratio = TPratio * 2
     }
-    if (this.game.getAchievement('Have 1000 material').isActive) {
+    if (this._TPratio1000material) {
       TPratio = TPratio * 2
     }
     return this.model.materialTP*TPratio
