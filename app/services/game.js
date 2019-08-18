@@ -7,6 +7,7 @@ export default Service.extend({
   store: service(),
   notify: service(),
   buildingFactory: service(),
+  upgradeFactory: service(),
   gameTemplate: service('game-template'),
   settings: undefined,
   universe: undefined,
@@ -114,31 +115,7 @@ export default Service.extend({
   },
 
   async consolidateUpgrades() {
-    for (let u of this.gameTemplate.upgrades) {
-      let savedU = this.getUpgrade(u.name)
-      if (savedU == undefined) {
-        this.upgrades.pushObject(u)
-        await u.save()
-      } else {
-        savedU.set('manaCost', u.manaCost)
-        savedU.set('moneyCost', u.moneyCost)
-        savedU.set('scienceCost', u.scienceCost)
-        savedU.set('description', u.description)
-      }
-    }
-    for (let savedU of this.upgrades) {
-      let found = false
-      for (let u of this.gameTemplate.upgrades) {
-        if (u.name == savedU.name) {
-          found=true
-          break
-        }
-      }
-      if (! found) {
-        this.upgrades.removeObject(savedU)
-        savedU.destroyRecord()
-      }
-    }
+    this.upgradeFactory.consolidate_all(this.upgrades)
   },
 
   async consolidateAchievements() {
