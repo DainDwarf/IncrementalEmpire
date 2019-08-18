@@ -87,7 +87,7 @@ module('Unit | Service | upgradeFactory', function(hooks) {
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
 
     // This already defined existing upgrade should keep its activated status
-    // But gain non-saved values like description and cost.
+    // But replace non-saved values like description and cost.
     let clickPower = await store.createRecord('upgrade', {
       name: 'Click Power',
       isActive: true,
