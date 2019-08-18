@@ -2,22 +2,24 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
+import upgrade from 'incremental-empire/utils/upgrade';
+import achievement from 'incremental-empire/utils/achievement';
 
 export default Controller.extend({
   buildingFactory: service(),
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
-  hasEconomicalTemplates: computed('game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Economical Empires').isActive
-  }),
+  hasEconomicalTemplates: upgrade('Economical Empires'),
   hasCulturalTemplates: false,
   hasScientificTemplates: false,
-  canAddTemplate: computed('model.length', 'game.achievements.@each.isActive', function() {
+  template100mana: achievement('Reach 100 mana'),
+  template100money: achievement('Reach 100 money'),
+  canAddTemplate: computed('model.length', 'template100mana', 'template100money', function() {
     let maxTemplate = 1
-    if (this.game.getAchievement('Reach 100 mana').isActive) {
+    if (this.template100mana) {
       maxTemplate = maxTemplate + 1
     }
-    if (this.game.getAchievement('Reach 100 money').isActive) {
+    if (this.template100money) {
       maxTemplate = maxTemplate + 1
     }
     return this.model.length < maxTemplate

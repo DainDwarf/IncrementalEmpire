@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
+import achievement from 'incremental-empire/utils/achievement';
 
 export default Service.extend({
   // The buildingFactory gives the correct values for each building.
@@ -34,9 +35,7 @@ export default Service.extend({
 
   // Helper function to define the `isTemplateAvailable` property based on a given achievement.
   _templateVisibility(building, dependant_achievement) {
-    defineProperty(building, 'isTemplateAvailable', computed('game.achievements.@each.isActive', function() {
-      return building.game.getAchievement(dependant_achievement).isActive
-    }))
+    defineProperty(building, 'isTemplateAvailable', achievement(dependant_achievement))
   },
 
   // This is a very long function, because it holds the definition of all buildings in the game.

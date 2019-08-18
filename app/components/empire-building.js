@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias, and, or, not } from '@ember/object/computed';
+import upgrade from 'incremental-empire/utils/upgrade';
 
 export default Component.extend({
   hidden: not('building.isEmpireAvailable'),
@@ -10,8 +11,9 @@ export default Component.extend({
   step: '+1',
 
   canAssignWorker: and('building.maxWorkers', 'empire.workerAssignAvailable'),
-  canBuild: computed('game.upgrades.@each.isActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
-    return this.empire.workerAssignAvailable && ! this.building.isCapital && this.game.getUpgrade('Builder').isActive
+  _builderActive: upgrade('Builder'),
+  canBuild: computed('_builderActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
+    return this.empire.workerAssignAvailable && ! this.building.isCapital && this._builderActive
   }),
 
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
@@ -31,9 +33,10 @@ export default Component.extend({
   isHolyBuildingDisabled: computed('empire.{spellPoints,dead}', 'building.spellCost', function() {
     return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
   }),
-  isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
+  _holyBuildingUpgrade: upgrade('Holy Building'),
+  isHolyBuildingAvailable: computed('empire.type', '_holyBuildingUpgrade', function() {
     return this.empire.type == "religious"
-      &&   this.game.getUpgrade('Holy Building').isActive
+      &&   this._holyBuildingUpgrade
       &&   this.building.spellCost > 0
   }),
 

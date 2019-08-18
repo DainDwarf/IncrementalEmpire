@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { gt, lt, or } from '@ember/object/computed';
+import upgrade from 'incremental-empire/utils/upgrade';
 
 export default Controller.extend({
   tabRoute: 'empire.population',
@@ -31,13 +32,12 @@ export default Controller.extend({
     return this.model.population + "/" + this.model.populationStorage
   }),
 
-  materialAvailable: computed('game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Material').isActive
-  }),
+  materialAvailable: upgrade('Material'),
 
-  ressourceSpellEfficiency: computed('game.upgrades.@each.isActive', function() {
+  clickPowerActive: upgrade('Click Power'),
+  ressourceSpellEfficiency: computed('clickPowerActive', function() {
     let eff = 1
-    if (this.game.getUpgrade('Click Power').isActive) {
+    if (this.clickPowerActive) {
       eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
     }
     return eff

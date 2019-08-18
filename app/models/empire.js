@@ -2,6 +2,7 @@ import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
 import { alias, filter, mapBy, sum } from '@ember/object/computed';
+import upgrade from 'incremental-empire/utils/upgrade';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -24,8 +25,19 @@ export default Model.extend({
     return this.population - this.workers - this.builders
   }),
 
-  workerAssignAvailable: computed('type', 'game.upgrades.@each.isActive', function() {
-    return (this.game.getUpgrade('Worker').isActive && this.type == "economical") || this.game.getUpgrade('Universal Worker').isActive
+  _economicalWorker: upgrade('Worker'),
+  _universalWorker: upgrade('Universal Worker'),
+  workerAssignAvailable: computed('type', '_economicalWorker', '_universalWorker', function() {
+    return (this._economicalWorker && this.type == "economical") || this._universalWorker
+  }),
+
+  economicalPower: upgrade('Economical Power'),
+  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'type', function() {
+    if (this.economicalPower && this.type == "economical") {
+      return Math.max(1, 1+Math.log10(this.game.universe.money))
+    } else {
+      return 1
+    }
   }),
 
   populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
@@ -53,13 +65,7 @@ export default Model.extend({
     }
     return sum
   }),
-  foodEfficiency: computed('game.{universe.money,upgrades.@each.isActive}', 'type', function() {
-    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
-      return 1
-    }
-  }),
+  foodEfficiency: alias('ressourceEfficiency'),
   foodProduction: computed('baseFoodProduction', 'foodEfficiency', function() {
     return Math.floor(this.baseFoodProduction*this.foodEfficiency)
   }),
@@ -72,13 +78,7 @@ export default Model.extend({
     }
     return sum
   }),
-  materialEfficiency: computed('game.{universe.money,upgrades.@each.isActive}', 'type', function() {
-    if (this.game.getUpgrade('Economical Power').isActive && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
-      return 1
-    }
-  }),
+  materialEfficiency: alias('ressourceEfficiency'),
   materialProduction: computed('baseMaterialProduction', 'materialEfficiency', function() {
     return Math.floor(this.baseMaterialProduction*this.materialEfficiency)
   }),
@@ -108,8 +108,9 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
-  ressourceStorageBoost: computed('type', 'game.upgrades.@each.isActive', function() {
-    if (this.type == "economical" && this.game.getUpgrade('Hoarding').isActive) {
+  hoarding: upgrade('Hoarding'),
+  ressourceStorageBoost: computed('type', 'hoarding', function() {
+    if (this.type == "economical" && this.hoarding) {
       return 4
     } else {
       return 1
