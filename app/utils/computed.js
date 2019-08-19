@@ -11,3 +11,9 @@ export function achievement(achievementKey) {
     return this.game.getAchievement(achievementKey).isActive
   })
 }
+
+export function empireBuilding(buildingCode) {
+  return computed('game.empire.buildings.@each.code', function() {
+    return this.game.empire.getBuilding(buildingCode)
+  })
+}

@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
 import { gte, lte } from '@ember/object/computed';
-import { upgrade } from 'incremental-empire/utils/computed';
+import { empireBuilding, upgrade } from 'incremental-empire/utils/computed';
 
 function setCondition(achievement, macro) {
   defineProperty(achievement, 'condition', macro)
@@ -34,126 +34,72 @@ export default Service.extend({
         description: 'You can now have huts in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'hut') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('population-storage-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 10 storage pits', (achievement) => {
       achievement.setProperties({
         description: 'You can now have storage pits in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'storage pit') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('food-storage-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 10 store rooms', (achievement) => {
       achievement.setProperties({
         description: 'You can now have store rooms in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'store room') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('material-storage-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 10 child cares', (achievement) => {
       achievement.setProperties({
         description: 'You can now have child cares in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'child care') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('population-production-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 10 hunting grounds', (achievement) => {
       achievement.setProperties({
         description: 'You can now have hunting grounds in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'hunting ground') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('food-production-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 10 woodcutters', (achievement) => {
       achievement.setProperties({
         description: 'You can now have woodcutters in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'woodcutting') {
-            return b.qty >= 10
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('material-production-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
     this.achievementPlan.set('Have 20 houses', (achievement) => {
       achievement.setProperties({
         description: 'You can now have houses in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'house') {
-            return b.qty >= 20
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('population-storage-2'))
+      setCondition(achievement, gte('_observedBuilding.qty', 20))
     })
     this.achievementPlan.set('Have 20 granaries', (achievement) => {
       achievement.setProperties({
         description: 'You can now have granaries in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'granary') {
-            return b.qty >= 20
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('food-storage-2'))
+      setCondition(achievement, gte('_observedBuilding.qty', 20))
     })
     this.achievementPlan.set('Have 20 storage buildings', (achievement) => {
       achievement.setProperties({
         description: 'You can now have storage buildings in your templates',
         templatePoint: 1,
       })
-      defineProperty(achievement, 'condition', computed('game.empire.buildings.@each.qty', function() {
-        for (let b of achievement.game.empire.buildings) {
-          if (b.name == 'storage building') {
-            return b.qty >= 20
-          }
-        }
-        return false
-      }))
+      defineProperty(achievement, '_observedBuilding', empireBuilding('material-storage-2'))
+      setCondition(achievement, gte('_observedBuilding.qty', 20))
     })
     this.achievementPlan.set('Have 10 population', (achievement) => {
       achievement.setProperties({
