@@ -183,7 +183,7 @@ export default Service.extend({
   },
 
   async buyUpgrade(upgrade) {
-    if (! upgrade.cannotBuy && ! upgrade.isActive) {
+    if (upgrade.canBuy) {
       upgrade.set('isActive', true)
       await upgrade.save()
       if (upgrade.manaCost > 0) {

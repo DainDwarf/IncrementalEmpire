@@ -1,6 +1,7 @@
 import DS from 'ember-data';
-import { computed } from '@ember/object';
 const { Model, attr } = DS;
+import { computed } from '@ember/object';
+import { not } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),
@@ -12,11 +13,12 @@ export default Model.extend({
   moneyCost: 0,
   scienceCost: 0,
 
-  cannotBuy: computed('game.universe.{mana,money,science}',
+  canBuy: computed('isActive', 'game.universe.{mana,money,science}',
                       'manaCost', 'moneyCost', 'scienceCost', function() {
-    return (this.manaCost > this.game.universe.mana
-        ||  this.moneyCost > this.game.universe.money
-        ||  this.scienceCost > this.game.universe.science
+    return !this.isActive
+        && (this.manaCost <= this.game.universe.mana
+        &&  this.moneyCost <= this.game.universe.money
+        &&  this.scienceCost <= this.game.universe.science
     )
   }),
 });

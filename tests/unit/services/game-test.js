@@ -111,7 +111,7 @@ module('Unit | Service | game', function(hooks) {
     store.createRecord('universe', {mana: 5, money: 5, science: 5})
     await game.load()
     let upgrade = game.getUpgrade('Spontaneous Generation') //Should cost 1 mana
-    assert.notOk(upgrade.cannotBuy)
+    assert.ok(upgrade.canBuy)
     await game.buyUpgrade(upgrade)
     assert.ok(upgrade.isActive)
     assert.equal(game.universe.mana, 4)

@@ -35,7 +35,7 @@ module('Unit | Utility | computed', function(hooks) {
     let up = game.getUpgrade('Spontaneous Generation') //Should cost 1 mana
     let empire = game.empire
     defineProperty(empire, 'upgradeOK', upgrade('Spontaneous Generation')),
-    assert.notOk(up.cannotBuy)
+    assert.ok(up.canBuy)
     assert.notOk(empire.upgradeOK)
 
     await game.buyUpgrade(up)

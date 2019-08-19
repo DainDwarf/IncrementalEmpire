@@ -38,7 +38,7 @@ module('Unit | Model | upgrade', function(hooks) {
     store.createRecord('universe', {mana: 0})
     let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
     await game.load()
-    assert.ok(upgrade.cannotBuy)
+    assert.notOk(upgrade.canBuy)
   });
 
   test('Can buy', async function(assert) {
@@ -47,6 +47,6 @@ module('Unit | Model | upgrade', function(hooks) {
     store.createRecord('universe', {mana: 12})
     let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
     await game.load()
-    assert.notOk(upgrade.cannotBuy)
+    assert.ok(upgrade.canBuy)
   });
 });
