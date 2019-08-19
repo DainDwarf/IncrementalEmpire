@@ -24,6 +24,8 @@ export default Model.extend({
         return b
       }
     }
+    // else
+    throw 'Could not find building ' + code
   },
 
   _builders: mapBy('buildings', 'builders'),

@@ -1,4 +1,4 @@
-import { upgrade, achievement } from 'incremental-empire/utils/computed';
+import { empireBuilding, upgrade, achievement } from 'incremental-empire/utils/computed';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import resetStorages from 'ember-local-storage/test-support/reset-storage';
@@ -79,6 +79,32 @@ module('Unit | Utility | computed', function(hooks) {
     defineProperty(empire, 'achievementBAD', achievement('Sbleurlk')),
     assert.throws(() => {
       empire.achievementBAD
+    })
+  });
+
+  test('empireBuilding | Computed macro', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
+    let empire = game.empire
+    let building = game.empire.getBuilding('population-storage-1')
+    defineProperty(empire, 'buildingOK', empireBuilding('population-storage-1')),
+
+    assert.equal(empire.buildingOK.qty, building.qty)
+    assert.equal(empire.buildingOK.name, building.name)
+    assert.equal(empire.buildingOK.description, building.description)
+
+    building.set('qty', 10)
+
+    assert.equal(empire.buildingOK.qty, building.qty)
+  });
+
+  test('empireBuilding | Typo error', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
+    let empire = game.empire
+    defineProperty(empire, 'buildingBAD', empireBuilding('Sbleurlk')),
+    assert.throws(() => {
+      empire.buildingBAD
     })
   });
 });
