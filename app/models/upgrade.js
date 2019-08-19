@@ -1,7 +1,6 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
-import { not } from '@ember/object/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),

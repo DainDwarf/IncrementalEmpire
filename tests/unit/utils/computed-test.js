@@ -28,17 +28,15 @@ module('Unit | Utility | computed', function(hooks) {
   });
 
   test('upgrade | Computed macro', async function(assert) {
-    let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('universe', {mana: 5, money: 5, science: 5})
     await game.load()
     let up = game.getUpgrade('Spontaneous Generation') //Should cost 1 mana
     let empire = game.empire
     defineProperty(empire, 'upgradeOK', upgrade('Spontaneous Generation')),
-    assert.ok(up.canBuy)
+    assert.notOk(up.isActive)
     assert.notOk(empire.upgradeOK)
 
-    await game.buyUpgrade(up)
+    up.set('isActive', true)
 
     assert.ok(up.isActive)
     assert.ok(empire.upgradeOK)

@@ -182,23 +182,6 @@ export default Service.extend({
     await this.checkAchievements()
   },
 
-  async buyUpgrade(upgrade) {
-    if (upgrade.canBuy) {
-      upgrade.set('isActive', true)
-      await upgrade.save()
-      if (upgrade.manaCost > 0) {
-        this.universe.set('mana', this.universe.mana - upgrade.manaCost)
-      }
-      if (upgrade.moneyCost > 0) {
-        this.universe.set('money', this.universe.money - upgrade.moneyCost)
-      }
-      if (upgrade.scienceCost > 0) {
-        this.universe.set('science', this.universe.science - upgrade.scienceCost)
-      }
-      await this.universe.save()
-    }
-  },
-
   async checkAchievements() {
     for (var achievement of this.achievements.values()) {
       if (! achievement.isActive && achievement.condition) {

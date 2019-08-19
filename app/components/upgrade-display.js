@@ -14,7 +14,18 @@ export default Component.extend({
 
   actions: {
     async buy() {
-      await this.game.buyUpgrade(this.model)
+      this.model.set('isActive', true)
+      await this.model.save()
+      if (this.model.manaCost > 0) {
+        this.game.universe.set('mana', this.game.universe.mana - this.model.manaCost)
+      }
+      if (this.model.moneyCost > 0) {
+        this.game.universe.set('money', this.game.universe.money - this.model.moneyCost)
+      }
+      if (this.model.scienceCost > 0) {
+        this.game.universe.set('science', this.game.universe.science - this.model.scienceCost)
+      }
+      await this.game.universe.save()
       await this.game.checkAchievements()
     },
     async debugToggle() {
