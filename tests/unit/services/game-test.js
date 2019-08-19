@@ -105,20 +105,6 @@ module('Unit | Service | game', function(hooks) {
     assert.equal(up.isActive, true)
   });
 
-  test('buyUpgrade', async function(assert) {
-    let store = this.owner.lookup('service:store');
-    let game = this.owner.lookup('service:game');
-    store.createRecord('universe', {mana: 5, money: 5, science: 5})
-    await game.load()
-    let upgrade = game.getUpgrade('Spontaneous Generation') //Should cost 1 mana
-    assert.notOk(upgrade.cannotBuy)
-    await game.buyUpgrade(upgrade)
-    assert.ok(upgrade.isActive)
-    assert.equal(game.universe.mana, 4)
-    assert.equal(game.universe.money, 5)
-    assert.equal(game.universe.science, 5)
-  });
-
   test('checkAchievements', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
