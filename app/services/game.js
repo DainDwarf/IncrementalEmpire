@@ -7,7 +7,8 @@ export default Service.extend({
   store: service(),
   notify: service(),
   buildingFactory: service(),
-  gameTemplate: service('game-template'),
+  upgradeFactory: service(),
+  achievementFactory: service(),
   settings: undefined,
   universe: undefined,
   empire: undefined,
@@ -55,9 +56,8 @@ export default Service.extend({
     this.set('templates', query.toArray()) //No need to consolidate afaik.
   },
 
+  // Helper function to add or fix models if missing after loading.
   async consolidateSave() {
-    // Helper function to add models if missing after loading.
-    await this.gameTemplate.generate()
     await this.consolidateSettings()
     await this.consolidateUniverse()
     await this.consolidateEmpire()
@@ -68,22 +68,25 @@ export default Service.extend({
 
   async consolidateSettings() {
     if (this.settings == undefined) {
-      this.set('settings', this.gameTemplate.settings)
-      await this.settings.save();
+      let settings = await this.store.createRecord('setting')
+      await settings.save();
+      this.set('settings', settings)
     }
   },
 
   async consolidateUniverse() {
     if (this.universe == undefined) {
-      this.set('universe', this.gameTemplate.universe)
-      await this.universe.save();
+      let universe = await this.store.createRecord('universe')
+      await universe.save();
+      this.set('universe', universe)
     }
   },
 
   async consolidateEmpire() {
     if (this.empire == undefined) {
-      this.set('empire', this.gameTemplate.empire)
-      await this.empire.save();
+      let empire = await this.store.createRecord('empire', {name: 'Eden'})
+      await empire.save();
+      this.set('empire', empire)
     }
     let empire_buildings = await this.store.query('building', { filter: {template_id: 'empire'}})
     empire_buildings = empire_buildings.toArray()
@@ -114,59 +117,11 @@ export default Service.extend({
   },
 
   async consolidateUpgrades() {
-    for (let u of this.gameTemplate.upgrades) {
-      let savedU = this.getUpgrade(u.name)
-      if (savedU == undefined) {
-        this.upgrades.pushObject(u)
-        await u.save()
-      } else {
-        savedU.set('manaCost', u.manaCost)
-        savedU.set('moneyCost', u.moneyCost)
-        savedU.set('scienceCost', u.scienceCost)
-        savedU.set('description', u.description)
-      }
-    }
-    for (let savedU of this.upgrades) {
-      let found = false
-      for (let u of this.gameTemplate.upgrades) {
-        if (u.name == savedU.name) {
-          found=true
-          break
-        }
-      }
-      if (! found) {
-        this.upgrades.removeObject(savedU)
-        savedU.destroyRecord()
-      }
-    }
+    await this.upgradeFactory.consolidate_all(this.upgrades)
   },
 
   async consolidateAchievements() {
-    for (let a of this.gameTemplate.achievements) {
-      let savedA = this.getAchievement(a.name)
-      if (savedA == undefined) {
-        a.conditionFactory(a)
-        this.achievements.pushObject(a)
-        await a.save()
-      } else {
-        savedA.set('templatePoint', a.templatePoint)
-        savedA.set('description', a.description)
-        a.conditionFactory(savedA)
-      }
-    }
-    for (let savedA of this.achievements) {
-      let found = false
-      for (let a of this.gameTemplate.achievements) {
-        if (a.name == savedA.name) {
-          found=true
-          break
-        }
-      }
-      if (! found) {
-        this.achievements.removeObject(savedA)
-        savedA.destroyRecord()
-      }
-    }
+    await this.achievementFactory.consolidate_all(this.achievements)
   },
 
   getUpgrade(name) {

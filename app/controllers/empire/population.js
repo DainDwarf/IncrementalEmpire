@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
 import { filter, or, lt } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),

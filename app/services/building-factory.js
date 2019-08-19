@@ -1,7 +1,8 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
-import achievement from 'incremental-empire/utils/achievement';
+import { achievement } from 'incremental-empire/utils/computed';
+
 // The buildingFactory gives the correct values for each building.
 // It is either used to fill a given building-code, or more generally
 // to consolidate a full list of buildings linked to a template or empire.
@@ -225,7 +226,7 @@ export default Service.extend({
       code: building_code,
       template_id: template_id,
     });
-    building = this.consolidate(building)
+    this.consolidate(building)
     building.save()
     return building
   },
@@ -256,7 +257,6 @@ export default Service.extend({
     } else {
       factory(building)
     }
-    return building
   },
 
   // Consolidate all buildings from an array, destroying unknown buildings and generating missing ones.

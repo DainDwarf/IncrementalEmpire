@@ -2,7 +2,7 @@ import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
 import { alias, filter, mapBy, sum } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Model.extend({
   name: attr('string', {defaultValue: 'Empire'}),
@@ -16,6 +16,17 @@ export default Model.extend({
   maxSpellPoints: attr('number', {defaultValue: 5}),
   spellCount: attr('number', {defaultValue: 0}),
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
+
+  //Helper function to get a building from the empire.
+  getBuilding: function(code) {
+    for (let b of this.buildings) {
+      if (b.code == code) {
+        return b
+      }
+    }
+    // else
+    throw 'Could not find building ' + code
+  },
 
   _builders: mapBy('buildings', 'builders'),
   builders: sum('_builders'),

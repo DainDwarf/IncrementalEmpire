@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias, and, or, not } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Component.extend({
   hidden: not('building.isEmpireAvailable'),
@@ -47,7 +47,7 @@ export default Component.extend({
   // This is hacky, unless you come from python like me, I guess.
   init() {
     this._super(...arguments)
-    if (this.building.isLongDisplay == undefined) {
+    if (this.building && this.building.isLongDisplay == undefined) {
       this.building.isLongDisplay = this.game.settings.defaultLongDisplay
     }
   },

@@ -75,9 +75,9 @@ module('Unit | Service | buildingFactory', function(hooks) {
      */
     let store = this.owner.lookup('service:store');
     let buildingFactory = this.owner.lookup('service:building-factory');
-    //TODO: Replace with upgrade.load if possible.
     let game = this.owner.lookup('service:game');
-    await game.load()
+    await game.loadUpgrades()
+    await game.consolidateUpgrades()
     let buildingNoQuantity  = store.createRecord('building', {qty: 0})
     let buildingQuantity    = store.createRecord('building', {qty: 5})
 
@@ -106,9 +106,9 @@ module('Unit | Service | buildingFactory', function(hooks) {
      */
     let store = this.owner.lookup('service:store');
     let buildingFactory = this.owner.lookup('service:building-factory');
-    //TODO: Replace with upgrade.load if possible.
     let game = this.owner.lookup('service:game');
-    await game.load()
+    await game.loadUpgrades()
+    await game.consolidateUpgrades()
     let buildingNoQuantity  = store.createRecord('building', {qty: 0})
     let buildingQuantity    = store.createRecord('building', {qty: 5})
 
@@ -147,9 +147,9 @@ module('Unit | Service | buildingFactory', function(hooks) {
      */
     let store = this.owner.lookup('service:store');
     let buildingFactory = this.owner.lookup('service:building-factory');
-    //TODO: Replace with achievement.load if possible.
     let game = this.owner.lookup('service:game');
-    await game.load()
+    await game.loadAchievements()
+    await game.consolidateAchievements()
     let building = store.createRecord('building')
 
     // Building are created without template visibility by default

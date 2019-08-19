@@ -1,8 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { sort, sum, filter, filterBy, mapBy } from '@ember/object/computed';
-import upgrade from 'incremental-empire/utils/upgrade';
-import achievement from 'incremental-empire/utils/achievement';
+import { achievement, upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
