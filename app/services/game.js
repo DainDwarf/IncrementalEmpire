@@ -92,7 +92,8 @@ export default Service.extend({
     empire_buildings = empire_buildings.toArray()
     if (empire_buildings.length == 0) {
       await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
-      //TODO: Maybe put this in the building service?
+      // TODO: Maybe put this in the building service? Something like "generate_all" ?
+      // Or maybe handle it in consolidate_all?
       await this.buildingFactory.set(empire_buildings, 'capital-population-1', 'qty', 1)
       await this.buildingFactory.set(empire_buildings, 'capital-food-1', 'qty', 1)
       await this.buildingFactory.set(empire_buildings, 'capital-material-1', 'qty', 1)
