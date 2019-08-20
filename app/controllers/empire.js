@@ -35,7 +35,7 @@ export default Controller.extend({
   materialAvailable: upgrade('Material'),
 
   clickPowerActive: upgrade('Click Power'),
-  ressourceSpellEfficiency: computed('clickPowerActive', function() {
+  ressourceSpellEfficiency: computed('game.universe.mana', 'clickPowerActive', function() {
     let eff = 1
     if (this.clickPowerActive) {
       eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
