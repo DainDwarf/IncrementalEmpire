@@ -11,7 +11,12 @@ export default Route.extend(EKMixin, {
     return this.game.empire
   },
 
-  nextTurnShortcut: on(keyUp('KeyN'), function() {
+  disableSpaceScrolling: on(keyDown('Space'), function(event) {
+    event.preventDefault()
+    return false
+  }),
+
+  nextTurnShortcut: on(keyUp('Space'), function() {
     if (! this.controller.nextTurnDisabled) {
       this.controller.send('nextTurn')
     }
