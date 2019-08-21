@@ -56,3 +56,13 @@ input[type=number] {
 .building {
   max-width: 500px;
 }
+
+.scrollable {
+  overflow-y: scroll;
+  max-height: calc(100vh - 100px);
+}
+
+.scrollable-empire {
+  overflow-y: scroll;
+  max-height: calc(100vh - 160px);
+}
