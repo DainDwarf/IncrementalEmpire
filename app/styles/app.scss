@@ -59,5 +59,10 @@ input[type=number] {
 
 .scrollable {
   overflow-y: scroll;
+  max-height: calc(100vh - 100px);
+}
+
+.scrollable-empire {
+  overflow-y: scroll;
   max-height: calc(100vh - 160px);
 }
