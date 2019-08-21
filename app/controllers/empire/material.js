@@ -1,17 +1,12 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { filter, lt, or } from '@ember/object/computed';
+import { filter } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
-  isGenMaterialOnCooldown: lt('model.spellPoints', 1),
-  isGenMaterialDisabled: or('isGenMaterialOnCooldown', 'model.dead', 'empireCtl.isMaxMaterial'),
   magicAnvilUpgrade: upgrade('Magic Anvil'),
-  isGenMaterialAvailable: computed('model.type', 'magicAnvilUpgrade', function() {
-    return this.model.type == "religious" && this.magicAnvilUpgrade
-  }),
 
   materialStorageBuildings: filter('model.materialStorageBuildings.@each.{isCapital,isEmpireAvailable}',
     b => ! b.isCapital && b.isEmpireAvailable
@@ -30,13 +25,9 @@ export default Controller.extend({
   }),
 
   actions: {
-    async genMaterial(event) {
-      event.preventDefault();
+    async genMaterial() {
       this.model.set('material', Math.min(this.model.material + this.empireCtl.ressourceSpellEfficiency, this.model.materialStorage))
-      this.model.set('spellPoints', this.model.spellPoints - 1)
-      this.model.incrementProperty('spellCount')
       await this.model.save()
-      await this.game.checkAchievements()
     },
   },
 });

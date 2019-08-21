@@ -30,14 +30,9 @@ export default Component.extend({
     return this.building.workers + "/" + (this.building.maxWorkers*this.building.qty)
   }),
 
-  isHolyBuildingDisabled: computed('empire.{spellPoints,dead}', 'building.spellCost', function() {
-    return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
-  }),
   _holyBuildingUpgrade: upgrade('Holy Building'),
-  isHolyBuildingAvailable: computed('empire.type', '_holyBuildingUpgrade', function() {
-    return this.empire.type == "religious"
-      &&   this._holyBuildingUpgrade
-      &&   this.building.spellCost > 0
+  isHolyBuildingAvailable: computed('_holyBuildingUpgrade', 'building.spellCost', function() {
+    return this._holyBuildingUpgrade && this.building.spellCost > 0
   }),
 
   // Need at least one button available to give a footer in long display.
@@ -57,10 +52,7 @@ export default Component.extend({
   actions: {
     async holyBuilding() {
       this.building.set('qty', this.building.qty+1)
-      this.empire.set('spellPoints', this.empire.spellPoints - this.building.spellCost)
-      this.empire.incrementProperty('spellCount')
       await this.building.save()
-      await this.empire.save()
     },
     async build(qty) {
       let change = qty - this.building.pending

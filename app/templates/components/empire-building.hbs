@@ -7,13 +7,9 @@
     {{/if}}
     {{#if (not isLongDisplay)}}
       <span class="float-right">
-        <button type="button"
-                class="btn btn-outline-success mt-1"
-                hidden={{not isHolyBuildingAvailable}}
-                disabled={{isHolyBuildingDisabled}}
-                onclick={{action "holyBuilding"}}>
-          <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
-        </button>
+        <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
+                     @visible={{isHolyBuildingAvailable}}
+                     @onSpell={{action "holyBuilding"}}/>
         {{#if canBuild}}
           <DisplayValue @type="material" @value={{building.materialCost}}/>
           <AssignPoint @disabled={{empire.dead}} @tagName="span"
@@ -64,13 +60,12 @@
     </div>
     <div class="card-footer" hidden={{not displayFooter}}>
       <div class="row">
-        <button type="button"
-                class="btn btn-outline-success mt-1 text-nowrap"
-                hidden={{not isHolyBuildingAvailable}}
-                disabled={{isHolyBuildingDisabled}}
-                onclick={{action "holyBuilding"}}>
-          Holy Building <DisplayValue @tagName="small" @type="magic" @value={{building.spellCost}}/>
-        </button>
+        <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
+                     @outputType="building" @outputValue="1"
+                     @visible={{isHolyBuildingAvailable}}
+                     @onSpell={{action "holyBuilding"}}>
+          Holy Building
+        </EmpireSpell>
         {{#if canBuild}}
           <div class="col text-center">
             <span class="text-nowrap">
