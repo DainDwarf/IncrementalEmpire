@@ -59,7 +59,7 @@
         </div>
         <button type="button" class="btn btn-primary" onclick={{action "nextTurn"}} disabled={{nextTurnDisabled}}>Turn {{model.turn}}</button>
       </nav>
-      <div class="container scrollable-empire {{if model.dead "bg-secondary"}}">
+      <div class="container-fluid scrollable-empire {{if model.dead "bg-secondary"}}">
         {{outlet}}
       </div>
     </div>
