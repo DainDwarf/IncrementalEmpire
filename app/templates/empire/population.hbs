@@ -18,6 +18,8 @@
 <EmpireSpell @empire={{model}} @spellCost="5" @disabled={{empireCtl.isMaxPop}}
              @visible={{genPopUpgrade}}
              @outputType="population" @outputValue="1"
+             @maxOutputValue={{sub model.populationStorage model.population}}
+             @step={{empireCtl.assignValue}}
              @onSpell={{action "genPopulation"}}>
   Spontaneous Generation
 </EmpireSpell>

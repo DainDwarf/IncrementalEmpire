@@ -25,8 +25,8 @@ export default Controller.extend({
   }),
 
   actions: {
-    async genPopulation() {
-      this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
+    async genPopulation(qty) {
+      this.model.set('population', Math.min(this.model.population + qty, this.model.populationStorage))
       await this.model.save()
     },
   },

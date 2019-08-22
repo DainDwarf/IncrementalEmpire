@@ -25,8 +25,8 @@ export default Controller.extend({
   }),
 
   actions: {
-    async genMaterial() {
-      this.model.set('material', Math.min(this.model.material + this.empireCtl.ressourceSpellEfficiency, this.model.materialStorage))
+    async genMaterial(qty) {
+      this.model.set('material', Math.min(this.model.material + qty, this.model.materialStorage))
       await this.model.save()
     },
   },

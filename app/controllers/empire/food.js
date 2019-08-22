@@ -23,8 +23,8 @@ export default Controller.extend({
   }),
 
   actions: {
-    async genFood() {
-      this.model.set('food', Math.min(this.model.food + this.empireCtl.ressourceSpellEfficiency, this.model.foodStorage))
+    async genFood(qty) {
+      this.model.set('food', Math.min(this.model.food + qty, this.model.foodStorage))
       await this.model.save()
     },
   },

@@ -50,8 +50,8 @@ export default Component.extend({
   isLongDisplay: alias('building.isLongDisplay'),
 
   actions: {
-    async holyBuilding() {
-      this.building.set('qty', this.building.qty+1)
+    async holyBuilding(qty) {
+      this.building.set('qty', this.building.qty+qty)
       await this.building.save()
     },
     async build(qty) {

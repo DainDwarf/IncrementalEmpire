@@ -5,10 +5,10 @@
         onclick={{action "castSpell"}}>
   {{yield}}
   <small>
-    <DisplayValue @type="magic" @value={{spellCost}}/>
+    <DisplayValue @type="magic" @value={{computedCost}}/>
     {{#if outputType}}
       <FaIcon @icon="arrow-right"/>
-      <DisplayValue @type={{outputType}} @value={{outputValue}}/>
+      <DisplayValue @type={{outputType}} @value={{computedOutput}}/>
     {{/if}}
   </small>
 </button>

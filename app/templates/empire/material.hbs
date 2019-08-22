@@ -10,6 +10,7 @@
 <EmpireSpell @empire={{model}} @spellCost="1" @disabled={{empireCtl.isMaxMaterial}}
              @visible={{magicAnvilUpgrade}}
              @outputType="material" @outputValue={{empireCtl.ressourceSpellEfficiency}}
+             @maxOutputValue={{sub model.materialStorage model.material}} @step={{empireCtl.assignValue}}
              @onSpell={{action "genMaterial"}}>
   Magic Anvil
 </EmpireSpell>

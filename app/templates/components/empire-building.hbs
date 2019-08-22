@@ -8,7 +8,8 @@
     {{#if (not isLongDisplay)}}
       <span class="float-right">
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
-                     @visible={{isHolyBuildingAvailable}}
+                     @visible={{isHolyBuildingAvailable}} @step={{step}}
+                     @outputType="building" @outputValue="1"
                      @onSpell={{action "holyBuilding"}}/>
         {{#if canBuild}}
           <DisplayValue @type="material" @value={{building.materialCost}}/>
@@ -62,7 +63,7 @@
       <div class="row">
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
                      @outputType="building" @outputValue="1"
-                     @visible={{isHolyBuildingAvailable}}
+                     @visible={{isHolyBuildingAvailable}} @step={{step}}
                      @onSpell={{action "holyBuilding"}}>
           Holy Building
         </EmpireSpell>
