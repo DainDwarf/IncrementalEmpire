@@ -26,44 +26,51 @@ export default Controller.extend({
   _TPratio10population: achievement('Have 10 population'),
   _TPratio100population: achievement('Have 100 population'),
   _TPratio1000population: achievement('Have 1000 population'),
-  rebirthPop: computed('model.popTP', '_TPratio10population', '_TPratio100population', '_TPratio1000population', function() {
+  _TPratioPopulation: computed('_TPratio10population', '_TPratio100population', '_TPratio1000population', function() {
     let TPratio = 1
-    if (this._TPratio10population) {
-      TPratio = TPratio * 2
-    }
-    if (this._TPratio100population) {
-      TPratio = TPratio * 2
-    }
-    if (this._TPratio1000population) {
-      TPratio = TPratio * 2
-    }
-    return 1+this.model.popTP*TPratio
+    if (this._TPratio10population  ) { TPratio = TPratio * 2 }
+    if (this._TPratio100population ) { TPratio = TPratio * 2 }
+    if (this._TPratio1000population) { TPratio = TPratio * 2 }
+    return TPratio
+  }),
+  rebirthPop: computed('model.{popTP,empire.populationStorage}', '_TPratioPopulation', function() {
+    return Math.min(1+this.model.popTP*this._TPratioPopulation, this.model.empire.populationStorage)
+  }),
+  maxPopulationTP: computed('remainingTemplatePoints', 'model.{popTP,empire.populationStorage}', '_TPratioPopulation', function() {
+    return Math.min(this.remainingTemplatePoints+this.model.popTP,
+      Math.ceil(this.model.empire.populationStorage/this._TPratioPopulation))
   }),
 
   _TPratio100food: achievement('Have 100 food'),
   _TPratio1000food: achievement('Have 1000 food'),
-  rebirthFood: computed('model.foodTP', '_TPratio100food', '_TPratio1000food', function() {
+  _TPratioFood: computed('_TPratio100food', '_TPratio1000food', function() {
     let TPratio = 10
-    if (this._TPratio100food) {
-      TPratio = TPratio * 2
-    }
-    if (this._TPratio1000food) {
-      TPratio = TPratio * 2
-    }
-    return this.model.foodTP*TPratio
+    if (this._TPratio100food ) { TPratio = TPratio * 2 }
+    if (this._TPratio1000food) { TPratio = TPratio * 2 }
+    return TPratio
+  }),
+  rebirthFood: computed('model.{foodTP,empire.foodStorage}', '_TPratioFood', function() {
+    return Math.min(this.model.foodTP*this._TPratioFood, this.model.empire.foodStorage)
+  }),
+  maxFoodTP: computed('remainingTemplatePoints', 'model.{foodTP,empire.foodStorage}', '_TPratioFood', function() {
+    return Math.min(this.remainingTemplatePoints+this.model.foodTP,
+      Math.ceil(this.model.empire.foodStorage/this._TPratioFood))
   }),
 
   _TPratio100material: achievement('Have 100 material'),
   _TPratio1000material: achievement('Have 1000 material'),
-  rebirthMaterial: computed('model.materialTP', '_TPratio100material', '_TPratio1000material', function() {
+  _TPratioMaterial: computed('_TPratio100material', '_TPratio1000material', function() {
     let TPratio = 10
-    if (this._TPratio100material) {
-      TPratio = TPratio * 2
-    }
-    if (this._TPratio1000material) {
-      TPratio = TPratio * 2
-    }
-    return this.model.materialTP*TPratio
+    if (this._TPratio100material ) { TPratio = TPratio * 2 }
+    if (this._TPratio1000material) { TPratio = TPratio * 2 }
+    return TPratio
+  }),
+  rebirthMaterial: computed('model.{materialTP,empire.materialStorage}', '_TPratioMaterial', function() {
+    return Math.min(this.model.materialTP*this._TPratioMaterial, this.model.empire.materialStorage)
+  }),
+  maxMaterialTP: computed('remainingTemplatePoints', 'model.{materialTP,empire.materialStorage}', '_TPratioMaterial', function() {
+    return Math.min(this.remainingTemplatePoints+this.model.materialTP,
+      Math.ceil(this.model.empire.materialStorage/this._TPratioMaterial))
   }),
 
   rebirthSpellPoints: computed('model.{empire.type,spellTP}', function() {

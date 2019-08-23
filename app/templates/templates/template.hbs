@@ -21,18 +21,24 @@
 </div>
 <AssignPoint @class="ml-2"
              @value={{model.popTP}} @onChange={{action "changeRessource" "popTP"}}
-             @max={{add remainingTemplatePoints model.popTP}}>
-  <DisplayValue @type="population" @value={{rebirthPop}}/> ({{model.popTP}} TP)
+             @max={{maxPopulationTP}}>
+  {{model.popTP}}
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="population" @value="{{rebirthPop}}/{{model.empire.populationStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2"
              @value={{model.foodTP}} @onChange={{action "changeRessource" "foodTP"}}
-             @max={{add remainingTemplatePoints model.foodTP}}>
-  <DisplayValue @type="food" @value={{rebirthFood}}/> ({{model.foodTP}} TP)
+             @max={{maxFoodTP}}>
+  {{model.foodTP}}
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="food" @value="{{rebirthFood}}/{{model.empire.foodStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2" @hidden={{not materialAvailable}}
              @value={{model.materialTP}} @onChange={{action "changeRessource" "materialTP"}}
-             @max={{add remainingTemplatePoints model.materialTP}}>
-  <DisplayValue @type="material" @value={{rebirthMaterial}}/> ({{model.materialTP}} TP)
+             @max={{maxMaterialTP}}>
+  {{model.materialTP}}
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="material" @value="{{rebirthMaterial}}/{{model.empire.materialStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
              @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
