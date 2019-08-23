@@ -226,5 +226,16 @@ module('Unit | Service | buildingFactory', function(hooks) {
     await buildingFactory.consolidate_all(buildings, 'empire')
 
     assert.equal(buildings.length, buildingFactory.buildingPlan.size)
+
+    //Check that capital lvl1 where created
+    for (let b of buildings) {
+      if (b.isCapital) {
+        if (b.lvl == 1) {
+          assert.equal(b.qty, 1, "Newly created buildings should have capital lvl 1 buildings")
+        } else {
+          assert.equal(b.qty, 0, "Newly created buildings should not have higher lvl capital buildings")
+        }
+      }
+    }
   })
 });

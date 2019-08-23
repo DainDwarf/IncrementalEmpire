@@ -92,18 +92,8 @@ export default Service.extend({
     }
     let empire_buildings = await this.store.query('building', { filter: {template_id: 'empire'}})
     empire_buildings = empire_buildings.toArray()
-    if (empire_buildings.length == 0) {
-      await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
-      // TODO: Maybe put this in the building service? Something like "generate_all" ?
-      // Or maybe handle it in consolidate_all?
-      await this.buildingFactory.set(empire_buildings, 'capital-population-1', 'qty', 1)
-      await this.buildingFactory.set(empire_buildings, 'capital-food-1', 'qty', 1)
-      await this.buildingFactory.set(empire_buildings, 'capital-material-1', 'qty', 1)
-      this.empire.set('buildings', empire_buildings)
-    } else {
-      await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
-      this.empire.set('buildings', empire_buildings)
-    }
+    await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
+    this.empire.set('buildings', empire_buildings)
   },
 
   async consolidateTemplates() {
@@ -118,16 +108,8 @@ export default Service.extend({
       t.set('empire', template_empire)
 
       let template_buildings = await this.store.query('building', { filter: {template_id: t.id}})
-      if (template_buildings == undefined) {
-        template_buildings = A()
-        await this.buildingFactory.consolidate_all(template_buildings, t.id)
-        await this.buildingFactory.set(template_buildings, 'capital-population-1', 'qty', 1)
-        await this.buildingFactory.set(template_buildings, 'capital-food-1', 'qty', 1)
-        await this.buildingFactory.set(template_buildings, 'capital-material-1', 'qty', 1)
-      } else {
-        template_buildings = template_buildings.toArray()
-        await this.buildingFactory.consolidate_all(template_buildings, t.id)
-      }
+      template_buildings = template_buildings.toArray()
+      await this.buildingFactory.consolidate_all(template_buildings, t.id)
       t.empire.set('buildings', template_buildings)
     }
   },

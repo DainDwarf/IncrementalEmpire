@@ -37,12 +37,8 @@ export default Controller.extend({
         type: type,
       }).save()
       template.set('empire', empire)
-      //TODO: fill default buildings status
       let template_buildings = A()
       await this.buildingFactory.consolidate_all(template_buildings, template.id)
-      await this.buildingFactory.set(template_buildings, 'capital-population-1', 'qty', 1)
-      await this.buildingFactory.set(template_buildings, 'capital-food-1', 'qty', 1)
-      await this.buildingFactory.set(template_buildings, 'capital-material-1', 'qty', 1)
       template.empire.set('buildings', template_buildings)
       this.game.templates.pushObject(template)
       await template.save()
