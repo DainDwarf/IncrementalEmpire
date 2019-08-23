@@ -30,6 +30,7 @@ export default Component.extend({
       worker: 'hammer',
       building: 'building',
       magic: 'magic',
+      template: 'award',
     }
     return trans[this.type]
   }),

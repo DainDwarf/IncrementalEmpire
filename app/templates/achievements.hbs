@@ -12,7 +12,7 @@
           {{#if achievement.templatePoint}}
             <footer class="mx-1 text-right">
               <small>
-                Reward: {{achievement.templatePoint}} Template Point
+                Reward: <DisplayValue @type="template" @value={{achievement.templatePoint}}/>
               </small>
             </footer>
           {{/if}}

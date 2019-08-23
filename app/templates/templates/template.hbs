@@ -1,60 +1,74 @@
 <div class="container-fluid bg-light">
   <Input value={{model.empire.name}} @focus-out={{action "updateTemplateName"}}/> the {{model.empire.type}} empire
-  <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
+  <DisplayValue @class="float-right" @type="template" @value="{{remainingTemplatePoints}}/{{templatePoints}}"/>
 </div>
-<div class="ml-2">
-  Capital:
-  <select class="ml-1" onchange={{action "selectCapital" value="target.value"}}>
-    {{#each capitalBuildings as |capital|}}
-      <option
-        value={{capital.lvl}}
-        selected={{eq capital selectedCapital}}
-        disabled={{gt capital.TPcost (add selectedCapital.TPcost remainingTemplatePoints)}}
-      >
-        {{capitalize capital.name}}
-        {{#if capital.TPcost}}
-          ({{capital.TPcost}} TP)
-        {{/if}}
-      </option>
-    {{/each}}
-  </select>
+Capital:
+<button class="mx-2 my-2 btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+  {{capitalize selectedCapital.name}}
+</button>
+<div class="dropdown-menu">
+  {{#each capitalBuildings as |capital|}}
+    <button class="dropdown-item {{if (eq capital selectedCapital) "active"}}"
+            type="button" onclick={{action "selectCapital" capital.lvl}}
+            disabled={{gt capital.TPcost (add selectedCapital.TPcost remainingTemplatePoints)}}
+    >
+      {{capitalize capital.name}}
+      {{#if capital.TPcost}}
+        <DisplayValue @type="template" @value={{capital.TPcost}}/>
+      {{/if}}
+    </button>
+  {{/each}}
 </div>
 <AssignPoint @class="ml-2"
              @value={{model.popTP}} @onChange={{action "changeRessource" "popTP"}}
              @max={{maxPopulationTP}}>
-  {{model.popTP}}
+  <DisplayValue @type="template" @value={{model.popTP}}/>
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="population" @value="{{rebirthPop}}/{{model.empire.populationStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2"
              @value={{model.foodTP}} @onChange={{action "changeRessource" "foodTP"}}
              @max={{maxFoodTP}}>
-  {{model.foodTP}}
+  <DisplayValue @type="template" @value={{model.foodTP}}/>
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="food" @value="{{rebirthFood}}/{{model.empire.foodStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2" @hidden={{not materialAvailable}}
              @value={{model.materialTP}} @onChange={{action "changeRessource" "materialTP"}}
              @max={{maxMaterialTP}}>
-  {{model.materialTP}}
+  <DisplayValue @type="template" @value={{model.materialTP}}/>
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="material" @value="{{rebirthMaterial}}/{{model.empire.materialStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
              @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
              @max={{add remainingTemplatePoints model.spellTP}}>
-  <DisplayValue @type="magic" @value={{rebirthSpellPoints}}/> ({{model.spellTP}} TP)
+  <DisplayValue @type="template" @value={{model.spellTP}}/>
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="magic" @value={{rebirthSpellPoints}}/>
 </AssignPoint>
 {{#if displayedBuildings}}
   <hr>
   <div class="ml-2">
     <h3>Buildings</h3>
     {{#each displayedBuildings as |building|}}
-      <AssignPoint @class="ml-2"
-                   @value={{building.qty}} @onChange={{action "addBuilding" building}}
-                   @max={{floor (div (add (mult building.qty building.TPcost) remainingTemplatePoints) building.TPcost)}}>
-        {{capitalize building.name}}: {{building.qty}} ({{building.TPcost}})
-      </AssignPoint>
+      <div class="row justify-content-start">
+        <div class="col-2">
+          {{capitalize building.name}}:
+        </div>
+        <div class="col-2">
+          <DisplayValue @type="template" @value={{building.TPcost}}/>
+          <FaIcon @icon="arrow-right"/>
+          <DisplayValue @type="building" @value="1"/>
+        </div>
+        <div class="col-2">
+          <AssignPoint @class="ml-2"
+                       @value={{building.qty}} @onChange={{action "addBuilding" building}}
+                       @max={{floor (div (add (mult building.qty building.TPcost) remainingTemplatePoints) building.TPcost)}}>
+            <DisplayValue @type="building" @value={{building.qty}}/>
+          </AssignPoint>
+        </div>
+      </div>
     {{/each}}
   </div>
 {{/if}}
