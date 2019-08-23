@@ -17,7 +17,10 @@ export default Component.extend({
     return this.empire.type == "religious" && this.visible
   }),
 
-  _disabled: computed('disabled', 'empire.{dead,spellPoints}', 'spellCost', function() {
+  _disabled: computed('disabled', 'empire.{dead,spellPoints}', 'spellCost', 'maxOutputValue', function() {
+    if (this.maxOutputValue != undefined && this.maxOutputValue <=0) {
+      return true
+    }
     return this.empire.dead || this.empire.spellPoints < this.spellCost || this.disabled
   }),
 
@@ -63,10 +66,14 @@ export default Component.extend({
       return this.spellCost
     }
   }),
-  computedOutput: computed('qty', 'outputValue', function() {
+  computedOutput: computed('qty', 'outputValue', 'maxOutputValue', function() {
     if (this.outputValue) {
       if (this.qty > 0) {
-        return this.qty*this.outputValue
+        if (this.maxOutputValue > 0) {
+          return Math.min(this.maxOutputValue, this.qty*this.outputValue)
+        } else {
+          return this.qty*this.outputValue
+        }
       } else {
         return this.outputValue
       }
@@ -77,14 +84,16 @@ export default Component.extend({
 
   actions: {
     async castSpell() {
-      let cost = this.computedCost
-      let qty = this.qty
-      let output = this.computedOutput
-      this.empire.decrementProperty('spellPoints', cost)
-      this.empire.incrementProperty('spellCount', qty)
-      await this.empire.save()
-      await this.onSpell(output)
-      await this.game.checkAchievements()
+      if (! this._disabled) {
+        let cost = this.computedCost
+        let qty = this.qty
+        let output = this.computedOutput
+        this.empire.decrementProperty('spellPoints', cost)
+        this.empire.incrementProperty('spellCount', qty)
+        await this.empire.save()
+        await this.onSpell(output)
+        await this.game.checkAchievements()
+      }
     },
   },
 });
