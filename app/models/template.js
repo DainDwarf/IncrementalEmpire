@@ -12,26 +12,26 @@ export default Model.extend({
   materialTP: attr('number', { defaultValue: 0}),
   spellTP: attr('number', { defaultValue: 0}),
 
-  buildings: undefined, // Set by buildingFactory on game load or new template creation
+  empire: undefined,    // Set by game service on game load, and templates controller on template creation.
 
-  capitalPopulation: computed('buildings.@each.{qty,code}', function() {
-    for (let b of this.buildings) {
+  capitalPopulation: computed('empire.buildings.@each.{qty,code}', function() {
+    for (let b of this.empire.buildings) {
       if (b.code.startsWith('capital-population-') && b.qty > 0) {
         return b
       }
     }
   }),
 
-  capitalFood: computed('buildings.@each.{qty,code}', function() {
-    for (let b of this.buildings) {
+  capitalFood: computed('empire.buildings.@each.{qty,code}', function() {
+    for (let b of this.empire.buildings) {
       if (b.code.startsWith('capital-food-') && b.qty > 0) {
         return b
       }
     }
   }),
 
-  capitalMaterial: computed('buildings.@each.{qty,code}', function() {
-    for (let b of this.buildings) {
+  capitalMaterial: computed('empire.buildings.@each.{qty,code}', function() {
+    for (let b of this.empire.buildings) {
       if (b.code.startsWith('capital-material-') && b.qty > 0) {
         return b
       }

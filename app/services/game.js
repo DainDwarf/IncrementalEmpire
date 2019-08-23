@@ -37,7 +37,7 @@ export default Service.extend({
   },
 
   async loadEmpire() {
-    let empire = await this.store.findAll('empire').then(e => e.get('firstObject'))
+    let empire = await this.store.query('empire', { filter: {template_id: 'universe'}}).then(e => e.get('firstObject'))
     this.set('empire', empire)
   },
 
@@ -53,7 +53,7 @@ export default Service.extend({
 
   async loadTemplates() {
     let query = await this.store.findAll('template')
-    this.set('templates', query.toArray()) //No need to consolidate afaik.
+    this.set('templates', query.toArray())
   },
 
   // Helper function to add or fix models if missing after loading.
@@ -106,14 +106,25 @@ export default Service.extend({
 
   async consolidateTemplates() {
     for (let t of this.templates) {
+      let template_empire = await this.store.query('empire', { filter: {template_id: t.id}})
+      if (template_empire == undefined) {
+        template_empire = await this.store.createRecord('empire', {template_id: t.id})
+        await template_empire.save()
+      }
+      t.set('empire', template_empire)
+
       let template_buildings = await this.store.query('building', { filter: {template_id: t.id}})
       if (template_buildings == undefined) {
         template_buildings = A()
+        await this.buildingFactory.consolidate_all(template_buildings, t.id)
+        await this.buildingFactory.set(template_buildings, 'capital-population-1', 'qty', 1)
+        await this.buildingFactory.set(template_buildings, 'capital-food-1', 'qty', 1)
+        await this.buildingFactory.set(template_buildings, 'capital-material-1', 'qty', 1)
       } else {
         template_buildings = template_buildings.toArray()
+        await this.buildingFactory.consolidate_all(template_buildings, t.id)
       }
-      await this.buildingFactory.consolidate_all(template_buildings, t.id)
-      t.set('buildings', template_buildings)
+      t.empire.set('buildings', template_buildings)
     }
   },
 
@@ -157,7 +168,7 @@ export default Service.extend({
     let empire_buildings = A()
     await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
     newEmpire.set('buildings', empire_buildings)
-    for (let templateB of sourceTemplate.model.buildings) {
+    for (let templateB of sourceTemplate.model.empire.buildings) {
       this.buildingFactory.set(newEmpire.buildings, templateB.code, 'qty', templateB.qty)
       this.buildingFactory.set(newEmpire.buildings, templateB.code, 'workers', templateB.workers)
     }

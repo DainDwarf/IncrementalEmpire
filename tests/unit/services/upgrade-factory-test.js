@@ -64,7 +64,7 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   test('consolidate OK', async function(assert) {
     let store = this.owner.lookup('service:store');
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
-    let clickPower = await store.createRecord('upgrade', {name: 'Click Power', isActive: true})
+    let clickPower = await store.createRecord('upgrade', {name: 'Click Power', isActive: true}).save()
 
     upgradeFactory.consolidate(clickPower)
 
@@ -78,7 +78,7 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   test('consolidate BAD', async function(assert) {
     let store = this.owner.lookup('service:store');
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
-    let badOne = await store.createRecord('upgrade', {name: 'Sbleurlk'})
+    let badOne = await store.createRecord('upgrade', {name: 'Sbleurlk'}).save()
     assert.throws(() => upgradeFactory.consolidate(badOne))
   })
 
@@ -92,10 +92,10 @@ module('Unit | Service | upgradeFactory', function(hooks) {
       name: 'Click Power',
       isActive: true,
       manaCost: 5000, // Probably not the right value
-    })
+    }).save()
     let badOne = await store.createRecord('upgrade', {
       name: 'Sbleurlk',
-    })
+    }).save()
 
     assert.notOk(clickPower.description)
 

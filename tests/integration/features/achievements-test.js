@@ -31,7 +31,7 @@ module('Integration | Feature | Achievements', function(hooks) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
 
-    store.createRecord('empire', {turn: 9, food:100, population:1})
+    await store.createRecord('empire', {turn: 9, food:100, population:1}).save()
     await game.load()
 
     let empireCtl = this.owner.lookup('controller:empire')

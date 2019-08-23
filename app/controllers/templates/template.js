@@ -7,10 +7,10 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', 'model.buildings.@each.{qty,TPcost}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
     //TODO: Find a more dynamic way to compute this.
     let buildingCost = 0
-    for (let b of this.model.buildings) {
+    for (let b of this.model.empire.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
     return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
@@ -74,9 +74,9 @@ export default Controller.extend({
     }
   }),
 
-  displayedBuildings: filter('model.buildings.@each.{isCapital,isTemplateAvailable}', b => !b.isCapital && b.isTemplateAvailable),
+  displayedBuildings: filter('model.empire.buildings.@each.{isCapital,isTemplateAvailable}', b => !b.isCapital && b.isTemplateAvailable),
   // Since capital building is scattered across ressource parts, only get the population ones
-  _capitalBuildings: filter('model.buildings.@each.{code,isTemplateAvailable}', b => (b.code.startsWith('capital-population-') && b.isTemplateAvailable)),
+  _capitalBuildings: filter('model.empire.buildings.@each.{code,isTemplateAvailable}', b => (b.code.startsWith('capital-population-') && b.isTemplateAvailable)),
   _capitalSort: computed(() => ['lvl:asc']),
   capitalBuildings: sort('_capitalBuildings', '_capitalSort'),
   selectedCapital: computed('_capitalBuildings.@each.qty', function() {
@@ -104,7 +104,7 @@ export default Controller.extend({
       // Save the lvl, because it will change soon
       let previousLvl = this.selectedCapital.lvl
       if (this.selectedCapital.lvl != lvl) {
-        for (let b of this.model.buildings) {
+        for (let b of this.model.empire.buildings) {
           if (b.code.match('capital-.*-'+previousLvl)) {
             b.set('qty', 0)
             b.save()

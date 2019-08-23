@@ -52,7 +52,7 @@ module('Integration | Component | upgrade-display', function(hooks) {
   test('buyUpgrade', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('universe', {mana: 5000})
+    await store.createRecord('universe', {mana: 5000}).save()
     await game.load()
     let clickPower = game.getUpgrade('Click Power')
     this.set('upgrade', clickPower)

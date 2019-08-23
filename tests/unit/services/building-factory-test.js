@@ -78,8 +78,8 @@ module('Unit | Service | buildingFactory', function(hooks) {
     let game = this.owner.lookup('service:game');
     await game.loadUpgrades()
     await game.consolidateUpgrades()
-    let buildingNoQuantity  = store.createRecord('building', {qty: 0})
-    let buildingQuantity    = store.createRecord('building', {qty: 5})
+    let buildingNoQuantity  = await store.createRecord('building', {qty: 0}).save()
+    let buildingQuantity    = await store.createRecord('building', {qty: 5}).save()
 
     // Buildings are created without empire visibility by default
     assert.notOk(buildingNoQuantity.isEmpireAvailable)
@@ -109,8 +109,8 @@ module('Unit | Service | buildingFactory', function(hooks) {
     let game = this.owner.lookup('service:game');
     await game.loadUpgrades()
     await game.consolidateUpgrades()
-    let buildingNoQuantity  = store.createRecord('building', {qty: 0})
-    let buildingQuantity    = store.createRecord('building', {qty: 5})
+    let buildingNoQuantity  = await store.createRecord('building', {qty: 0}).save()
+    let buildingQuantity    = await store.createRecord('building', {qty: 5}).save()
 
     // Buildings are created without empire visibility by default
     assert.notOk(buildingNoQuantity.isEmpireAvailable)
@@ -150,7 +150,7 @@ module('Unit | Service | buildingFactory', function(hooks) {
     let game = this.owner.lookup('service:game');
     await game.loadAchievements()
     await game.consolidateAchievements()
-    let building = store.createRecord('building')
+    let building = await store.createRecord('building').save()
 
     // Building are created without template visibility by default
     assert.notOk(building.isTemplateAvailable)
@@ -168,7 +168,7 @@ module('Unit | Service | buildingFactory', function(hooks) {
   test('consolidate OK', async function(assert) {
     let store = this.owner.lookup('service:store');
     let buildingFactory = this.owner.lookup('service:building-factory');
-    let populationStorage1 = await store.createRecord('building', {code: 'population-storage-1'})
+    let populationStorage1 = await store.createRecord('building', {code: 'population-storage-1'}).save()
 
     buildingFactory.consolidate(populationStorage1)
 
@@ -184,7 +184,7 @@ module('Unit | Service | buildingFactory', function(hooks) {
   test('consolidate BAD', async function(assert) {
     let store = this.owner.lookup('service:store');
     let buildingFactory = this.owner.lookup('service:building-factory');
-    let badOne = await store.createRecord('building', {code: 'Sbleurlk'})
+    let badOne = await store.createRecord('building', {code: 'Sbleurlk'}).save()
     assert.throws(() => buildingFactory.consolidate(badOne))
   })
 
@@ -198,11 +198,11 @@ module('Unit | Service | buildingFactory', function(hooks) {
       code: 'population-storage-1',
       template_id: 'empire',
       qty: 5,
-    })
+    }).save()
     let badOne = await store.createRecord('building', {
       code: 'Sbleurlk',
       template_id: 'empire',
-    })
+    }).save()
 
     assert.notOk(populationStorage1.name)
     assert.notOk(populationStorage1.description)

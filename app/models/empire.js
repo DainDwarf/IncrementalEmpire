@@ -5,6 +5,7 @@ import { alias, filter, mapBy, sum } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Model.extend({
+  template_id: attr('string', {defaultValue: 'universe'}), // Template ID, or "universe" if this is the main empire.
   name: attr('string', {defaultValue: 'Empire'}),
   type: attr('string', {defaultValue: 'religious'}),
   turn: attr('number', {defaultValue: 0}),
