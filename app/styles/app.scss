@@ -66,3 +66,21 @@ input[type=number] {
   overflow-y: scroll;
   max-height: calc(100vh - 160px);
 }
+
+// Disable some reboot.scss for non-button buttons.
+// See issue https://github.com/DainDwarf/IncrementalEmpire/issues/112
+[type=button] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
+}
+
+[type=button][disabled] {
+  cursor: default;
+  pointer-events: none;
+  opacity: $btn-disabled-opacity;
+  @include box-shadow(none);
+}

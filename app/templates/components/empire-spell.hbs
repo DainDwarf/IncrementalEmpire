@@ -1,5 +1,4 @@
-<button type="button"
-        class="btn btn-outline-success mt-1"
+<div type="button" role="button" class="btn btn-outline-success mt-1"
         hidden={{not _visible}}
         disabled={{_disabled}}
         onclick={{action "castSpell"}}>
@@ -11,4 +10,4 @@
       <DisplayValue @type={{outputType}} @value={{computedOutput}}/>
     {{/if}}
   </small>
-</button>
+</div>
