@@ -6,13 +6,16 @@ import { achievement, upgrade } from 'incremental-empire/utils/computed';
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
-  templatePoints: sum('templatePointsArray'),
+  _templatePoints: sum('templatePointsArray'),
+  templatePoints: computed('_templatePoints', function() {
+    return 1+this._templatePoints
+  }),
   remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
-    //TODO: Find a more dynamic way to compute this.
     let buildingCost = 0
     for (let b of this.model.empire.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
+    //TODO: Find a more dynamic way to compute this.
     return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
@@ -34,7 +37,7 @@ export default Controller.extend({
     return TPratio
   }),
   rebirthPopulation: computed('model.{populationTP,empire.populationStorage}', '_TPratioPopulation', function() {
-    return Math.min(1+this.model.populationTP*this._TPratioPopulation, this.model.empire.populationStorage)
+    return Math.min(this.model.populationTP*this._TPratioPopulation, this.model.empire.populationStorage)
   }),
   maxPopulationTP: computed('remainingTemplatePoints', 'model.{populationTP,empire.populationStorage}', '_TPratioPopulation', function() {
     return Math.min(this.remainingTemplatePoints+this.model.populationTP,

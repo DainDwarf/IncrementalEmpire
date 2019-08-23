@@ -59,5 +59,8 @@ export default Controller.extend({
     deadModalAck() {
       this.set('deadModal', false)
     },
+    stillBornModalAck() {
+      this.game.set('stillBornModal', false)
+    },
   },
 });

@@ -40,13 +40,13 @@ module('Integration | Feature | Achievements', function(hooks) {
     let turn10 = game.getAchievement('Reach turn 10')
 
     assert.notOk(turn10.isActive)
-    assert.equal(templateCtl.templatePoints, 0)
+    assert.equal(templateCtl.templatePoints, 1)
 
     empireCtl.send('nextTurn')
     await settled()
 
     assert.ok(turn10.isActive)
-    assert.equal(templateCtl.templatePoints, 1)
+    assert.equal(templateCtl.templatePoints, 2)
   });
 
   // Have 10 huts is triggerd directly when building a 10th hut

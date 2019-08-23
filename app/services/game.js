@@ -16,6 +16,8 @@ export default Service.extend({
   achievements: undefined,
   templates: undefined,
 
+  stillBornModal: false,
+
   async load() {
     await this.loadSettings()
     await this.loadUniverse()
@@ -173,6 +175,10 @@ export default Service.extend({
     for (let templateB of sourceTemplate.model.empire.buildings) {
       this.buildingFactory.set(newEmpire.buildings, templateB.code, 'qty', templateB.qty)
       this.buildingFactory.set(newEmpire.buildings, templateB.code, 'workers', templateB.workers)
+    }
+    if (newEmpire.population <= 0) {
+      newEmpire.set('dead', true)
+      this.set('stillBornModal', true)
     }
 
     // Gain rebirth points

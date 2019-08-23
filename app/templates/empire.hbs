@@ -1,6 +1,9 @@
 <BsModalSimple @open={{deadModal}} @title="{{model.name}} final years" @onHide={{action "deadModalAck"}}>
   {{model.name}} has lost all its people. You will need to start over with a new empire, and be careful next time.
 </BsModalSimple>
+<BsModalSimple @open={{game.stillBornModal}} @title="The barren world" @onHide={{action "stillBornModalAck"}}>
+  Did you just create {{model.name}} as an empty and barren world? You cannot gain anything if there is nobody to worship you. Go back to your god drawing board, and get this right next time!
+</BsModalSimple>
 <div class="container-fluid">
   <div class="row">
     <nav class="nav nav-pills flex-column border-right w-15">

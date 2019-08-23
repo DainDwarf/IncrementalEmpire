@@ -198,6 +198,17 @@ export default Service.extend({
       })
       setCondition(achievement, lte('game.empire.population', 0))
     })
+    this.achievementPlan.set('The barren world', (achievement) => {
+      achievement.setProperties({
+        description: 'You can create empty worlds, but that is useless',
+        templatePoint: 1,
+        isHidden: true,
+      })
+      setCondition(achievement, computed('game.empire.{population,turn}', function() {
+        return achievement.game.empire.population <= 0
+          &&   achievement.game.empire.turn <= 0
+      }))
+    })
   },
 
   async generate(achievement_name) {
