@@ -1,5 +1,5 @@
 <div class="container-fluid bg-light">
-  <Input value={{model.name}} @focus-out={{action "updateTemplateName"}}/> the {{model.type}} empire
+  <Input value={{model.empire.name}} @focus-out={{action "updateTemplateName"}}/> the {{model.empire.type}} empire
   <span class="float-right">You have {{remainingTemplatePoints}}/{{templatePoints}} template points</span>
 </div>
 <div class="ml-2">
@@ -55,14 +55,14 @@
 <hr>
 <div class="container">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
-    <div>Restart with this {{model.type}} empire</div>
+    <div>Restart with this {{model.empire.type}} empire</div>
     <small>Gain <DisplayValue @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} /> from current {{game.empire.type}} empire</small>
   </button>
 </div>
 <div class="container small">
-  {{#if (eq model.type "religious")}}
+  {{#if (eq model.empire.type "religious")}}
     Religious empires produces more <DisplayValue @type="mana"/> if you have more population and spend more turns. You need at least 2 population and 20 turns to start producing <DisplayValue @type="mana"/>
-  {{else if (eq model.type "economical")}}
+  {{else if (eq model.empire.type "economical")}}
     Economical empires produces more <DisplayValue @type="money"/> if you create more ressources, but decreases if you take too much turns. You need at least 20 turns to start producing <DisplayValue @type="money"/>.
   {{/if}}
 </div>

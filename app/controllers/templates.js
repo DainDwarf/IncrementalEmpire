@@ -31,11 +31,11 @@ export default Controller.extend({
     },
 
     async newTemplate(type) {
-      let template = await this.store.createRecord('template', {
+      let template = await this.store.createRecord('template')
+      let empire = await this.store.createRecord('empire', {
+        template_id: template.id,
         type: type,
-      })
-      let empire = await this.store.createRecord('empire', {template_id: template.id})
-      await empire.save()
+      }).save()
       template.set('empire', empire)
       //TODO: fill default buildings status
       let template_buildings = A()

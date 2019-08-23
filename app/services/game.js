@@ -106,7 +106,9 @@ export default Service.extend({
 
   async consolidateTemplates() {
     for (let t of this.templates) {
-      let template_empire = await this.store.query('empire', { filter: {template_id: t.id}})
+      let template_empire = await this.store.query('empire', {
+        filter: {template_id: t.id}
+      }).then(e => e.get('firstObject'))
       if (template_empire == undefined) {
         template_empire = await this.store.createRecord('empire', {template_id: t.id})
         await template_empire.save()
@@ -157,8 +159,8 @@ export default Service.extend({
   async rebirth(sourceTemplate) {
     // Create the new empire for rebirth
     let newEmpire = await this.store.createRecord('empire', {
-      name: sourceTemplate.model.name,
-      type: sourceTemplate.model.type,
+      name: sourceTemplate.model.empire.name,
+      type: sourceTemplate.model.empire.type,
       population: sourceTemplate.rebirthPop,
       food: sourceTemplate.rebirthFood,
       material: sourceTemplate.rebirthMaterial,

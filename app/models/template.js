@@ -4,8 +4,6 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Model.extend({
-  name: attr('string', {defaultValue: 'Empire'}),
-  type: attr('string', {defaultValue: 'religious'}),
   // Save only TP attribution. Controller will be in charge to compute what it results into.
   popTP: attr('number', { defaultValue: 0}),
   foodTP: attr('number', { defaultValue: 0}),

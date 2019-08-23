@@ -17,8 +17,8 @@ export default Controller.extend({
   }),
 
   _canAssignSpell: achievement('Cast 100 spells'),
-  canAssignSpell: computed('model.type', '_canAssignSpell', function() {
-    return this.model.type == "religious" && this._canAssignSpell
+  canAssignSpell: computed('model.empire.type', '_canAssignSpell', function() {
+    return this.model.empire.type == "religious" && this._canAssignSpell
   }),
 
   materialAvailable: upgrade('Material'),
@@ -66,8 +66,8 @@ export default Controller.extend({
     return this.model.materialTP*TPratio
   }),
 
-  rebirthSpellPoints: computed('model.{type,spellTP}', function() {
-    if (this.model.type == "religious") {
+  rebirthSpellPoints: computed('model.{empire.type,spellTP}', function() {
+    if (this.model.empire.type == "religious") {
       return 5+this.model.spellTP
     } else {
       return 0
@@ -89,8 +89,8 @@ export default Controller.extend({
 
   actions: {
     async updateTemplateName(newName) {
-      this.model.set('name', newName)
-      await this.model.save()
+      this.model.empire.set('name', newName)
+      await this.model.empire.save()
     },
     async changeRessource(model_field, qty) {
       this.model.set(model_field, qty)
