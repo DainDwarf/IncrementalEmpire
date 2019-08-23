@@ -161,7 +161,7 @@ export default Service.extend({
     let newEmpire = await this.store.createRecord('empire', {
       name: sourceTemplate.model.empire.name,
       type: sourceTemplate.model.empire.type,
-      population: sourceTemplate.rebirthPop,
+      population: sourceTemplate.rebirthPopulation,
       food: sourceTemplate.rebirthFood,
       material: sourceTemplate.rebirthMaterial,
       spellPoints: sourceTemplate.rebirthSpellPoints,

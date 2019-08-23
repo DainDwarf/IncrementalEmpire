@@ -7,13 +7,13 @@ export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
   templatePointsArray: mapBy('activeAchievements', 'templatePoint'),
   templatePoints: sum('templatePointsArray'),
-  remainingTemplatePoints: computed('templatePoints', 'model.{popTP,foodTP,materialTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
     //TODO: Find a more dynamic way to compute this.
     let buildingCost = 0
     for (let b of this.model.empire.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
-    return this.templatePoints - (this.model.popTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
+    return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
   }),
 
   _canAssignSpell: achievement('Cast 100 spells'),
@@ -33,11 +33,11 @@ export default Controller.extend({
     if (this._TPratio1000population) { TPratio = TPratio * 2 }
     return TPratio
   }),
-  rebirthPop: computed('model.{popTP,empire.populationStorage}', '_TPratioPopulation', function() {
-    return Math.min(1+this.model.popTP*this._TPratioPopulation, this.model.empire.populationStorage)
+  rebirthPopulation: computed('model.{populationTP,empire.populationStorage}', '_TPratioPopulation', function() {
+    return Math.min(1+this.model.populationTP*this._TPratioPopulation, this.model.empire.populationStorage)
   }),
-  maxPopulationTP: computed('remainingTemplatePoints', 'model.{popTP,empire.populationStorage}', '_TPratioPopulation', function() {
-    return Math.min(this.remainingTemplatePoints+this.model.popTP,
+  maxPopulationTP: computed('remainingTemplatePoints', 'model.{populationTP,empire.populationStorage}', '_TPratioPopulation', function() {
+    return Math.min(this.remainingTemplatePoints+this.model.populationTP,
       Math.ceil(this.model.empire.populationStorage/this._TPratioPopulation))
   }),
 

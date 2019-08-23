@@ -15,7 +15,7 @@
     You have <DisplayValue @type="worker" @value={{model.availableWorkers}}/>. Fix the situation before begin able to go to next turn.
   </div>
 {{/if}}
-<EmpireSpell @empire={{model}} @spellCost="5" @disabled={{empireCtl.isMaxPop}}
+<EmpireSpell @empire={{model}} @spellCost="5" @disabled={{empireCtl.isMaxPopulation}}
              @visible={{genPopUpgrade}}
              @outputType="population" @outputValue="1"
              @maxOutputValue={{sub model.populationStorage model.population}}

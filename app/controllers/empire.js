@@ -15,7 +15,7 @@ export default Controller.extend({
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  isMaxPop: computed('model.{population,populationStorage}', function() {
+  isMaxPopulation: computed('model.{population,populationStorage}', function() {
     return this.model.population >= this.model.populationStorage
   }),
   isMaxFood: computed('model.{food,foodStorage}', function() {
