@@ -7,18 +7,13 @@
     You generate <DisplayValue @type="material" @value={{model.materialProduction}}/> per turn
   </div>
 {{/if}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenMaterialAvailable}}
-        disabled={{isGenMaterialDisabled}}
-        onclick={{action "genMaterial"}}>
+<EmpireSpell @empire={{model}} @spellCost="1" @disabled={{empireCtl.isMaxMaterial}}
+             @visible={{magicAnvilUpgrade}}
+             @outputType="material" @outputValue={{empireCtl.ressourceSpellEfficiency}}
+             @maxOutputValue={{sub model.materialStorage model.material}} @step={{empireCtl.assignValue}}
+             @onSpell={{action "genMaterial"}}>
   Magic Anvil
-  <small>
-    <DisplayValue @type="magic" @value="1"/>
-    <FaIcon @icon="arrow-right"/>
-    <DisplayValue @type="material" @value={{empireCtl.ressourceSpellEfficiency}}/>
-  </small>
-</button>
+</EmpireSpell>
 {{#if materialStorageBuildings}}
   <hr>
   <h3>Storage</h3>
