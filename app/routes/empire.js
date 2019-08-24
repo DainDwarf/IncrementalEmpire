@@ -46,17 +46,33 @@ export default Route.extend(EKMixin, {
   // from keyDown/deyUp on modifiers keys. Easiest way I found was this
   shiftHackOn: on(keyDown(), function(e) {
     if (getCode(e).toLowerCase().startsWith('shift')) {
-      console.log("Some shift pressed")
+      if (this.controller._shortcutAssignValue == '50 %') {
+        this.controller.set('_shortcutAssignValue', 'MAX')
+      } else {
+        this.controller.set('_shortcutAssignValue', '10 %')
+      }
     } else if (getCode(e).toLowerCase().startsWith('alt')) {
-      console.log("Some alt pressed")
+      if (this.controller._shortcutAssignValue == '10 %') {
+        this.controller.set('_shortcutAssignValue', 'MAX')
+      } else {
+        this.controller.set('_shortcutAssignValue', '50 %')
+      }
     }
   }),
 
   shiftHackOff: on(keyUp(), function(e) {
     if (getCode(e).toLowerCase().startsWith('shift')) {
-      console.log("Some shift lifted")
+      if (this.controller._shortcutAssignValue == 'MAX') {
+        this.controller.set('_shortcutAssignValue', '50 %')
+      } else {
+        this.controller.set('_shortcutAssignValue', '')
+      }
     } else if (getCode(e).toLowerCase().startsWith('alt')) {
-      console.log("Some alt lifted")
+      if (this.controller._shortcutAssignValue == 'MAX') {
+        this.controller.set('_shortcutAssignValue', '10 %')
+      } else {
+        this.controller.set('_shortcutAssignValue', '')
+      }
     }
   }),
 
