@@ -85,6 +85,7 @@ export default Controller.extend({
   }),
 
   displayedBuildings: filter('model.empire.buildings.@each.{isCapital,isTemplateAvailable}', b => !b.isCapital && b.isTemplateAvailable),
+
   // Since capital building is scattered across ressource parts, only get the population ones
   _capitalBuildings: filter('model.empire.buildings.@each.{code,isTemplateAvailable}', b => (b.code.startsWith('capital-population-') && b.isTemplateAvailable)),
   _capitalSort: computed(() => ['lvl:asc']),
@@ -115,18 +116,17 @@ export default Controller.extend({
       let previousLvl = this.selectedCapital.lvl
       if (this.selectedCapital.lvl != lvl) {
         for (let b of this.model.empire.buildings) {
-          if (b.code.match('capital-.*-'+previousLvl)) {
+          if (b.isCapital && b.lvl == previousLvl) {
             b.set('qty', 0)
             b.save()
-          } else if (b.code.match('capital-.*-'+lvl)) {
+          } else if (b.isCapital && b.lvl == lvl) {
             b.set('qty', 1)
             b.save()
           }
         }
       }
     },
-    async rebirth(event) {
-      event.preventDefault()
+    async rebirth() {
       await this.game.rebirth(this)
       this.transitionToRoute('empire')
     },
