@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias, and, or, not } from '@ember/object/computed';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Component.extend({
   hidden: not('building.isEmpireAvailable'),
@@ -10,8 +11,9 @@ export default Component.extend({
   step: '+1',
 
   canAssignWorker: and('building.maxWorkers', 'empire.workerAssignAvailable'),
-  canBuild: computed('game.upgrades.@each.isActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
-    return this.empire.workerAssignAvailable && ! this.building.isCapital && this.game.getUpgrade('Builder').isActive
+  _builderActive: upgrade('Builder'),
+  canBuild: computed('_builderActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
+    return this.empire.workerAssignAvailable && ! this.building.isCapital && this._builderActive
   }),
 
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
@@ -28,13 +30,9 @@ export default Component.extend({
     return this.building.workers + "/" + (this.building.maxWorkers*this.building.qty)
   }),
 
-  isHolyBuildingDisabled: computed('empire.{spellPoints,dead}', 'building.spellCost', function() {
-    return this.empire.dead || (this.empire.spellPoints < this.building.spellCost)
-  }),
-  isHolyBuildingAvailable: computed('empire.type', 'game.upgrades.@each.isActive', function() {
-    return this.empire.type == "religious"
-      &&   this.game.getUpgrade('Holy Building').isActive
-      &&   this.building.spellCost > 0
+  _holyBuildingUpgrade: upgrade('Holy Building'),
+  isHolyBuildingAvailable: computed('_holyBuildingUpgrade', 'building.spellCost', function() {
+    return this._holyBuildingUpgrade && this.building.spellCost > 0
   }),
 
   // Need at least one button available to give a footer in long display.
@@ -44,7 +42,7 @@ export default Component.extend({
   // This is hacky, unless you come from python like me, I guess.
   init() {
     this._super(...arguments)
-    if (this.building.isLongDisplay == undefined) {
+    if (this.building && this.building.isLongDisplay == undefined) {
       this.building.isLongDisplay = this.game.settings.defaultLongDisplay
     }
   },
@@ -52,12 +50,9 @@ export default Component.extend({
   isLongDisplay: alias('building.isLongDisplay'),
 
   actions: {
-    async holyBuilding() {
-      this.building.set('qty', this.building.qty+1)
-      this.empire.set('spellPoints', this.empire.spellPoints - this.building.spellCost)
-      this.empire.incrementProperty('spellCount')
+    async holyBuilding(qty) {
+      this.building.set('qty', this.building.qty+qty)
       await this.building.save()
-      await this.empire.save()
     },
     async build(qty) {
       let change = qty - this.building.pending

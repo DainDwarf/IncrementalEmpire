@@ -1,0 +1,13 @@
+<div type="button" role="button" class="btn btn-outline-success"
+        hidden={{not _visible}}
+        disabled={{_disabled}}
+        onclick={{action "castSpell"}}>
+  {{yield}}
+  <small>
+    <DisplayValue @type="magic" @value={{computedCost}}/>
+    {{#if outputType}}
+      <FaIcon @icon="arrow-right"/>
+      <DisplayValue @type={{outputType}} @value={{computedOutput}}/>
+    {{/if}}
+  </small>
+</div>

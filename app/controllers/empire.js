@@ -1,12 +1,21 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { gt, lt, or } from '@ember/object/computed';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
-  tabRoute: 'empire.population',
+  tabRoute: 'empire.capital',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
   deadModal: false,
-  assignValue: '+1',
+  _dropdownAssignValue: '+1',
+  _shortcutAssignValue: '',
+  assignValue: computed('_dropdownAssignValue', '_shortcutAssignValue', function() {
+    if (this._shortcutAssignValue) {
+      return this._shortcutAssignValue
+    } else {
+      return this._dropdownAssignValue
+    }
+  }),
 
   isWrongWorkers: lt('model.availableWorkers', 0),
   isLowFood: computed('model.{food,population,foodProduction}', function() {
@@ -14,7 +23,7 @@ export default Controller.extend({
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  isMaxPop: computed('model.{population,populationStorage}', function() {
+  isMaxPopulation: computed('model.{population,populationStorage}', function() {
     return this.model.population >= this.model.populationStorage
   }),
   isMaxFood: computed('model.{food,foodStorage}', function() {
@@ -31,13 +40,12 @@ export default Controller.extend({
     return this.model.population + "/" + this.model.populationStorage
   }),
 
-  materialAvailable: computed('game.upgrades.@each.isActive', function() {
-    return this.game.getUpgrade('Material').isActive
-  }),
+  materialAvailable: upgrade('Material'),
 
-  ressourceSpellEfficiency: computed('game.upgrades.@each.isActive', function() {
+  clickPowerActive: upgrade('Click Power'),
+  ressourceSpellEfficiency: computed('game.universe.mana', 'clickPowerActive', function() {
     let eff = 1
-    if (this.game.getUpgrade('Click Power').isActive) {
+    if (this.clickPowerActive) {
       eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
     }
     return eff
@@ -45,7 +53,7 @@ export default Controller.extend({
 
   actions: {
     setAssign(val) {
-      this.set('assignValue', val)
+      this.set('_dropdownAssignValue', val)
     },
     async nextTurn() {
       await this.model.nextTurn()
@@ -58,6 +66,9 @@ export default Controller.extend({
     },
     deadModalAck() {
       this.set('deadModal', false)
+    },
+    stillBornModalAck() {
+      this.game.set('stillBornModal', false)
     },
   },
 });

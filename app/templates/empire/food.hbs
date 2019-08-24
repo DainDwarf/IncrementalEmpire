@@ -12,18 +12,12 @@
     You will lose some population next turn
   </div>
 {{/if}}
-<button type="button"
-        class="btn btn-outline-success mt-1"
-        hidden={{not isGenFoodAvailable}}
-        disabled={{isGenFoodDisabled}}
-        onclick={{action "genFood"}}>
+<EmpireSpell @empire={{model}} @spellCost="1" @disabled={{empireCtl.isMaxFood}}
+             @outputType="food" @outputValue={{empireCtl.ressourceSpellEfficiency}}
+             @maxOutputValue={{sub model.foodStorage model.food}} @step={{empireCtl.assignValue}}
+             @onSpell={{action "genFood"}}>
   Horn of Plenty
-  <small>
-    <DisplayValue @type="magic" @value="1"/>
-    <FaIcon @icon="arrow-right"/>
-    <DisplayValue @type="food" @value={{empireCtl.ressourceSpellEfficiency}}/>
-  </small>
-</button>
+</EmpireSpell>
 {{#if foodStorageBuildings}}
   <hr>
   <h3>Storage</h3>

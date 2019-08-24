@@ -11,12 +11,12 @@
 </BsModal>
 <div class="container-fluid">
   <div class="row">
-    <nav class="ml-2 nav nav-pills flex-column border-right w-15">
+    <nav class="nav nav-pills flex-column border-right w-15">
       {{#each model as |template|}}
         <div class="row">
           <div class="col">
             {{#link-to "templates.template" template.id class="nav-link"}}
-              {{template.name}}
+              {{template.empire.name}}
             {{/link-to}}
           </div>
           <div class="col mr-1">
@@ -28,7 +28,7 @@
         <button typ="button" class="btn" onclick={{action "setTemplateModal" true}}>Add new template</button>
       {{/if}}
     </nav>
-    <div class="border w-80">
+    <div class="container-fluid border w-85 scrollable">
       {{outlet}}
     </div>
   </div>

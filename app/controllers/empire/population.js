@@ -1,18 +1,12 @@
 import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
-import { filter, or, lt } from '@ember/object/computed';
+import { filter } from '@ember/object/computed';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
-  genPopUpgrade: computed('this.game.upgrades', function() {
-    return this.game.getUpgrade('Spontaneous Generation')
-  }),
-  isGenPopulationAvailable: computed('genPopUpgrade.isActive', 'game.empire.type', function() {
-    return this.game.empire.type == "religious" && this.genPopUpgrade.isActive
-  }),
-  isGenPopulationOnCooldown: lt('model.spellPoints', 5),
-  isGenPopulationDisabled: or('isGenPopulationOnCooldown', 'model.dead', 'empireCtl.isMaxPop'),
+  genPopUpgrade: upgrade('Spontaneous Generation'),
 
   populationStorageBuildings: filter('model.populationStorageBuildings.@each.{isCapital,isEmpireAvailable}',
     b => ! b.isCapital && b.isEmpireAvailable
@@ -31,13 +25,9 @@ export default Controller.extend({
   }),
 
   actions: {
-    async genPopulation(event) {
-      event.preventDefault();
-      this.model.set('population', Math.min(this.model.population + 1, this.model.populationStorage))
-      this.model.set('spellPoints', this.model.spellPoints - 5)
-      this.model.incrementProperty('spellCount')
+    async genPopulation(qty) {
+      this.model.set('population', Math.min(this.model.population + qty, this.model.populationStorage))
       await this.model.save()
-      await this.game.checkAchievements()
     },
   },
 });

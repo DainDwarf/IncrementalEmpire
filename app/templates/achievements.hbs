@@ -1,22 +1,23 @@
-<div class="row mx-2 my-2">
-  {{#each displayedAchievements as |achievement|}}
-    <div class="col-sm-3 my-2">
-      <div class="card h-100 {{unless achievement.isActive "text-muted"}}">
-        <div class="card-header {{if achievement.isActive "bg-success"}}">
-          {{achievement.name}}
+<div class="scrollable">
+  <div class="row mx-2 my-2">
+    {{#each displayedAchievements as |achievement|}}
+      <div class="col-sm-3 my-2">
+        <div class="card h-100 {{unless achievement.isActive "text-muted"}}">
+          <div class="card-header {{if achievement.isActive "bg-success"}}">
+            {{achievement.name}}
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{achievement.description}}</p>
+          </div>
+          {{#if achievement.templatePoint}}
+            <footer class="mx-1 text-right">
+              <small>
+                Reward: <DisplayValue @type="template" @value={{achievement.templatePoint}}/>
+              </small>
+            </footer>
+          {{/if}}
         </div>
-        <div class="card-body">
-          <p class="card-text">{{achievement.description}}</p>
-        </div>
-        {{#if achievement.templatePoint}}
-          <footer class="mx-1 text-right">
-            <small>
-              Reward: {{achievement.templatePoint}} Template Point
-            </small>
-          </footer>
-        {{/if}}
       </div>
-    </div>
-  {{/each}}
+    {{/each}}
+  </div>
 </div>
-{{outlet}}

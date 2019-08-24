@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { EKMixin, keyUp, keyDown } from 'ember-keyboard';
+import { EKMixin, keyUp, keyDown, getCode } from 'ember-keyboard';
 import { inject as service } from '@ember/service';
 import { on } from '@ember/object/evented';
 
@@ -11,7 +11,12 @@ export default Route.extend(EKMixin, {
     return this.game.empire
   },
 
-  nextTurnShortcut: on(keyUp('KeyN'), function() {
+  disableSpaceScrolling: on(keyDown('Space'), function(event) {
+    event.preventDefault()
+    return false
+  }),
+
+  nextTurnShortcut: on(keyUp('Space'), function() {
     if (! this.controller.nextTurnDisabled) {
       this.controller.send('nextTurn')
     }
@@ -37,27 +42,37 @@ export default Route.extend(EKMixin, {
     }
   }),
 
-  upAssign: on(keyDown('shift+ArrowUp'), function() {
-    let assign = this.controller.assignValue
-    switch(assign) {
-      case '+1'  : this.controller.set('assignValue', 'MAX' ); break;
-      case '+10' : this.controller.set('assignValue', '+1'  ); break;
-      case '+100': this.controller.set('assignValue', '+10' ); break;
-      case '10 %': this.controller.set('assignValue', '+100'); break;
-      case '50 %': this.controller.set('assignValue', '10 %'); break;
-      case 'MAX' : this.controller.set('assignValue', '50 %'); break;
+  // There is some bug in ember-keyboard that prevents you from listening
+  // from keyDown/deyUp on modifiers keys. Easiest way I found was this
+  shiftHackOn: on(keyDown(), function(e) {
+    if (getCode(e).toLowerCase().startsWith('shift')) {
+      if (this.controller._shortcutAssignValue == '50 %') {
+        this.controller.set('_shortcutAssignValue', 'MAX')
+      } else {
+        this.controller.set('_shortcutAssignValue', '10 %')
+      }
+    } else if (getCode(e).toLowerCase().startsWith('alt')) {
+      if (this.controller._shortcutAssignValue == '10 %') {
+        this.controller.set('_shortcutAssignValue', 'MAX')
+      } else {
+        this.controller.set('_shortcutAssignValue', '50 %')
+      }
     }
   }),
 
-  downAssign: on(keyDown('shift+ArrowDown'), function() {
-    let assign = this.controller.assignValue
-    switch(assign) {
-      case '+1'  : this.controller.set('assignValue', '+10' ); break;
-      case '+10' : this.controller.set('assignValue', '+100'); break;
-      case '+100': this.controller.set('assignValue', '10 %'); break;
-      case '10 %': this.controller.set('assignValue', '50 %'); break;
-      case '50 %': this.controller.set('assignValue', 'MAX' ); break;
-      case 'MAX' : this.controller.set('assignValue', '+1'  ); break;
+  shiftHackOff: on(keyUp(), function(e) {
+    if (getCode(e).toLowerCase().startsWith('shift')) {
+      if (this.controller._shortcutAssignValue == 'MAX') {
+        this.controller.set('_shortcutAssignValue', '50 %')
+      } else {
+        this.controller.set('_shortcutAssignValue', '')
+      }
+    } else if (getCode(e).toLowerCase().startsWith('alt')) {
+      if (this.controller._shortcutAssignValue == 'MAX') {
+        this.controller.set('_shortcutAssignValue', '10 %')
+      } else {
+        this.controller.set('_shortcutAssignValue', '')
+      }
     }
   }),
 

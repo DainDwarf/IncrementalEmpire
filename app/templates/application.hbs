@@ -24,13 +24,16 @@
       {{#link-to "templates" class="nav-link"}}
         Templates
         {{#if game.rebirthPoints}}
-          <DisplayValue @class="badge badge-pill badge-secondary" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
+          <DisplayValue @class="badge badge-pill badge-primary" @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} />
         {{/if}}
       {{/link-to}}
     </li>
     <li class="nav-item">
       {{#link-to "upgrades" class="nav-link"}}
         Upgrades
+        {{#if buyableUpgrades}}
+          <span class="badge badge-pill badge-primary">{{buyableUpgrades.length}}</span>
+        {{/if}}
       {{/link-to}}
     </li>
     <li class="nav-item">
