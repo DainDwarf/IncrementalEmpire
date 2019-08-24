@@ -18,6 +18,7 @@ export default Model.extend({
   materialCost: 0,
   TPcost: 0,
   spellCost: 0,
+  buildingLimit: 0,           // Bonus to building limit, only defined in capital-population-* (and maybe some others?)
   isEmpireAvailable: false,
   isTemplateAvailable: false,
 

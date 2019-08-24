@@ -10,6 +10,7 @@
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
                      @visible={{isHolyBuildingAvailable}} @step={{step}}
                      @outputType="building" @outputValue="1"
+                     @maxOutputValue={{empireMaxBuilds}}
                      @onSpell={{action "holyBuilding"}}/>
         {{#if canBuild}}
           <DisplayValue @type="material" @value={{building.materialCost}}/>
@@ -63,6 +64,7 @@
       <div class="row">
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
                      @outputType="building" @outputValue="1"
+                     @maxOutputValue={{empireMaxBuilds}}
                      @visible={{isHolyBuildingAvailable}} @step={{step}}
                      @onSpell={{action "holyBuilding"}}>
           Holy Building

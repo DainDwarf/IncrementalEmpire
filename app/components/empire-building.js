@@ -22,9 +22,16 @@ export default Component.extend({
       this.building.maxWorkers*this.building.qty
     )
   }),
-  maxBuilds: computed('empire.{availableWorkers,material}', 'building.{builders,materialCost}', function() {
+  // Max builds you can do based only on empire's limit
+  empireMaxBuilds: computed('empire.{buildingPendingQty,buildingQty,buildingLimit}', function() {
+    return this.empire.buildingLimit-this.empire.buildingQty-this.empire.buildingPendingQty
+  }),
+  // Max builds you can do including material and workers
+  maxBuilds: computed('empire.{availableWorkers,material}', 'building.{builders,materialCost}', 'empireMaxBuilds', function() {
     return this.building.builders + Math.min(this.empire.availableWorkers,
-      Math.floor(this.empire.material/this.building.materialCost))
+      Math.floor(this.empire.material/this.building.materialCost),
+      this.empireMaxBuilds
+    )
   }),
   workersDisplay: computed('building.{workers.maxWorkers,qty}', function() {
     return this.building.workers + "/" + (this.building.maxWorkers*this.building.qty)

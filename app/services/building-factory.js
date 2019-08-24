@@ -83,6 +83,7 @@ export default Service.extend({
         populationProduction: 1,
         TPcost: 10,
         isEmpireAvailable: true,
+        buildingLimit: 10,
       })
       this._templateVisibility(building, 'Fill the cave')
     })
