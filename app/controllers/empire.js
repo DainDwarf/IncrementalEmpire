@@ -4,10 +4,18 @@ import { gt, lt, or } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
-  tabRoute: 'empire.population',
+  tabRoute: 'empire.capital',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
   deadModal: false,
-  assignValue: '+1',
+  _dropdownAssignValue: '+1',
+  _shortcutAssignValue: '',
+  assignValue: computed('_dropdownAssignValue', '_shortcutAssignValue', function() {
+    if (this._shortcutAssignValue) {
+      return this._shortcutAssignValue
+    } else {
+      return this._dropdownAssignValue
+    }
+  }),
 
   isWrongWorkers: lt('model.availableWorkers', 0),
   isLowFood: computed('model.{food,population,foodProduction}', function() {
@@ -45,7 +53,7 @@ export default Controller.extend({
 
   actions: {
     setAssign(val) {
-      this.set('assignValue', val)
+      this.set('_dropdownAssignValue', val)
     },
     async nextTurn() {
       await this.model.nextTurn()
