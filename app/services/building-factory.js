@@ -278,6 +278,22 @@ export default Service.extend({
         buildings.pushObject(new_b)
       }
     }
+
+    // Now, add capital buildings lvl 1 if they don't exist
+    let capital_found = false
+    for (let b of buildings) {
+      if (b.isCapital && b.qty > 0) {
+        capital_found = true
+        break
+      }
+    }
+    if (!capital_found) {
+      for (let b of buildings) {
+        if (b.isCapital && b.lvl == 1) {
+          b.set('qty', 1)
+        }
+      }
+    }
   },
 
   //Helper function to set a new value to a building in an array.

@@ -35,8 +35,8 @@ module('Unit | Model | upgrade', function(hooks) {
   test('Cannot buy', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('universe', {mana: 0})
-    let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
+    await store.createRecord('universe', {mana: 0}).save()
+    let upgrade = await store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12}).save()
     await game.load()
     assert.notOk(upgrade.canBuy)
   });
@@ -44,8 +44,9 @@ module('Unit | Model | upgrade', function(hooks) {
   test('Can buy', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('universe', {mana: 12})
-    let upgrade = store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12})
+    await store.createRecord('universe', {mana: 12}).save()
+    let upgrade = await store.createRecord('upgrade', {name: 'Test only upgrade', manaCost: 12}).save()
+    await upgrade.save()
     await game.load()
     assert.ok(upgrade.canBuy)
   });

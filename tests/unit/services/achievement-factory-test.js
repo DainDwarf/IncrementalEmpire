@@ -64,7 +64,7 @@ module('Unit | Service | achievementFactory', function(hooks) {
   test('consolidate OK', async function(assert) {
     let store = this.owner.lookup('service:store');
     let achievementFactory = this.owner.lookup('service:achievement-factory');
-    let turn10 = await store.createRecord('achievement', {name: 'Reach turn 10', isActive: true})
+    let turn10 = await store.createRecord('achievement', {name: 'Reach turn 10', isActive: true}).save()
 
     achievementFactory.consolidate(turn10)
 
@@ -78,7 +78,7 @@ module('Unit | Service | achievementFactory', function(hooks) {
   test('consolidate BAD', async function(assert) {
     let store = this.owner.lookup('service:store');
     let achievementFactory = this.owner.lookup('service:achievement-factory');
-    let badOne = await store.createRecord('achievement', {name: 'Sbleurlk'})
+    let badOne = await store.createRecord('achievement', {name: 'Sbleurlk'}).save()
     assert.throws(() => achievementFactory.consolidate(badOne))
   })
 
@@ -92,10 +92,10 @@ module('Unit | Service | achievementFactory', function(hooks) {
       name: 'Reach turn 10',
       isActive: true,
       templatePoint: 5000, // Probably not the right value
-    })
+    }).save()
     let badOne = await store.createRecord('achievement', {
       name: 'Sbleurlk',
-    })
+    }).save()
 
     assert.notOk(turn10.description)
 

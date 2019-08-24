@@ -15,7 +15,7 @@ export default Controller.extend({
   }),
   nextTurnDisabled: or('model.dead', 'isWrongWorkers'),
 
-  isMaxPop: computed('model.{population,populationStorage}', function() {
+  isMaxPopulation: computed('model.{population,populationStorage}', function() {
     return this.model.population >= this.model.populationStorage
   }),
   isMaxFood: computed('model.{food,foodStorage}', function() {
@@ -58,6 +58,9 @@ export default Controller.extend({
     },
     deadModalAck() {
       this.set('deadModal', false)
+    },
+    stillBornModalAck() {
+      this.game.set('stillBornModal', false)
     },
   },
 });

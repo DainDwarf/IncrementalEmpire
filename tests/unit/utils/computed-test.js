@@ -45,7 +45,7 @@ module('Unit | Utility | computed', function(hooks) {
   test('upgrade | Typo error', async function(assert) {
     let store = this.owner.lookup('service:store');
     let game = this.owner.lookup('service:game');
-    store.createRecord('universe')
+    await store.createRecord('universe').save()
     await game.load()
     let empire = game.empire
     defineProperty(empire, 'upgradeBAD', upgrade('Sbleurlk')),
