@@ -4,7 +4,7 @@ import { gt, lt, or } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
-  tabRoute: 'empire.population',
+  tabRoute: 'empire.capital',
   spellPointsDisplayed: gt('model.maxSpellPoints', 0),
   deadModal: false,
   _dropdownAssignValue: '+1',
