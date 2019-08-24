@@ -69,6 +69,15 @@ export default Model.extend({
     }
     return sum
   }),
+  buildingPendingQty: computed('buildings.@each.{pending,code,isCapital}', function() {
+    let sum = 0
+    for (let b of this.buildings) {
+      if (! b.isCapital || b.code.startsWith('capital-population-')) {
+        sum = sum + b.pending
+      }
+    }
+    return sum
+  }),
 
   populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
   basePopulationProduction: computed('populationProductionBuildings.@each.{workers}', function() {
