@@ -52,6 +52,24 @@ export default Model.extend({
     }
   }),
 
+  buildingLimit: computed('buildings.@each.{qty,buildingLimit}', function() {
+    let limit = 0
+    for (let b of this.buildings) {
+      limit = limit + b.qty*b.buildingLimit
+    }
+    return limit
+  }),
+  // Cannot do mapBy/sum (yet) because capital is three-building-in-one
+  buildingQty: computed('buildings.@each.{qty,code,isCapital}', function() {
+    let sum = 0
+    for (let b of this.buildings) {
+      if (! b.isCapital || b.code.startsWith('capital-population-')) {
+        sum = sum + b.qty
+      }
+    }
+    return sum
+  }),
+
   populationProductionBuildings: filter('buildings', b => b.populationProduction != undefined),
   basePopulationProduction: computed('populationProductionBuildings.@each.{workers}', function() {
     let sum = 0
