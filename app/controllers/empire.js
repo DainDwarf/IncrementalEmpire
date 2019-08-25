@@ -39,9 +39,12 @@ export default Controller.extend({
   populationValueDisplay: computed('model.{population,populationStorage}', function() {
     return this.model.population + "/" + this.model.populationStorage
   }),
-  buildingValueDisplay: computed('model.{buildingPendingQty,buildingQty,buildingLimit}', function() {
-    if (this.model.buildingPendingQty > 0 ) {
-      return this.model.buildingQty + " (+" + this.model.buildingPendingQty + ") /" + this.model.buildingLimit
+  buildingValueDisplay: computed('model.{buildingDestroyingQty,buildingPendingQty,buildingQty,buildingLimit}', function() {
+    let fullPending = this.model.buildingPendingQty - this.model.buildingDestroyingQty
+    if (fullPending > 0 ) {
+      return this.model.buildingQty + " (+" + fullPending + ") /" + this.model.buildingLimit
+    } else if (fullPending < 0 ) {
+      return this.model.buildingQty + " (" + fullPending + ") /" + this.model.buildingLimit
     } else {
       return this.model.buildingQty + "/" + this.model.buildingLimit
     }
