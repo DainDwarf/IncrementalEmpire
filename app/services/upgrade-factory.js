@@ -87,6 +87,12 @@ export default Service.extend({
         moneyCost: 5,
       })
     })
+    this.upgradePlan.set('Building Reclamation', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Lets you destroy buildings so you can recover space for more advanced buildings',
+        moneyCost: 50000,
+      })
+    })
   },
 
   async generate(upgrade_name) {

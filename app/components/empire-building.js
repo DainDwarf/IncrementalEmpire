@@ -15,7 +15,8 @@ export default Component.extend({
   canBuild: computed('_builderActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
     return this.empire.workerAssignAvailable && ! this.building.isCapital && this._builderActive
   }),
-  canDestroy: alias('canBuild'),
+  _destroyUpgrade: upgrade('Building Reclamation'),
+  canDestroy: and('canBuild', '_destroyUpgrade'),
 
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
     return Math.min(
