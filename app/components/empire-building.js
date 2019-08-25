@@ -15,6 +15,8 @@ export default Component.extend({
   canBuild: computed('_builderActive', 'empire.workerAssignAvailable', 'building.isCapital', function() {
     return this.empire.workerAssignAvailable && ! this.building.isCapital && this._builderActive
   }),
+  _destroyUpgrade: upgrade('Building Reclamation'),
+  canDestroy: and('canBuild', '_destroyUpgrade'),
 
   maxWorkers: computed('empire.availableWorkers', 'building.{workers,maxWorkers,qty}', function() {
     return Math.min(
@@ -67,6 +69,10 @@ export default Component.extend({
       this.empire.set('material', this.empire.material - change * this.building.materialCost)
       await this.building.save()
       await this.empire.save()
+    },
+    async destroy(qty) {
+      this.building.set('destroying', qty)
+      await this.building.save()
     },
     async assignWorker(qty) {
       this.building.set('workers', qty)

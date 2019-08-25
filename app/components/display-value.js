@@ -31,6 +31,7 @@ export default Component.extend({
       building: 'building',
       magic: 'magic',
       template: 'award',
+      destruction: 'bomb',
     }
     return trans[this.type]
   }),

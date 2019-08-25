@@ -6,6 +6,13 @@
       <span class="badge badge-pill badge-light">{{building.qty}}</span>
     {{/if}}
     {{#if (not isLongDisplay)}}
+      {{#if canDestroy}}
+        <AssignPoint @disabled={{empire.dead}} @tagName="span"
+                     @value={{building.destroying}} @onChange={{action "destroy"}}
+                     @step={{step}} @max={{building.qty}}>
+          <DisplayValue @type="destruction" @value={{building.destroying}}/>
+        </AssignPoint>
+      {{/if}}
       <span class="float-right">
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
                      @visible={{isHolyBuildingAvailable}} @step={{step}}
@@ -62,12 +69,23 @@
     </div>
     <div class="card-footer" hidden={{not displayFooter}}>
       <div class="row">
+        {{#if canDestroy}}
+          <div class="col text-center">
+            Destroy <DisplayValue @type="building"/>
+            <br>
+            <AssignPoint @disabled={{empire.dead}}
+                         @value={{building.destroying}} @onChange={{action "destroy"}}
+                         @step={{step}} @max={{building.qty}}>
+              <DisplayValue @type="destruction" @value={{building.destroying}}/>
+            </AssignPoint>
+          </div>
+        {{/if}}
         <EmpireSpell @empire={{empire}} @spellCost={{building.spellCost}}
                      @outputType="building" @outputValue="1"
                      @maxOutputValue={{empireMaxBuilds}}
                      @visible={{isHolyBuildingAvailable}} @step={{step}}
                      @onSpell={{action "holyBuilding"}}>
-          Holy Building
+          Holy Building<br>
         </EmpireSpell>
         {{#if canBuild}}
           <div class="col text-center">
