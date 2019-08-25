@@ -16,4 +16,8 @@
     It can store a maximum of <DisplayValue @type="material" @value={{model.capitalMaterial.materialStorage}}/>
   </div>
 {{/if}}
-{{outlet}}
+{{#if model.buildingLimit}}
+  <div>
+    It can have a maximum of <DisplayValue @type="building" @value={{model.buildingLimit}}/>
+  </div>
+{{/if}}
