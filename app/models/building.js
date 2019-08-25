@@ -8,6 +8,7 @@ export default Model.extend({
   template_id: attr('string'),                // ID of a template, or 'empire'
   workers: attr('number', {defaultValue: 0}), // Workers assigned to the building, should be less than maxWorkers
   pending: attr('number', {defaultValue: 0}), // Buildings that will finish constructing next turn.
+  destroying: attr('number', {defaultValue: 0}), // Buildings that will be destroyed next turn.
   qty: attr('number', {defaultValue: 0}),     // Number of such building we have
 
   // Next fields are actually set in buildingFactory service.

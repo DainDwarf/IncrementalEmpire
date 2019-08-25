@@ -191,9 +191,10 @@ export default Model.extend({
 
   async nextTurn() {
     for (let b of this.buildings) {
-      if (b.pending > 0) {
-        b.set('qty', b.qty+b.pending)
+      if (b.pending || b.destroying > 0) {
+        b.set('qty', b.qty+b.pending-b.destroying)
         b.set('pending', 0)
+        b.set('destroying', 0)
         b.save()
       }
     }
