@@ -16,6 +16,7 @@ export default Model.extend({
   spellPoints: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 5}),
   spellCount: attr('number', {defaultValue: 0}),
+  buildingLimitSpellCount: attr('number', {defaultValue: 0}), // Number of times the building limit spell has been cast.
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
 
   //Helper function to get a building from the empire.
@@ -52,13 +53,18 @@ export default Model.extend({
     }
   }),
 
-  buildingLimit: computed('buildings.@each.{qty,buildingLimit}', function() {
+  buildingLimitFromSpell: alias('buildingLimitSpellCount'),
+  buildingLimitFromBuildings: computed('buildings.@each.{qty,buildingLimit}', function() {
     let limit = 0
     for (let b of this.buildings) {
       limit = limit + b.qty*b.buildingLimit
     }
     return limit
   }),
+  buildingLimit: computed('buildingLimitFromSpell', 'buildingLimitFromBuildings', function() {
+    return this.buildingLimitFromSpell+this.buildingLimitFromBuildings
+  }),
+
   // Cannot do mapBy/sum (yet) because capital is three-building-in-one
   buildingQty: computed('buildings.@each.{qty,code,isCapital}', function() {
     let sum = 0

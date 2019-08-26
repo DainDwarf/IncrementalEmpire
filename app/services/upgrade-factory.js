@@ -93,6 +93,12 @@ export default Service.extend({
         moneyCost: 50000,
       })
     })
+    this.upgradePlan.set('Sacred Land', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Give some land to your people so that they can expand easily.',
+        manaCost: 50000,
+      })
+    })
   },
 
   async generate(upgrade_name) {

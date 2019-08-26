@@ -8,7 +8,7 @@ export default Component.extend({
   visible: true,      // Hide the spell even on religious empires. Usually links to an upgrade.
   disabled: false,    // Disable the spell (normal cases of spellCost/empire dead are already handled)
   outputType: '',     // Type as in DisplayValue component
-  outputValue: '',    // Output value of a single spell call
+  outputValue: 1,    // Output value of a single spell call
   maxOutputValue: undefined,  // If spell output can be limited, limit it there as the limit of output the spell can give at the current time (not the limit overall!)
   step: '+1',         // Step as in empire assign thingy.
   onSpell() {},       // Action to trigger when casting the spell
@@ -77,8 +77,6 @@ export default Component.extend({
       } else {
         return this.outputValue
       }
-    } else {
-      return false
     }
   }),
 
