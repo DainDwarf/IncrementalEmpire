@@ -105,6 +105,12 @@ export default Service.extend({
         manaCost: 50000,
       })
     })
+    this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
+      upgrade.setProperties({
+        description: 'Magically produces metal!',
+        manaCost: 50000,
+      })
+    })
   },
 
   async generate(upgrade_name) {
