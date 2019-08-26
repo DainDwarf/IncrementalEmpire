@@ -12,6 +12,7 @@ Router.map(function() {
     this.route('food');
     this.route('material');
     this.route('capital');
+    this.route('metal');
   });
   this.route('upgrades');
   this.route('templates', function() {

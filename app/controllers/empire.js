@@ -32,6 +32,9 @@ export default Controller.extend({
   isMaxMaterial: computed('model.{material,materialStorage}', function() {
     return this.model.material >= this.model.materialStorage
   }),
+  isMaxMetal: computed('model.{metal,metalStorage}', function() {
+    return this.model.metal >= this.model.metalStorage
+  }),
 
   workerValueDisplay: computed('model.{population,availableWorkers}', function() {
     return this.model.availableWorkers + "/" + this.model.population
@@ -51,6 +54,7 @@ export default Controller.extend({
   }),
 
   materialAvailable: upgrade('Material'),
+  metalAvailable: upgrade('Metal'),
 
   clickPowerActive: upgrade('Click Power'),
   ressourceSpellEfficiency: computed('game.universe.mana', 'clickPowerActive', function() {
