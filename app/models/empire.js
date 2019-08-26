@@ -13,6 +13,7 @@ export default Model.extend({
   dead: attr('boolean', { defaultValue: false}),
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
+  metal: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   spellPointsRegen: attr('number', {defaultValue: 5}),
   spellCount: attr('number', {defaultValue: 0}),
@@ -137,6 +138,19 @@ export default Model.extend({
     return Math.floor(this.baseMaterialProduction*this.materialEfficiency)
   }),
 
+  metalProductionBuildings: filter('buildings', b => b.metalProduction != undefined),
+  baseMetalProduction: computed('metalProductionBuildings.@each.{workers}', function() {
+    let sum = 0
+    for (let b of this.metalProductionBuildings) {
+      sum = sum + b.workers*b.metalProduction
+    }
+    return sum
+  }),
+  metalEfficiency: alias('ressourceEfficiency'),
+  metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
+    return Math.floor(this.baseMetalProduction*this.metalEfficiency)
+  }),
+
   capitalPopulation: computed('buildings.@each.{qty,code}', function() {
     for (let b of this.buildings) {
       if (b.code.startsWith('capital-population-') && b.qty > 0) {
@@ -156,6 +170,14 @@ export default Model.extend({
   capitalMaterial: computed('buildings.@each.{qty,code}', function() {
     for (let b of this.buildings) {
       if (b.code.startsWith('capital-material-') && b.qty > 0) {
+        return b
+      }
+    }
+  }),
+
+  capitalMetal: computed('buildings.@each.{qty,code}', function() {
+    for (let b of this.buildings) {
+      if (b.code.startsWith('capital-metal-') && b.qty > 0) {
         return b
       }
     }
@@ -203,6 +225,18 @@ export default Model.extend({
     }
     return sum
   }),
+  metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),
+  metalStorage: computed('ressourceStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {
+    let sum = 0
+    for (let b of this.metalStorageBuildings) {
+      if (!b.isCapital) {
+        sum = sum + this.ressourceStorageBoost*b.qty*b.metalStorage
+      } else {
+        sum = sum + b.qty*b.metalStorage
+      }
+    }
+    return sum
+  }),
 
   async nextTurn() {
     for (let b of this.buildings) {
@@ -215,6 +249,7 @@ export default Model.extend({
     }
 
     this.set('material', this.material + this.materialProduction)
+    this.set('metal', this.metal + this.metalProduction)
     this.set('food', this.food + this.foodProduction)
     this.set('population', this.population+this.populationProduction)
 
@@ -240,6 +275,11 @@ export default Model.extend({
     // Limit material
     if (this.material > this.materialStorage) {
       this.set('material', this.materialStorage)
+    }
+
+    // Limit metal
+    if (this.metal > this.metalStorage) {
+      this.set('metal', this.metalStorage)
     }
 
     this.set('turn', this.turn + 1)
