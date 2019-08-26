@@ -87,6 +87,12 @@ export default Service.extend({
         moneyCost: 5,
       })
     })
+    this.upgradePlan.set('Metal', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Discover a new ressource for your people. Metal is even more precious than material for economical empires',
+        moneyCost: 5000,
+      })
+    })
     this.upgradePlan.set('Building Reclamation', (upgrade) => {
       upgrade.setProperties({
         description: 'Lets you destroy buildings so you can recover space for more advanced buildings',
