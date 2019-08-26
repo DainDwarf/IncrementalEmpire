@@ -1,0 +1,11 @@
+* Make the upgrade for unlocking the new ressource
+* Choose an icon for display value
+* Add a new route for empire:
+    - Copy a route like material for navigation/forbid
+    - Add the new tab to up/down navigations (empire's route)
+    - Add the tab to empire's template link-to
+* Add the new ressource to empire. Follow another ressource to get all points that needs to be defined. (sigh)
+* Copy the template/controller from another ressource. Add another upgrade for the ressource's spell.
+* Add buildings (And achievements for templating them?)
+* Add the new ressource to template and rebirth in game service
+* Go your merry way
