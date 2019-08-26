@@ -48,7 +48,7 @@
           {{#if model.buildingLimit}}
             <DisplayValue @tagName="li" @class="nav-item mx-2" @type="building" @value={{buildingValueDisplay}}/>
           {{/if}}
-          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}}" />
+          <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}} (+{{model.spellPointsRegen}})" />
         </ul>
         <div class="dropdown mr-2">
           <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">

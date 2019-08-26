@@ -55,7 +55,6 @@ module('Integration | Component | empire-spell', function(hooks) {
     this.set('empire', game.empire)
     // I'm a great wizard!
     this.set('empire.spellPoints', 100)
-    this.set('empire.maxSpellPoints', 100)
 
     //Spell will be called 11 times without output of 12
     this.set('youWish', (qty) => { assert.equal(qty, 11*12) })
@@ -86,7 +85,6 @@ module('Integration | Component | empire-spell', function(hooks) {
     this.set('empire', game.empire)
     // I'm a great wizard!
     this.set('empire.spellPoints', 100)
-    this.set('empire.maxSpellPoints', 100)
     this.set('maxOutput', 40)
 
     // Spell will be called 4 times without output of 40
@@ -122,7 +120,6 @@ module('Integration | Component | empire-spell', function(hooks) {
     this.set('empire', game.empire)
     // I'm a great wizard!
     this.set('empire.spellPoints', 100)
-    this.set('empire.maxSpellPoints', 100)
 
     // This should not be called, as the button is disabled
     this.set('impossible', () => {

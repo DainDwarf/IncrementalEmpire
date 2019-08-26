@@ -21,3 +21,9 @@
     It can have a maximum of <DisplayValue @type="building" @value={{model.buildingLimit}}/>
   </div>
 {{/if}}
+{{#if sacredLandAvailable}}
+  <EmpireSpell @empire={{model}} @spellCost={{buildingLimitSpellCost}}
+               @onSpell={{action "sacredLand"}}>
+    Sacred Land<br>
+  </EmpireSpell>
+{{/if}}

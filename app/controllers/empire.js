@@ -5,7 +5,7 @@ import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   tabRoute: 'empire.capital',
-  spellPointsDisplayed: gt('model.maxSpellPoints', 0),
+  spellPointsDisplayed: gt('model.spellPointsRegen', 0),
   deadModal: false,
   _dropdownAssignValue: '+1',
   _shortcutAssignValue: '',
