@@ -148,6 +148,7 @@ export default Service.extend({
       population: sourceTemplate.rebirthPopulation,
       food: sourceTemplate.rebirthFood,
       material: sourceTemplate.rebirthMaterial,
+      metal: sourceTemplate.rebirthMetal,
       spellPoints: sourceTemplate.rebirthSpellPoints,
       spellPointsRegen: sourceTemplate.rebirthSpellPoints,
     })
@@ -194,7 +195,7 @@ export default Service.extend({
     }
   },
 
-  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material}', function() {
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal}', function() {
     if (this.empire.type == "religious") {
       let pop = this.empire.population
       let turn = this.empire.turn
@@ -206,7 +207,7 @@ export default Service.extend({
         return 0
       }
     } else if (this.empire.type == "economical") {
-      let res = 0.5*this.empire.food + 3*this.empire.material //TODO: Add other ressources
+      let res = 0.5*this.empire.food + 3*this.empire.material + 50*this.empire.metal
       let turn = this.empire.turn
       if (turn >= 20) {
         return Math.max(0, Math.floor(

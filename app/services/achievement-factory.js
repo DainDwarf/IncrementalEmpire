@@ -150,6 +150,20 @@ export default Service.extend({
       })
       setCondition(achievement, gte('game.empire.material', 1000))
     })
+    this.achievementPlan.set('Have 100 metal', (achievement) => {
+      achievement.setProperties({
+        description: 'Template Point gives 2x more metal',
+        templatePoint: 1,
+      })
+      setCondition(achievement, gte('game.empire.metal', 100))
+    })
+    this.achievementPlan.set('Have 1000 metal', (achievement) => {
+      achievement.setProperties({
+        description: 'Template Point gives 2x more metal',
+        templatePoint: 2,
+      })
+      setCondition(achievement, gte('game.empire.metal', 1000))
+    })
     this.achievementPlan.set('Reach 100 money', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',

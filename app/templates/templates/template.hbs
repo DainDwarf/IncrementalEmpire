@@ -40,6 +40,13 @@ Capital:
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="material" @value="{{rebirthMaterial}}/{{model.empire.materialStorage}}"/>
 </AssignPoint>
+<AssignPoint @class="ml-2" @hidden={{not metalAvailable}}
+             @value={{model.metalTP}} @onChange={{action "changeRessource" "metalTP"}}
+             @max={{maxMetalTP}}>
+  <DisplayValue @type="template" @value={{model.metalTP}}/>
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="metal" @value="{{rebirthMetal}}/{{model.empire.metalStorage}}"/>
+</AssignPoint>
 <AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
              @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
              @max={{add remainingTemplatePoints model.spellTP}}>
