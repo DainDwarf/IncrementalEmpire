@@ -27,6 +27,7 @@ export default Component.extend({
       population: 'users',
       food: 'carrot',
       material: 'cubes',
+      metal: 'layer-group',
       worker: 'hammer',
       building: 'building',
       magic: 'magic',
