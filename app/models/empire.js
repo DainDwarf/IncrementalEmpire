@@ -14,7 +14,7 @@ export default Model.extend({
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
-  maxSpellPoints: attr('number', {defaultValue: 5}),
+  spellPointsRegen: attr('number', {defaultValue: 5}),
   spellCount: attr('number', {defaultValue: 0}),
   buildingLimitSpellCount: attr('number', {defaultValue: 0}), // Number of times the building limit spell has been cast.
   buildings: undefined, // Array populated by buildingFactory on load or rebirth.
@@ -243,7 +243,7 @@ export default Model.extend({
     }
 
     this.set('turn', this.turn + 1)
-    this.set('spellPoints', this.maxSpellPoints)
+    this.incrementProperty('spellPoints', this.spellPointsRegen)
     await this.save()
   },
 });
