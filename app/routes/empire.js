@@ -2,6 +2,8 @@ import Route from '@ember/routing/route';
 import { EKMixin, keyUp, keyDown, getCode } from 'ember-keyboard';
 import { inject as service } from '@ember/service';
 import { on } from '@ember/object/evented';
+import { computed } from '@ember/object';
+import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Route.extend(EKMixin, {
   router: service(),
@@ -22,26 +24,29 @@ export default Route.extend(EKMixin, {
     }
   }),
 
-  upNavigation: on(keyUp('ArrowUp'), function() {
-    let endRoute = this.router.currentRouteName.split('.')[1]
-    switch(endRoute) {
-      case 'metal'      : this.transitionTo('empire.material')  ; break;
-      case 'material'   : this.transitionTo('empire.food')      ; break;
-      case 'food'       : this.transitionTo('empire.population'); break;
-      case 'population' : this.transitionTo('empire.capital')   ; break;
-      case 'capital'    : this.transitionTo('empire.metal')     ; break;
+  _material: upgrade('Material'),
+  _metal: upgrade('Metal'),
+  _navigationTabs: computed('_material', '_metal', function() {
+    let tabs = ['empire.capital', 'empire.population', 'empire.food']
+    if (this._material) {
+      tabs.push('empire.material')
     }
+    if (this._metal) {
+      tabs.push('empire.metal')
+    }
+    return tabs
+  }),
+
+  upNavigation: on(keyUp('ArrowUp'), function() {
+    let index = this._navigationTabs.indexOf(this.router.currentRouteName)
+    let next = (index+this._navigationTabs.length-1)%this._navigationTabs.length
+    this.transitionTo(this._navigationTabs[next])
   }),
 
   downNavigation: on(keyUp('ArrowDown'), function() {
-    let endRoute = this.router.currentRouteName.split('.')[1]
-    switch(endRoute) {
-      case 'capital'    : this.transitionTo('empire.population'); break;
-      case 'population' : this.transitionTo('empire.food')      ; break;
-      case 'food'       : this.transitionTo('empire.material')  ; break;
-      case 'material'   : this.transitionTo('empire.metal')     ; break;
-      case 'metal'      : this.transitionTo('empire.capital')   ; break;
-    }
+    let index = this._navigationTabs.indexOf(this.router.currentRouteName)
+    let next = (index+1)%this._navigationTabs.length
+    this.transitionTo(this._navigationTabs[next])
   }),
 
   // There is some bug in ember-keyboard that prevents you from listening
