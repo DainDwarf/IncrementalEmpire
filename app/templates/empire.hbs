@@ -36,6 +36,14 @@
           {{/if}}
         {{/link-to}}
       {{/if}}
+      {{#if metalAvailable}}
+        {{#link-to "empire.metal" class="nav-link"}}
+          Metal <span class="badge badge-pill badge-light">{{model.metal}}</span>
+          {{#if isMaxMetal}}
+            <span class="float-right text-danger">MAX</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
     </nav>
     <div class="w-85">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">

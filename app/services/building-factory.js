@@ -40,6 +40,14 @@ export default Service.extend({
         isTemplateAvailable: true,
       })
     })
+    this.buildingPlan.set("capital-metal-1", (building) => {
+      building.setProperties({
+        name: 'garden',
+        description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+        isEmpireAvailable: true,
+        isTemplateAvailable: true,
+      })
+    })
     this.buildingPlan.set("capital-population-2", (building) => {
       building.setProperties({
         name: 'cave',
@@ -74,6 +82,14 @@ export default Service.extend({
       })
       this._templateVisibility(building, 'Unlock Economical Empires')
     })
+    this.buildingPlan.set("capital-metal-2", (building) => {
+      building.setProperties({
+        name: 'cave',
+        description: 'A cave where your people can try to survive',
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Unlock Economical Empires')
+    })
     this.buildingPlan.set("capital-population-3", (building) => {
       building.setProperties({
         name: 'tribe',
@@ -105,6 +121,17 @@ export default Service.extend({
         maxWorkers: 40,
         materialStorage: 1000,
         materialProduction: 1,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Fill the cave')
+    })
+    this.buildingPlan.set("capital-metal-3", (building) => {
+      building.setProperties({
+        name: 'tribe',
+        description: 'A small tribe settlement, capable of holding a few people.',
+        maxWorkers: 10,
+        metalStorage: 100,
+        metalProduction: 1,
         isEmpireAvailable: true,
       })
       this._templateVisibility(building, 'Fill the cave')
@@ -181,6 +208,17 @@ export default Service.extend({
       this._empireVisibility(building, 'Storage 2')
       this._templateVisibility(building, 'Have 20 storage buildings')
     })
+    this.buildingPlan.set("metal-storage-2", (building) => {
+      building.setProperties({
+        name: 'metal storage',
+        description: 'A building for storing precious metals',
+        materialCost: 1000,
+        metalStorage: 500,
+        TPcost: 10,
+        spellCost: 50,
+      })
+      this._empireVisibility(building, 'Storage 2')
+    })
     this.buildingPlan.set("population-production-1", (building) => {
       building.setProperties({
         name: 'child care',
@@ -219,6 +257,18 @@ export default Service.extend({
       })
       this._empireVisibility(building, 'Production 1')
       this._templateVisibility(building, 'Have 10 woodcutters')
+    })
+    this.buildingPlan.set("metal-production-1", (building) => {
+      building.setProperties({
+        name: 'copper mine',
+        description: 'Mining some copper, which is easy to melt',
+        materialCost: 300,
+        maxWorkers: 20,
+        metalProduction: 1,
+        TPcost: 5,
+        spellCost: 50,
+      })
+      this._empireVisibility(building, 'Production 1')
     })
   },
 

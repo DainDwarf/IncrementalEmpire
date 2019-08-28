@@ -87,6 +87,12 @@ export default Service.extend({
         moneyCost: 5,
       })
     })
+    this.upgradePlan.set('Metal', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Discover a new ressource for your people. Metal is even more precious than material for economical empires',
+        moneyCost: 5000,
+      })
+    })
     this.upgradePlan.set('Building Reclamation', (upgrade) => {
       upgrade.setProperties({
         description: 'Lets you destroy buildings so you can recover space for more advanced buildings',
@@ -96,6 +102,12 @@ export default Service.extend({
     this.upgradePlan.set('Sacred Land', (upgrade) => {
       upgrade.setProperties({
         description: 'Give some land to your people so that they can expand easily.',
+        manaCost: 50000,
+      })
+    })
+    this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
+      upgrade.setProperties({
+        description: 'Magically produces metal!',
         manaCost: 50000,
       })
     })

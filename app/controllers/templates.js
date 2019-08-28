@@ -48,7 +48,7 @@ export default Controller.extend({
 
     async deleteTemplate(id) {
       let template = await this.store.findRecord('template', id, { backgroundReload: false });
-      let destroy = window.confirm('Are you sure? This will delete template ' + template.name)
+      let destroy = window.confirm('Are you sure? This will delete template ' + template.empire.name)
       if (destroy) {
         for (let oldB of template.empire.buildings) {
           await oldB.destroyRecord()
