@@ -55,6 +55,9 @@
                 {{#if building.materialStorage}}
                   <DisplayValue @type="material" @value={{building.materialStorage}}/>
                 {{/if}}
+                {{#if building.metalStorage}}
+                  <DisplayValue @type="metal" @value={{building.metalStorage}}/>
+                {{/if}}
               </div>
             {{/if}}
             {{#if building.maxWorkers}}

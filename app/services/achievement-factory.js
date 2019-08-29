@@ -204,6 +204,17 @@ export default Service.extend({
           &&   achievement.game.empire.capitalName == "cave"
       }))
     })
+    this.achievementPlan.set('10k Ressources', (achievement) => {
+      achievement.setProperties({
+        description: 'You have accumulated a lot of ressources! Your population needs to settle down in larger villages to accomodate that many ressources.',
+        templatePoint: 10,
+      })
+      setCondition(achievement, computed('game.empire.{food,material,metal}', function() {
+        return achievement.game.empire.food >= 10000
+          &&   achievement.game.empire.material >= 10000
+          &&   achievement.game.empire.metal >= 10000
+      }))
+    })
     this.achievementPlan.set('Lose an empire', (achievement) => {
       achievement.setProperties({
         description: 'You let all the population die, you monster!',

@@ -23,7 +23,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.ressourceStorageBoost 1)}}
-      Food storage bonus: {{model.ressourceStorageBoost}}x
+      Food storage bonus: {{empireCtl.storageEfficiencyDisplay}}
     {{/if}}
     {{#each foodStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>

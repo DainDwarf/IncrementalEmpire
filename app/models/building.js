@@ -29,6 +29,6 @@ export default Model.extend({
     let s = this.code.split('-')
     return parseInt(s[s.length-1])
   }),
-  canStore: or('populationStorage', 'foodStorage', 'materialStorage'),
-  canProduce: or('populationProduction', 'foodProduction', 'materialProduction'),
+  canStore: or('populationStorage', 'foodStorage', 'materialStorage', 'metalStorage'),
+  canProduce: or('populationProduction', 'foodProduction', 'materialProduction', 'metalProduction'),
 });

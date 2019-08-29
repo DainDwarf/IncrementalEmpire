@@ -19,7 +19,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.ressourceStorageBoost 1)}}
-      Metal storage bonus: {{model.ressourceStorageBoost}}x
+      Metal storage bonus: {{empireCtl.storageEfficiencyDisplay}}
     {{/if}}
     {{#each metalStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
