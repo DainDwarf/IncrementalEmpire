@@ -78,10 +78,10 @@ export default Model.extend({
   }),
 
   // Cannot do mapBy/sum (yet) because capital is three-building-in-one
-  buildingQty: computed('buildings.@each.{qty,code,isCapital}', function() {
+  buildingQty: computed('buildings.@each.{qty,isCapital}', function() {
     let sum = 0
     for (let b of this.buildings) {
-      if (! b.isCapital || b.code.startsWith('capital-population-')) {
+      if (! b.isCapital) {
         sum = sum + b.qty
       }
     }
