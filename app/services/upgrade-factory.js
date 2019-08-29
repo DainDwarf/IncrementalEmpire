@@ -75,6 +75,12 @@ export default Service.extend({
         moneyCost: 200,
       })
     })
+    this.upgradePlan.set('Economical Overflow', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your ressource production in other empires is also improved by your current money',
+        moneyCost: 300,
+      })
+    })
     this.upgradePlan.set('Economical Power', (upgrade) => {
       upgrade.setProperties({
         description: 'Your ressource production in economical empires is improved by your current money',
@@ -109,6 +115,12 @@ export default Service.extend({
       upgrade.setProperties({
         description: 'Give some land to your people so that they can expand easily.',
         manaCost: 50000,
+      })
+    })
+    this.upgradePlan.set('War Preparations', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your military empires can store more metal based on your current money',
+        strengthCost: 10,
       })
     })
     this.upgradePlan.set("Philosopher's Stone", (upgrade) => {

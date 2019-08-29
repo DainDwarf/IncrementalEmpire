@@ -145,7 +145,7 @@ export default Service.extend({
         populationProduction: 2,
         TPcost: 30,
         isEmpireAvailable: true,
-        buildingLimit: 30,
+        buildingLimit: 15,
       })
       this._templateVisibility(building, 'Worth 100 money')
     })

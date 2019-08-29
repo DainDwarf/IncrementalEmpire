@@ -46,10 +46,13 @@ export default Model.extend({
   }),
 
   economicalPower: upgrade('Economical Power'),
-  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'type', function() {
+  economicalOverflow: upgrade('Economical Overflow'),
+  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'economicalOverflow', 'type', function() {
     if (this.economicalPower && this.type == "economical") {
       return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
+    } else if (this.economicalOverflow && this.type != "economical") {
+      return Math.max(1, Math.log10(this.game.universe.money))
+    } else{
       return 1
     }
   }),
@@ -262,12 +265,20 @@ export default Model.extend({
     }
     return sum
   }),
+  _warPreparation: upgrade('War Preparations'),
+  metalStorageBoost: computed('ressourceStorageBoost', 'type', 'game.universe.money', '_warPreparation', function() {
+    let ratio = this.ressourceStorageBoost
+    if (this._warPreparation && this.type == "military") {
+      ratio *= Math.max(1, Math.log10(this.game.universe.money))
+    }
+    return ratio
+  }),
   metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),
-  metalStorage: computed('ressourceStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {
+  metalStorage: computed('metalStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {
     let sum = 0
     for (let b of this.metalStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.metalStorage)
+        sum = sum + Math.floor(this.metalStorageBoost*b.qty*b.metalStorage)
       } else {
         sum = sum + b.qty*b.metalStorage
       }
