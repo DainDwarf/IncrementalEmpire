@@ -27,6 +27,12 @@ export default Service.extend({
         manaCost: 20,
       })
     })
+    this.upgradePlan.set('Military Empires', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select military empires',
+        moneyCost: 50000,
+      })
+    })
     this.upgradePlan.set('Magic Anvil', (upgrade) => {
       upgrade.setProperties({
         description: 'Generate some material through the power of your magic',
@@ -115,6 +121,12 @@ export default Service.extend({
       upgrade.setProperties({
         description: 'Magically produces metal!',
         manaCost: 50000,
+      })
+    })
+    this.upgradePlan.set('Aggressive Diplomacy', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Conquest in military empire give 5 times more building space',
+        strengthCost: 50000,
       })
     })
   },

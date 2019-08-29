@@ -56,7 +56,17 @@ export default Model.extend({
   }),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),
-  buildingLimitFromConquest: alias('conquestCount'),
+  _conquestAggressive: upgrade('Aggressive Diplomacy'),
+  _conquestRatio: computed('type', '_conquestAggressive', function() {
+    if (this.type == "military" && this._conquestAggressive) {
+      return 5
+    } else {
+      return 1
+    }
+  }),
+  buildingLimitFromConquest: computed('conquestCount', '_conquestRatio', function() {
+    return this.conquestCount*this._conquestRatio
+  }),
   buildingLimitFromBuildings: computed('buildings.@each.{qty,buildingLimit}', function() {
     let limit = 0
     for (let b of this.buildings) {
