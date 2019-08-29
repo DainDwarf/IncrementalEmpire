@@ -26,6 +26,27 @@
     It can have a maximum of <DisplayValue @type="building" @value={{model.buildingLimit}}/>
   </div>
 {{/if}}
+{{#if empireCtl.conquestAvailable}}
+  <div type="button" role="button" class="btn btn-outline-danger"
+          disabled={{not empireCtl.canBuyConquest}}
+          onclick={{action "conquest" target=empireCtl}}>
+    Conquer more land!<br>
+    <small>
+      {{#if empireCtl.conquestPopulationCost}}
+        <DisplayValue @type="population" @value={{empireCtl.conquestPopulationCost}}/>
+      {{/if}}
+      {{#if empireCtl.conquestFoodCost}}
+        <DisplayValue @type="food" @value={{empireCtl.conquestFoodCost}}/>
+      {{/if}}
+      {{#if empireCtl.conquestMaterialCost}}
+        <DisplayValue @type="material" @value={{empireCtl.conquestMaterialCost}}/>
+      {{/if}}
+      {{#if empireCtl.conquestMetalCost}}
+        <DisplayValue @type="metal" @value={{empireCtl.conquestMetalCost}}/>
+      {{/if}}
+    </small>
+  </div>
+{{/if}}
 {{#if sacredLandAvailable}}
   <EmpireSpell @empire={{model}} @spellCost={{buildingLimitSpellCost}}
                @onSpell={{action "sacredLand"}}>
