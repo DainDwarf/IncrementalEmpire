@@ -136,6 +136,52 @@ export default Service.extend({
       })
       this._templateVisibility(building, 'Fill the cave')
     })
+    this.buildingPlan.set("capital-population-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 40,
+        populationStorage: 1000,
+        populationProduction: 2,
+        TPcost: 30,
+        isEmpireAvailable: true,
+        buildingLimit: 30,
+      })
+      this._templateVisibility(building, '10k Ressources')
+    })
+    this.buildingPlan.set("capital-food-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 60,
+        foodStorage: 10000,
+        foodProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, '10k Ressources')
+    })
+    this.buildingPlan.set("capital-material-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 60,
+        materialStorage: 10000,
+        materialProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, '10k Ressources')
+    })
+    this.buildingPlan.set("capital-metal-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 20,
+        metalStorage: 5000,
+        metalProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, '10k Ressources')
+    })
     this.buildingPlan.set("population-storage-1", (building) => {
       building.setProperties({
         name: 'hut',
