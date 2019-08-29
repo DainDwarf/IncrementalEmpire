@@ -45,12 +45,6 @@ export default Service.extend({
         manaCost: 50,
       })
     })
-    this.upgradePlan.set('Worker', (upgrade) => {
-      upgrade.setProperties({
-        description: 'Humans can work to generate ressources in economical empires',
-        moneyCost: 5,
-      })
-    })
     this.upgradePlan.set('Builder', (upgrade) => {
       upgrade.setProperties({
         description: 'Humans can use material to build new buildings',
@@ -87,7 +81,7 @@ export default Service.extend({
         moneyCost: 5,
       })
     })
-    this.upgradePlan.set('Universal Worker', (upgrade) => {
+    this.upgradePlan.set('Workers', (upgrade) => {
       upgrade.setProperties({
         description: 'Workers are available in all empire types',
         moneyCost: 50, manaCost: 50,

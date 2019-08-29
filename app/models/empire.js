@@ -40,10 +40,9 @@ export default Model.extend({
     return this.population - this.workers - this.builders
   }),
 
-  _economicalWorker: upgrade('Worker'),
-  _universalWorker: upgrade('Universal Worker'),
-  workerAssignAvailable: computed('type', '_economicalWorker', '_universalWorker', function() {
-    return (this._economicalWorker && this.type == "economical") || this._universalWorker
+  _workerUpgrade: upgrade('Workers'),
+  workerAssignAvailable: computed('type', '_workerUpgrade', function() {
+    return this.type == "economical" || this._workerUpgrade
   }),
 
   economicalPower: upgrade('Economical Power'),

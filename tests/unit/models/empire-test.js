@@ -38,7 +38,7 @@ module('Unit | Model | empire', function(hooks) {
     game.empire.set('food', 100)
 
     // Setup the game state
-    game.getUpgrade('Universal Worker').set('isActive', true)
+    game.getUpgrade('Workers').set('isActive', true)
     game.getUpgrade('Builder').set('isActive', true)
     game.getUpgrade('Building Reclamation').set('isActive', true)
     let building = game.empire.getBuilding('population-production-1')
