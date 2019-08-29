@@ -59,7 +59,13 @@ export default Service.extend({
     })
     this.upgradePlan.set('Hoarding', (upgrade) => {
       upgrade.setProperties({
-        description: 'Your ressource storage buildings provide 4x more storage in economical empires',
+        description: 'Your ressource storage buildings provide 2x more storage',
+        moneyCost: 100,
+      })
+    })
+    this.upgradePlan.set('Economical Efficiency', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your ressource storage buildings provide more storage in economical empires based on your money amount',
         moneyCost: 100,
       })
     })

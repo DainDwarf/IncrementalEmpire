@@ -185,12 +185,16 @@ export default Model.extend({
 
   capitalName: alias('capitalPopulation.name'),
   hoarding: upgrade('Hoarding'),
-  ressourceStorageBoost: computed('type', 'hoarding', function() {
-    if (this.type == "economical" && this.hoarding) {
-      return 4
-    } else {
-      return 1
+  hoardingEco: upgrade('Economical Efficiency'),
+  ressourceStorageBoost: computed('type', 'hoarding', 'hoardingEco', function() {
+    let ratio = 1
+    if (this.type == "economical" && this.hoardingEco) {
+      ratio *= Math.max(1, 1+Math.log10(this.game.universe.money))
     }
+    if (this.hoarding) {
+      ratio *= 2
+    }
+    return ratio
   }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
@@ -206,7 +210,7 @@ export default Model.extend({
     let sum = 0
     for (let b of this.foodStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + this.ressourceStorageBoost*b.qty*b.foodStorage
+        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.foodStorage)
       } else {
         sum = sum + b.qty*b.foodStorage
       }
@@ -218,7 +222,7 @@ export default Model.extend({
     let sum = 0
     for (let b of this.materialStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + this.ressourceStorageBoost*b.qty*b.materialStorage
+        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.materialStorage)
       } else {
         sum = sum + b.qty*b.materialStorage
       }
@@ -230,7 +234,7 @@ export default Model.extend({
     let sum = 0
     for (let b of this.metalStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + this.ressourceStorageBoost*b.qty*b.metalStorage
+        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.metalStorage)
       } else {
         sum = sum + b.qty*b.metalStorage
       }
