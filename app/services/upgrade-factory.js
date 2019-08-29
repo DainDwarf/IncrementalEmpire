@@ -129,6 +129,20 @@ export default Service.extend({
         strengthCost: 50000,
       })
     })
+    this.upgradePlan.set('Wrath of God', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Conquest are available in religious empires',
+        manaCost: 50000,
+        strengthCost: 50000,
+      })
+    })
+    this.upgradePlan.set('Looting', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Conquest are available in economical empires',
+        moneyCost: 50000,
+        strengthCost: 50000,
+      })
+    })
   },
 
   async generate(upgrade_name) {

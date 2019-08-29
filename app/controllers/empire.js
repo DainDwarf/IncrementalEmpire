@@ -4,8 +4,13 @@ import { gt, lt, or } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
-  // TODO: add upgrade
-  conquestAvailable: true,
+  _religiousConquest: upgrade('Wrath of God'),
+  _economicalConquest: upgrade('Looting'),
+  conquestAvailable: computed('model.type', '_religiousConquest', '_economicalConquest', function() {
+    return this.model.type == "military"
+      ||  (this.model.type == "religious" && this._religiousConquest)
+      ||  (this.model.type == "economical" && this._economicalConquest)
+  }),
   conquestPopulationCost: 0,
   conquestFoodCost: 0,
   conquestMaterialCost: 0,
