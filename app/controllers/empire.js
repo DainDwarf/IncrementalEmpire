@@ -4,6 +4,22 @@ import { gt, lt, or } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
+  // TODO: add upgrade
+  conquestAvailable: true,
+  conquestPopulationCost: 0,
+  conquestFoodCost: 0,
+  conquestMaterialCost: 0,
+  conquestMetalCost: computed('model.conquestCount', function() {
+    return 100*3**this.model.conquestCount
+  }),
+  canBuyConquest: computed('conquestAvailable', 'conquestPopulationCost', 'conquestFoodCost', 'conquestMaterialCost', 'conquestMetalCost', 'model.{population,food,material,metal}', function() {
+    return this.conquestAvailable
+      &&   this.model.population >= this.conquestPopulationCost
+      &&   this.model.food >= this.conquestFoodCost
+      &&   this.model.material >= this.conquestMaterialCost
+      &&   this.model.metal >= this.conquestMetalCost
+  }),
+
   tabRoute: 'empire.capital',
   spellPointsDisplayed: gt('model.spellPointsRegen', 0),
   deadModal: false,
@@ -70,6 +86,16 @@ export default Controller.extend({
   }),
 
   actions: {
+    async conquest() {
+      this.model.setProperties({
+          population: this.model.population - this.conquestPopulationCost,
+          food: this.model.food - this.conquestFoodCost,
+          material: this.model.material - this.conquestMaterialCost,
+          metal: this.model.metal - this.conquestMetalCost,
+          conquestCount: this.model.conquestCount+1,
+      })
+      this.model.save()
+    },
     setAssign(val) {
       this.set('_dropdownAssignValue', val)
     },

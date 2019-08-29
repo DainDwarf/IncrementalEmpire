@@ -9,6 +9,9 @@
     <nav class="nav nav-pills flex-column border-right w-15">
       {{#link-to "empire.capital" class="nav-link"}}
         {{capitalize model.capitalName}}
+        {{#if canBuyConquest}}
+          <FaIcon class="float-right text-danger" @icon="exclamation" />
+        {{/if}}
       {{/link-to}}
       {{#link-to "empire.population" class="nav-link"}}
         Population <span class="badge badge-pill badge-light">{{model.population}}</span>
