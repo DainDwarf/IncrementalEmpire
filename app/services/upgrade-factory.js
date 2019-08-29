@@ -132,33 +132,33 @@ export default Service.extend({
     this.upgradePlan.set('Aggressive Diplomacy', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest in military empire give 5 times more building space',
-        strengthCost: 50000,
+        strengthCost: 100,
       })
     })
     this.upgradePlan.set('Weapon Forging', (upgrade) => {
       upgrade.setProperties({
         description: 'Your metal production in military empires is increased based on your strength',
-        strengthCost: 50000,
+        strengthCost: 50,
       })
     })
     this.upgradePlan.set('Wrath of God', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest are available in religious empires',
-        manaCost: 50000,
-        strengthCost: 50000,
+        manaCost: 200,
+        strengthCost: 200,
       })
     })
     this.upgradePlan.set('Looting', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest are available in economical empires',
-        moneyCost: 50000,
-        strengthCost: 50000,
+        moneyCost: 200,
+        strengthCost: 200,
       })
     })
     this.upgradePlan.set('Cassus Belli', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquests are cheaper in military empires',
-        strengthCost: 50000,
+        strengthCost: 30,
       })
     })
     this.upgradePlan.set('Community Spirit', (upgrade) => {
