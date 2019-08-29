@@ -226,15 +226,14 @@ export default Service.extend({
           &&   achievement.game.empire.capitalName == "cave"
       }))
     })
-    this.achievementPlan.set('10k Ressources', (achievement) => {
+    this.achievementPlan.set('Worth 100 money', (achievement) => {
       achievement.setProperties({
-        description: 'You have accumulated a lot of ressources! Your population needs to settle down in larger villages to accomodate that many ressources.',
+        description: 'Reach 100 money gain in a single empire! You can now choose to start new empires as a Village',
         templatePoint: 10,
       })
-      setCondition(achievement, computed('game.empire.{food,material,metal}', function() {
-        return achievement.game.empire.food >= 10000
-          &&   achievement.game.empire.material >= 10000
-          &&   achievement.game.empire.metal >= 10000
+      setCondition(achievement, computed('game.{rebirthPoints,rebirthPointsType}', function() {
+        return achievement.game.rebirthPoints >= 100
+          &&   achievement.game.rebirthPointsType == "money"
       }))
     })
     this.achievementPlan.set('Lose an empire', (achievement) => {

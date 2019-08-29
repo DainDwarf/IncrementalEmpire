@@ -30,7 +30,7 @@ export default Service.extend({
     this.upgradePlan.set('Military Empires', (upgrade) => {
       upgrade.setProperties({
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select military empires',
-        moneyCost: 50000,
+        moneyCost: 500,
       })
     })
     this.upgradePlan.set('Magic Anvil', (upgrade) => {

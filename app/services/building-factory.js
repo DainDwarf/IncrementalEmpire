@@ -147,7 +147,7 @@ export default Service.extend({
         isEmpireAvailable: true,
         buildingLimit: 30,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-food-4", (building) => {
       building.setProperties({
@@ -158,7 +158,7 @@ export default Service.extend({
         foodProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-material-4", (building) => {
       building.setProperties({
@@ -169,7 +169,7 @@ export default Service.extend({
         materialProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-metal-4", (building) => {
       building.setProperties({
@@ -180,7 +180,7 @@ export default Service.extend({
         metalProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("population-storage-1", (building) => {
       building.setProperties({
