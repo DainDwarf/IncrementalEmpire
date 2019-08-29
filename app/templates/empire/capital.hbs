@@ -44,6 +44,8 @@
       {{#if empireCtl.conquestMetalCost}}
         <DisplayValue @type="metal" @value={{empireCtl.conquestMetalCost}}/>
       {{/if}}
+      <FaIcon @icon="arrow-right"/>
+      <DisplayValue @type="building" @value="+{{model._conquestRatio}} max"/>
     </small>
   </div>
 {{/if}}

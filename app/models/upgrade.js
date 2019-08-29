@@ -11,13 +11,15 @@ export default Model.extend({
   manaCost: 0,
   moneyCost: 0,
   scienceCost: 0,
+  strengthCost: 0,
 
-  canBuy: computed('isActive', 'game.universe.{mana,money,science}',
-                      'manaCost', 'moneyCost', 'scienceCost', function() {
+  canBuy: computed('isActive', 'game.universe.{mana,money,science,strength}',
+                      'manaCost', 'moneyCost', 'scienceCost', 'strengthCost', function() {
     return !this.isActive
         && (this.manaCost <= this.game.universe.mana
         &&  this.moneyCost <= this.game.universe.money
         &&  this.scienceCost <= this.game.universe.science
+        &&  this.strengthCost <= this.game.universe.strength
     )
   }),
 });

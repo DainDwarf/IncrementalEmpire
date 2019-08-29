@@ -56,7 +56,17 @@ export default Model.extend({
   }),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),
-  buildingLimitFromConquest: alias('conquestCount'),
+  _conquestAggressive: upgrade('Aggressive Diplomacy'),
+  _conquestRatio: computed('type', '_conquestAggressive', function() {
+    if (this.type == "military" && this._conquestAggressive) {
+      return 5
+    } else {
+      return 1
+    }
+  }),
+  buildingLimitFromConquest: computed('conquestCount', '_conquestRatio', function() {
+    return this.conquestCount*this._conquestRatio
+  }),
   buildingLimitFromBuildings: computed('buildings.@each.{qty,buildingLimit}', function() {
     let limit = 0
     for (let b of this.buildings) {
@@ -148,7 +158,17 @@ export default Model.extend({
     }
     return sum
   }),
-  metalEfficiency: alias('ressourceEfficiency'),
+  _forgingAvailable: upgrade('Weapon Forging'),
+  _forgingEfficiency: computed('_forgingAvailable', 'type', 'game.universe.strength', function() {
+    if (this._forgingAvailable && this.type == "military") {
+      return Math.max(1, 1+Math.sqrt(this.game.universe.strength))
+    } else {
+      return 1
+    }
+  }),
+  metalEfficiency: computed('ressourceEfficiency', '_forgingEfficiency', function() {
+    return this.ressourceEfficiency*this._forgingEfficiency
+  }),
   metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
     return Math.floor(this.baseMetalProduction*this.metalEfficiency)
   }),

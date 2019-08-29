@@ -171,12 +171,26 @@ export default Service.extend({
       })
       setCondition(achievement, gte('game.universe.money', 100))
     })
+    this.achievementPlan.set('Reach 100 strength', (achievement) => {
+      achievement.setProperties({
+        description: 'You can have one more empire template',
+        templatePoint: 1,
+      })
+      setCondition(achievement, gte('game.universe.strength', 100))
+    })
     this.achievementPlan.set('Reach 100 mana', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',
         templatePoint: 1,
       })
       setCondition(achievement, gte('game.universe.mana', 100))
+    })
+    this.achievementPlan.set('Conquer land 10 times', (achievement) => {
+      achievement.setProperties({
+        description: 'Conquer land 10 times in a single empire',
+        templatePoint: 3,
+      })
+      setCondition(achievement, gte('game.empire.conquestCount', 10))
     })
     this.achievementPlan.set('Cast 100 spells', (achievement) => {
       achievement.setProperties({

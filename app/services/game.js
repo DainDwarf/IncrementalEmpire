@@ -173,6 +173,12 @@ export default Service.extend({
     if (this.universe.money > 0 && ! this.universe.moneyUnlocked) {
       this.universe.set('moneyUnlocked', true)
     }
+    if (this.universe.science > 0 && ! this.universe.scienceUnlocked) {
+      this.universe.set('scienceUnlocked', true)
+    }
+    if (this.universe.strength > 0 && ! this.universe.strengthUnlocked) {
+      this.universe.set('strengthUnlocked', true)
+    }
 
     // Destroy old empire and set the game with the new empire.
     for (let oldB of this.empire.buildings) {
@@ -195,7 +201,7 @@ export default Service.extend({
     }
   },
 
-  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal}', function() {
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal,conquestCount}', function() {
     if (this.empire.type == "religious") {
       let pop = this.empire.population
       let turn = this.empire.turn
@@ -216,6 +222,12 @@ export default Service.extend({
       } else {
         return 0
       }
+    } else if (this.empire.type == "military") {
+      if (this.empire.turn >= 20) {
+        return this.empire.conquestCount**2
+      } else {
+        return 0
+      }
     }
   }),
 
@@ -224,6 +236,7 @@ export default Service.extend({
       religious: 'mana',
       economical: 'money',
       scientific: 'science',
+      military: 'strength',
     }
     return typeTrans[this.empire.type]
   }),
