@@ -219,10 +219,22 @@ export default Model.extend({
   }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  populationStorage: computed('populationStorageBuildings.@each.{qty,populationStorage}', function() {
+  _communityUpgrade: upgrade('Community Spirit'),
+  _populationStorageRatio: computed('_communityUpgrade', function() {
+    if (this._communityUpgrade) {
+      return 4
+    } else {
+      return 1
+    }
+  }),
+  populationStorage: computed('_populationStorageRatio', 'populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
-      sum = sum + b.qty*b.populationStorage
+      if (b.isCapital) {
+        sum = sum + b.qty*b.populationStorage
+      } else {
+        sum = sum + b.qty*b.populationStorage*this._populationStorageRatio
+      }
     }
     return sum
   }),

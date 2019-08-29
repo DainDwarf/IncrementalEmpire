@@ -42,7 +42,7 @@ export default Service.extend({
     this.upgradePlan.set('Holy Building', (upgrade) => {
       upgrade.setProperties({
         description: 'Magically make buildings appear',
-        manaCost: 50,
+        manaCost: 200,
       })
     })
     this.upgradePlan.set('Builder', (upgrade) => {
@@ -147,6 +147,12 @@ export default Service.extend({
       upgrade.setProperties({
         description: 'Conquests are cheaper in military empires',
         strengthCost: 50000,
+      })
+    })
+    this.upgradePlan.set('Community Spirit', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Housing buildings can hold 4x more people',
+        manaCost: 50,
       })
     })
   },
