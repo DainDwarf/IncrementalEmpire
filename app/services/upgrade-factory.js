@@ -114,7 +114,7 @@ export default Service.extend({
     this.upgradePlan.set('Sacred Land', (upgrade) => {
       upgrade.setProperties({
         description: 'Give some land to your people so that they can expand easily.',
-        manaCost: 50000,
+        manaCost: 500,
       })
     })
     this.upgradePlan.set('War Preparations', (upgrade) => {
@@ -126,7 +126,7 @@ export default Service.extend({
     this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
       upgrade.setProperties({
         description: 'Magically produces metal!',
-        manaCost: 50000,
+        manaCost: 200,
       })
     })
     this.upgradePlan.set('Aggressive Diplomacy', (upgrade) => {
