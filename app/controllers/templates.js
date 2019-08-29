@@ -13,12 +13,16 @@ export default Controller.extend({
   hasScientificTemplates: false,
   template100mana: achievement('Reach 100 mana'),
   template100money: achievement('Reach 100 money'),
-  canAddTemplate: computed('model.length', 'template100mana', 'template100money', function() {
+  template100strength: achievement('Reach 100 strength'),
+  canAddTemplate: computed('model.length', 'template100mana', 'template100money', 'template100strength', function() {
     let maxTemplate = 1
     if (this.template100mana) {
       maxTemplate = maxTemplate + 1
     }
     if (this.template100money) {
+      maxTemplate = maxTemplate + 1
+    }
+    if (this.template100strength) {
       maxTemplate = maxTemplate + 1
     }
     return this.model.length < maxTemplate
