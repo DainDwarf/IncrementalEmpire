@@ -80,17 +80,19 @@ Capital:
   </div>
 {{/if}}
 <hr>
-<div class="container">
+<div class="container-fluid">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
     <div>Restart with this {{model.empire.type}} empire</div>
     <small>Gain <DisplayValue @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} /> from current {{game.empire.type}} empire</small>
   </button>
 </div>
-<div class="container small">
+<div class="container-fluid small">
   {{#if (eq model.empire.type "religious")}}
     Religious empires produces more <DisplayValue @type="mana"/> if you have more population and spend more turns. You need at least 2 population and 20 turns to start producing <DisplayValue @type="mana"/>
   {{else if (eq model.empire.type "economical")}}
     Economical empires produces more <DisplayValue @type="money"/> if you create more ressources, but decreases if you take too much turns. You need at least 20 turns to start producing <DisplayValue @type="money"/>.
+  {{else if (eq model.empire.type "military")}}
+    Military empires produces more <DisplayValue @type="strength"/> the more conquests you do. You need at least 20 turns to start producing <DisplayValue @type="strength"/>.
   {{/if}}
 </div>
 {{outlet}}

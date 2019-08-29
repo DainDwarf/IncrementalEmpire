@@ -9,7 +9,7 @@ export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
   hasEconomicalTemplates: upgrade('Economical Empires'),
-  hasCulturalTemplates: false,
+  hasMilitaryTemplates: true,
   hasScientificTemplates: false,
   template100mana: achievement('Reach 100 mana'),
   template100money: achievement('Reach 100 money'),

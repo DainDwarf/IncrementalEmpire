@@ -24,6 +24,7 @@ export default Component.extend({
       mana: 'dot-circle',
       money: 'coins',
       science: 'flask',
+      strength: 'fist-raised',
       population: 'users',
       food: 'carrot',
       material: 'cubes',
