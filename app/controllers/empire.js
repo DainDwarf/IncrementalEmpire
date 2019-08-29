@@ -14,8 +14,13 @@ export default Controller.extend({
   conquestPopulationCost: 0,
   conquestFoodCost: 0,
   conquestMaterialCost: 0,
-  conquestMetalCost: computed('model.conquestCount', function() {
-    return 100*3**this.model.conquestCount
+  _cassusBelli: upgrade('Cassus Belli'),
+  conquestMetalCost: computed('_cassusBelli', 'model.{conquestCount,type}', function() {
+    if (this._cassusBelli && this.model.type == "military") {
+      return 100*2**this.model.conquestCount
+    } else {
+      return 100*3**this.model.conquestCount
+    }
   }),
   canBuyConquest: computed('conquestAvailable', 'conquestPopulationCost', 'conquestFoodCost', 'conquestMaterialCost', 'conquestMetalCost', 'model.{population,food,material,metal}', function() {
     return this.conquestAvailable

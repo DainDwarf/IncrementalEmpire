@@ -131,7 +131,7 @@ export default Service.extend({
     })
     this.upgradePlan.set('Weapon Forging', (upgrade) => {
       upgrade.setProperties({
-        description: 'Your metal production in military empires is increased based on your strength.',
+        description: 'Your metal production in military empires is increased based on your strength',
         strengthCost: 50000,
       })
     })
@@ -146,6 +146,12 @@ export default Service.extend({
       upgrade.setProperties({
         description: 'Conquest are available in economical empires',
         moneyCost: 50000,
+        strengthCost: 50000,
+      })
+    })
+    this.upgradePlan.set('Cassus Belli', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Conquests are cheaper in military empires',
         strengthCost: 50000,
       })
     })
