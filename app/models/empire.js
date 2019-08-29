@@ -248,6 +248,9 @@ export default Model.extend({
         b.set('qty', b.qty+b.pending-b.destroying)
         b.set('pending', 0)
         b.set('destroying', 0)
+        if (b.workers > b.maxWorkers*b.qty) {
+          b.set('workers', b.maxWorkers*b.qty)
+        }
         b.save()
       }
     }
