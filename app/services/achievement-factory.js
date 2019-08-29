@@ -45,6 +45,14 @@ export default Service.extend({
       defineProperty(achievement, '_observedBuilding', empireBuilding('food-storage-1'))
       setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
+    this.achievementPlan.set('Have 10 metal storage', (achievement) => {
+      achievement.setProperties({
+        description: 'You can now have metal storage in your templates',
+        templatePoint: 1,
+      })
+      defineProperty(achievement, '_observedBuilding', empireBuilding('metal-storage-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
+    })
     this.achievementPlan.set('Have 10 store rooms', (achievement) => {
       achievement.setProperties({
         description: 'You can now have store rooms in your templates',
