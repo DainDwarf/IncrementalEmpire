@@ -129,6 +129,12 @@ export default Service.extend({
         strengthCost: 50000,
       })
     })
+    this.upgradePlan.set('Weapon Forging', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your metal production in military empires is increased based on your strength.',
+        strengthCost: 50000,
+      })
+    })
     this.upgradePlan.set('Wrath of God', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest are available in religious empires',

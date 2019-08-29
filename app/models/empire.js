@@ -158,7 +158,17 @@ export default Model.extend({
     }
     return sum
   }),
-  metalEfficiency: alias('ressourceEfficiency'),
+  _forgingAvailable: upgrade('Weapon Forging'),
+  _forgingEfficiency: computed('_forgingAvailable', 'type', 'game.universe.strength', function() {
+    if (this._forgingAvailable && this.type == "military") {
+      return Math.max(1, 1+Math.sqrt(this.game.universe.strength))
+    } else {
+      return 1
+    }
+  }),
+  metalEfficiency: computed('ressourceEfficiency', '_forgingEfficiency', function() {
+    return this.ressourceEfficiency*this._forgingEfficiency
+  }),
   metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
     return Math.floor(this.baseMetalProduction*this.metalEfficiency)
   }),
