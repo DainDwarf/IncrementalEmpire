@@ -151,6 +151,7 @@ export default Service.extend({
       metal: sourceTemplate.rebirthMetal,
       spellPoints: sourceTemplate.rebirthSpellPoints,
       spellPointsRegen: sourceTemplate.rebirthSpellPoints,
+      maxSpellPoints: sourceTemplate.rebirthMaxSpellPoints,
     })
     let empire_buildings = A()
     await this.buildingFactory.consolidate_all(empire_buildings, 'empire')

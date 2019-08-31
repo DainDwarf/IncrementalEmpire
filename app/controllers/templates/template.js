@@ -10,13 +10,13 @@ export default Controller.extend({
   templatePoints: computed('_templatePoints', function() {
     return 1+this._templatePoints
   }),
-  remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,metalTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,metalTP,maxSpellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
     let buildingCost = 0
     for (let b of this.model.empire.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.metalTP+this.model.spellTP) - buildingCost
+    return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.metalTP+this.model.maxSpellTP) - buildingCost
   }),
 
   _canAssignSpell: achievement('Cast 100 spells'),
@@ -93,9 +93,17 @@ export default Controller.extend({
       Math.ceil(this.model.empire.metalStorage/this._TPratioMetal))
   }),
 
-  rebirthSpellPoints: computed('model.{empire.type,spellTP}', function() {
+  rebirthSpellPoints: computed('model.empire.type', function() {
     if (this.model.empire.type == "religious") {
-      return 5+this.model.spellTP
+      return 5
+    } else {
+      return 0
+    }
+  }),
+
+  rebirthMaxSpellPoints: computed('model.{empire.type,maxSpellTP}', function() {
+    if (this.model.empire.type == "religious") {
+      return 100*(1+this.model.maxSpellTP)
     } else {
       return 0
     }

@@ -14,8 +14,9 @@ export default Model.extend({
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
-  spellPoints: attr('number', {defaultValue: 5}),
-  spellPointsRegen: attr('number', {defaultValue: 5}),
+  spellPoints: attr('number', {defaultValue: 1}),
+  spellPointsRegen: attr('number', {defaultValue: 1}),
+  maxSpellPoints: attr('number', {defaultValue: 100}),
   spellCount: attr('number', {defaultValue: 0}),
   conquestCount: attr('number', {defaultValue: 0}), // Number of conquests
   buildingLimitSpellCount: attr('number', {defaultValue: 0}), // Number of times the building limit increase spell has been cast. (sacred land)
@@ -334,7 +335,7 @@ export default Model.extend({
     }
 
     this.set('turn', this.turn + 1)
-    this.incrementProperty('spellPoints', this.spellPointsRegen)
+    this.set('spellPoints', Math.min(this.maxSpellPoints, this.spellPoints+this.spellPointsRegen))
     await this.save()
   },
 });

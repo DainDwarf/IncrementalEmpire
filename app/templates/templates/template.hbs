@@ -48,11 +48,11 @@ Capital:
   <DisplayValue @type="metal" @value="{{rebirthMetal}}/{{model.empire.metalStorage}}"/>
 </AssignPoint>
 <AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
-             @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
-             @max={{add remainingTemplatePoints model.spellTP}}>
-  <DisplayValue @type="template" @value={{model.spellTP}}/>
+             @value={{model.maxSpellTP}} @onChange={{action "changeRessource" "maxSpellTP"}}
+             @max={{add remainingTemplatePoints model.maxSpellTP}}>
+  <DisplayValue @type="template" @value={{model.maxSpellTP}}/>
   <FaIcon @icon="arrow-right"/>
-  <DisplayValue @type="magic" @value={{rebirthSpellPoints}}/>
+  <DisplayValue @type="magic" @value="{{rebirthMaxSpellPoints}} max"/>
 </AssignPoint>
 {{#if displayedBuildings}}
   <hr>
