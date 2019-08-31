@@ -99,7 +99,7 @@ export default Service.extend({
         populationProduction: 1,
         TPcost: 10,
         isEmpireAvailable: true,
-        buildingLimit: 10,
+        buildingLimit: 5,
       })
       this._templateVisibility(building, 'Fill the cave')
     })
@@ -145,9 +145,9 @@ export default Service.extend({
         populationProduction: 2,
         TPcost: 30,
         isEmpireAvailable: true,
-        buildingLimit: 30,
+        buildingLimit: 15,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-food-4", (building) => {
       building.setProperties({
@@ -158,7 +158,7 @@ export default Service.extend({
         foodProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-material-4", (building) => {
       building.setProperties({
@@ -169,7 +169,7 @@ export default Service.extend({
         materialProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("capital-metal-4", (building) => {
       building.setProperties({
@@ -180,7 +180,7 @@ export default Service.extend({
         metalProduction: 2,
         isEmpireAvailable: true,
       })
-      this._templateVisibility(building, '10k Ressources')
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("population-storage-1", (building) => {
       building.setProperties({
@@ -242,6 +242,18 @@ export default Service.extend({
       this._empireVisibility(building)
       this._templateVisibility(building, 'Have 10 store rooms')
     })
+    this.buildingPlan.set("metal-storage-1", (building) => {
+      building.setProperties({
+        name: 'metal storage',
+        description: 'A building for storing precious metals',
+        materialCost: 300,
+        metalStorage: 30,
+        TPcost: 3,
+        spellCost: 20,
+      })
+      this._empireVisibility(building)
+      this._templateVisibility(building, 'Have 10 metal storage')
+    })
     this.buildingPlan.set("material-storage-2", (building) => {
       building.setProperties({
         name: 'storage building',
@@ -256,9 +268,9 @@ export default Service.extend({
     })
     this.buildingPlan.set("metal-storage-2", (building) => {
       building.setProperties({
-        name: 'metal storage',
-        description: 'A building for storing precious metals',
-        materialCost: 1000,
+        name: 'metal storage 2',
+        description: 'Another building for storing precious metals',
+        materialCost: 2000,
         metalStorage: 500,
         TPcost: 10,
         spellCost: 50,

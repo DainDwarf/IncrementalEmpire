@@ -16,6 +16,7 @@ export default Model.extend({
   metal: attr('number', { defaultValue: 0 }),
   spellPoints: attr('number', {defaultValue: 5}),
   spellPointsRegen: attr('number', {defaultValue: 5}),
+  maxSpellPoints: attr('number', {defaultValue: 100}),
   spellCount: attr('number', {defaultValue: 0}),
   conquestCount: attr('number', {defaultValue: 0}), // Number of conquests
   buildingLimitSpellCount: attr('number', {defaultValue: 0}), // Number of times the building limit increase spell has been cast. (sacred land)
@@ -40,17 +41,19 @@ export default Model.extend({
     return this.population - this.workers - this.builders
   }),
 
-  _economicalWorker: upgrade('Worker'),
-  _universalWorker: upgrade('Universal Worker'),
-  workerAssignAvailable: computed('type', '_economicalWorker', '_universalWorker', function() {
-    return (this._economicalWorker && this.type == "economical") || this._universalWorker
+  _workerUpgrade: upgrade('Workers'),
+  workerAssignAvailable: computed('type', '_workerUpgrade', function() {
+    return this.type == "economical" || this._workerUpgrade
   }),
 
   economicalPower: upgrade('Economical Power'),
-  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'type', function() {
+  economicalOverflow: upgrade('Economical Overflow'),
+  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'economicalOverflow', 'type', function() {
     if (this.economicalPower && this.type == "economical") {
       return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else {
+    } else if (this.economicalOverflow && this.type != "economical") {
+      return Math.max(1, Math.log10(this.game.universe.money))
+    } else{
       return 1
     }
   }),
@@ -78,11 +81,11 @@ export default Model.extend({
     return this.buildingLimitFromSpell+this.buildingLimitFromBuildings+this.buildingLimitFromConquest
   }),
 
-  // Cannot do mapBy/sum (yet) because capital is three-building-in-one
-  buildingQty: computed('buildings.@each.{qty,code,isCapital}', function() {
+  // Cannot do mapBy/sum because capital needs to be excluded.
+  buildingQty: computed('buildings.@each.{qty,isCapital}', function() {
     let sum = 0
     for (let b of this.buildings) {
-      if (! b.isCapital || b.code.startsWith('capital-population-')) {
+      if (! b.isCapital) {
         sum = sum + b.qty
       }
     }
@@ -220,10 +223,22 @@ export default Model.extend({
   }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  populationStorage: computed('populationStorageBuildings.@each.{qty,populationStorage}', function() {
+  _communityUpgrade: upgrade('Community Spirit'),
+  _populationStorageRatio: computed('_communityUpgrade', function() {
+    if (this._communityUpgrade) {
+      return 4
+    } else {
+      return 1
+    }
+  }),
+  populationStorage: computed('_populationStorageRatio', 'populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
-      sum = sum + b.qty*b.populationStorage
+      if (b.isCapital) {
+        sum = sum + b.qty*b.populationStorage
+      } else {
+        sum = sum + b.qty*b.populationStorage*this._populationStorageRatio
+      }
     }
     return sum
   }),
@@ -251,12 +266,20 @@ export default Model.extend({
     }
     return sum
   }),
+  _warPreparation: upgrade('War Preparations'),
+  metalStorageBoost: computed('ressourceStorageBoost', 'type', 'game.universe.money', '_warPreparation', function() {
+    let ratio = this.ressourceStorageBoost
+    if (this._warPreparation && this.type == "military") {
+      ratio *= Math.max(1, Math.log10(this.game.universe.money))
+    }
+    return ratio
+  }),
   metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),
-  metalStorage: computed('ressourceStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {
+  metalStorage: computed('metalStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {
     let sum = 0
     for (let b of this.metalStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.metalStorage)
+        sum = sum + Math.floor(this.metalStorageBoost*b.qty*b.metalStorage)
       } else {
         sum = sum + b.qty*b.metalStorage
       }
@@ -312,7 +335,7 @@ export default Model.extend({
     }
 
     this.set('turn', this.turn + 1)
-    this.incrementProperty('spellPoints', this.spellPointsRegen)
+    this.set('spellPoints', Math.min(this.maxSpellPoints, this.spellPoints+this.spellPointsRegen))
     await this.save()
   },
 });

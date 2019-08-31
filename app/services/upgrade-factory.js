@@ -30,7 +30,7 @@ export default Service.extend({
     this.upgradePlan.set('Military Empires', (upgrade) => {
       upgrade.setProperties({
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select military empires',
-        moneyCost: 50000,
+        moneyCost: 500,
       })
     })
     this.upgradePlan.set('Magic Anvil', (upgrade) => {
@@ -42,13 +42,7 @@ export default Service.extend({
     this.upgradePlan.set('Holy Building', (upgrade) => {
       upgrade.setProperties({
         description: 'Magically make buildings appear',
-        manaCost: 50,
-      })
-    })
-    this.upgradePlan.set('Worker', (upgrade) => {
-      upgrade.setProperties({
-        description: 'Humans can work to generate ressources in economical empires',
-        moneyCost: 5,
+        manaCost: 200,
       })
     })
     this.upgradePlan.set('Builder', (upgrade) => {
@@ -81,13 +75,19 @@ export default Service.extend({
         moneyCost: 200,
       })
     })
+    this.upgradePlan.set('Economical Overflow', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your ressource production in other empires is also improved by your current money',
+        moneyCost: 300,
+      })
+    })
     this.upgradePlan.set('Economical Power', (upgrade) => {
       upgrade.setProperties({
         description: 'Your ressource production in economical empires is improved by your current money',
         moneyCost: 5,
       })
     })
-    this.upgradePlan.set('Universal Worker', (upgrade) => {
+    this.upgradePlan.set('Workers', (upgrade) => {
       upgrade.setProperties({
         description: 'Workers are available in all empire types',
         moneyCost: 50, manaCost: 50,
@@ -102,57 +102,69 @@ export default Service.extend({
     this.upgradePlan.set('Metal', (upgrade) => {
       upgrade.setProperties({
         description: 'Discover a new ressource for your people. Metal is even more precious than material for economical empires',
-        moneyCost: 5000,
+        moneyCost: 150,
       })
     })
     this.upgradePlan.set('Building Reclamation', (upgrade) => {
       upgrade.setProperties({
         description: 'Lets you destroy buildings so you can recover space for more advanced buildings',
-        moneyCost: 50000,
+        moneyCost: 200,
       })
     })
     this.upgradePlan.set('Sacred Land', (upgrade) => {
       upgrade.setProperties({
         description: 'Give some land to your people so that they can expand easily.',
-        manaCost: 50000,
+        manaCost: 500,
+      })
+    })
+    this.upgradePlan.set('War Preparations', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Your military empires can store more metal based on your current money',
+        strengthCost: 10,
       })
     })
     this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
       upgrade.setProperties({
         description: 'Magically produces metal!',
-        manaCost: 50000,
+        manaCost: 200,
       })
     })
     this.upgradePlan.set('Aggressive Diplomacy', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest in military empire give 5 times more building space',
-        strengthCost: 50000,
+        strengthCost: 100,
       })
     })
     this.upgradePlan.set('Weapon Forging', (upgrade) => {
       upgrade.setProperties({
         description: 'Your metal production in military empires is increased based on your strength',
-        strengthCost: 50000,
+        strengthCost: 50,
       })
     })
     this.upgradePlan.set('Wrath of God', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest are available in religious empires',
-        manaCost: 50000,
-        strengthCost: 50000,
+        manaCost: 200,
+        strengthCost: 200,
       })
     })
     this.upgradePlan.set('Looting', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquest are available in economical empires',
-        moneyCost: 50000,
-        strengthCost: 50000,
+        moneyCost: 200,
+        strengthCost: 200,
       })
     })
     this.upgradePlan.set('Cassus Belli', (upgrade) => {
       upgrade.setProperties({
         description: 'Conquests are cheaper in military empires',
-        strengthCost: 50000,
+        strengthCost: 30,
+      })
+    })
+    this.upgradePlan.set('Community Spirit', (upgrade) => {
+      upgrade.setProperties({
+        description: 'Housing buildings can hold 4x more people',
+        manaCost: 50,
       })
     })
   },

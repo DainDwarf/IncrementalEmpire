@@ -59,7 +59,7 @@ module('Integration | Feature | Achievements', function(hooks) {
     await game.load()
 
     // We need to be able to use builders.
-    game.getUpgrade('Universal Worker').set('isActive', true)
+    game.getUpgrade('Workers').set('isActive', true)
     game.getUpgrade('Builder').set('isActive', true)
 
     // Have already 9 huts

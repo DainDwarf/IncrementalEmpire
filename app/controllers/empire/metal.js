@@ -20,6 +20,10 @@ export default Controller.extend({
       ||   (this.model.workerAssignAvailable && (this.model.capitalMetal.maxWorkers > 0))
   }),
 
+  storageEfficiencyDisplay: computed('model.metalStorageBoost', function() {
+    return (100*this.model.metalStorageBoost).toFixed(2) + "%"
+  }),
+
   metalEfficiencyDisplay: computed('model.metalEfficiency', function() {
     return (100*this.model.metalEfficiency).toFixed(2) + "%"
   }),

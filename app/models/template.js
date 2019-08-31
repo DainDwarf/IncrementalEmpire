@@ -8,6 +8,7 @@ export default Model.extend({
   materialTP: attr('number', { defaultValue: 0}),
   metalTP: attr('number', { defaultValue: 0}),
   spellTP: attr('number', { defaultValue: 0}),
+  maxSpellTP: attr('number', { defaultValue: 0}),
 
   empire: undefined,    // Set by game service on game load, and templates controller on template creation.
 });
