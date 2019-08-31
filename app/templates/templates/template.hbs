@@ -13,6 +13,7 @@ Capital:
             disabled={{gt capital.TPcost (add selectedCapital.TPcost remainingTemplatePoints)}}
     >
       {{capitalize capital.name}}
+      <DisplayValue @type="building" @value="{{capital.buildingLimit}} max"/>
       {{#if capital.TPcost}}
         <DisplayValue @type="template" @value={{capital.TPcost}}/>
       {{/if}}

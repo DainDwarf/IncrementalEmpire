@@ -66,6 +66,8 @@ export default Controller.extend({
     return (100*this.model.ressourceStorageBoost).toFixed(2) + "%"
   }),
 
+  _builderActive: upgrade('Builder'),
+
   workerValueDisplay: computed('model.{population,availableWorkers}', function() {
     return this.model.availableWorkers + "/" + this.model.population
   }),

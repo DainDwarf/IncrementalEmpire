@@ -56,7 +56,7 @@
             <DisplayValue @tagName="li" @class="nav-item mx-2" @type="worker" @value={{workerValueDisplay}}/>
           {{/if}}
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
-          {{#if model.buildingLimit}}
+          {{#if _builderActive}}
             <DisplayValue @tagName="li" @class="nav-item mx-2" @type="building" @value={{buildingValueDisplay}}/>
           {{/if}}
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}} (+{{model.spellPointsRegen}})" />
