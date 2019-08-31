@@ -14,8 +14,8 @@ export default Model.extend({
   food: attr('number', { defaultValue: 0 }),
   material: attr('number', { defaultValue: 0 }),
   metal: attr('number', { defaultValue: 0 }),
-  spellPoints: attr('number', {defaultValue: 1}),
-  spellPointsRegen: attr('number', {defaultValue: 1}),
+  spellPoints: attr('number', {defaultValue: 5}),
+  spellPointsRegen: attr('number', {defaultValue: 5}),
   maxSpellPoints: attr('number', {defaultValue: 100}),
   spellCount: attr('number', {defaultValue: 0}),
   conquestCount: attr('number', {defaultValue: 0}), // Number of conquests
@@ -81,7 +81,7 @@ export default Model.extend({
     return this.buildingLimitFromSpell+this.buildingLimitFromBuildings+this.buildingLimitFromConquest
   }),
 
-  // Cannot do mapBy/sum (yet) because capital is three-building-in-one
+  // Cannot do mapBy/sum because capital needs to be excluded.
   buildingQty: computed('buildings.@each.{qty,isCapital}', function() {
     let sum = 0
     for (let b of this.buildings) {
