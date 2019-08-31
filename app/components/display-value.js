@@ -24,13 +24,16 @@ export default Component.extend({
       mana: 'dot-circle',
       money: 'coins',
       science: 'flask',
+      strength: 'fist-raised',
       population: 'users',
       food: 'carrot',
       material: 'cubes',
+      metal: 'weight-hanging',
       worker: 'hammer',
       building: 'building',
       magic: 'magic',
       template: 'award',
+      destruction: 'bomb',
     }
     return trans[this.type]
   }),

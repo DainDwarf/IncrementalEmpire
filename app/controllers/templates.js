@@ -9,16 +9,20 @@ export default Controller.extend({
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
   hasReligiousTemplates: true,
   hasEconomicalTemplates: upgrade('Economical Empires'),
-  hasCulturalTemplates: false,
+  hasMilitaryTemplates: upgrade('Military Empires'),
   hasScientificTemplates: false,
   template100mana: achievement('Reach 100 mana'),
   template100money: achievement('Reach 100 money'),
-  canAddTemplate: computed('model.length', 'template100mana', 'template100money', function() {
+  template100strength: achievement('Reach 100 strength'),
+  canAddTemplate: computed('model.length', 'template100mana', 'template100money', 'template100strength', function() {
     let maxTemplate = 1
     if (this.template100mana) {
       maxTemplate = maxTemplate + 1
     }
     if (this.template100money) {
+      maxTemplate = maxTemplate + 1
+    }
+    if (this.template100strength) {
       maxTemplate = maxTemplate + 1
     }
     return this.model.length < maxTemplate
@@ -48,7 +52,7 @@ export default Controller.extend({
 
     async deleteTemplate(id) {
       let template = await this.store.findRecord('template', id, { backgroundReload: false });
-      let destroy = window.confirm('Are you sure? This will delete template ' + template.name)
+      let destroy = window.confirm('Are you sure? This will delete template ' + template.empire.name)
       if (destroy) {
         for (let oldB of template.empire.buildings) {
           await oldB.destroyRecord()

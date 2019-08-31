@@ -13,6 +13,7 @@ Capital:
             disabled={{gt capital.TPcost (add selectedCapital.TPcost remainingTemplatePoints)}}
     >
       {{capitalize capital.name}}
+      <DisplayValue @type="building" @value="{{capital.buildingLimit}} max"/>
       {{#if capital.TPcost}}
         <DisplayValue @type="template" @value={{capital.TPcost}}/>
       {{/if}}
@@ -40,12 +41,19 @@ Capital:
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="material" @value="{{rebirthMaterial}}/{{model.empire.materialStorage}}"/>
 </AssignPoint>
-<AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
-             @value={{model.spellTP}} @onChange={{action "changeRessource" "spellTP"}}
-             @max={{add remainingTemplatePoints model.spellTP}}>
-  <DisplayValue @type="template" @value={{model.spellTP}}/>
+<AssignPoint @class="ml-2" @hidden={{not metalAvailable}}
+             @value={{model.metalTP}} @onChange={{action "changeRessource" "metalTP"}}
+             @max={{maxMetalTP}}>
+  <DisplayValue @type="template" @value={{model.metalTP}}/>
   <FaIcon @icon="arrow-right"/>
-  <DisplayValue @type="magic" @value={{rebirthSpellPoints}}/>
+  <DisplayValue @type="metal" @value="{{rebirthMetal}}/{{model.empire.metalStorage}}"/>
+</AssignPoint>
+<AssignPoint @class="ml-2" @isVisible={{canAssignSpell}}
+             @value={{model.maxSpellTP}} @onChange={{action "changeRessource" "maxSpellTP"}}
+             @max={{add remainingTemplatePoints model.maxSpellTP}}>
+  <DisplayValue @type="template" @value={{model.maxSpellTP}}/>
+  <FaIcon @icon="arrow-right"/>
+  <DisplayValue @type="magic" @value="{{rebirthMaxSpellPoints}} max"/>
 </AssignPoint>
 {{#if displayedBuildings}}
   <hr>
@@ -73,17 +81,19 @@ Capital:
   </div>
 {{/if}}
 <hr>
-<div class="container">
+<div class="container-fluid">
   <button type="button" class="btn btn-outline-danger my-2" onclick={{action "rebirth"}}>
     <div>Restart with this {{model.empire.type}} empire</div>
     <small>Gain <DisplayValue @type={{game.rebirthPointsType}} @value={{game.rebirthPoints}} /> from current {{game.empire.type}} empire</small>
   </button>
 </div>
-<div class="container small">
+<div class="container-fluid small">
   {{#if (eq model.empire.type "religious")}}
     Religious empires produces more <DisplayValue @type="mana"/> if you have more population and spend more turns. You need at least 2 population and 20 turns to start producing <DisplayValue @type="mana"/>
   {{else if (eq model.empire.type "economical")}}
     Economical empires produces more <DisplayValue @type="money"/> if you create more ressources, but decreases if you take too much turns. You need at least 20 turns to start producing <DisplayValue @type="money"/>.
+  {{else if (eq model.empire.type "military")}}
+    Military empires produces more <DisplayValue @type="strength"/> the more conquests you do. You need at least 20 turns to start producing <DisplayValue @type="strength"/>.
   {{/if}}
 </div>
 {{outlet}}

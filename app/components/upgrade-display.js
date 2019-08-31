@@ -25,6 +25,9 @@ export default Component.extend({
       if (this.model.scienceCost > 0) {
         this.game.universe.set('science', this.game.universe.science - this.model.scienceCost)
       }
+      if (this.model.strengthCost > 0) {
+        this.game.universe.set('strength', this.game.universe.strength - this.model.strengthCost)
+      }
       await this.game.universe.save()
       await this.game.checkAchievements()
     },

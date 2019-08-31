@@ -45,6 +45,14 @@ export default Service.extend({
       defineProperty(achievement, '_observedBuilding', empireBuilding('food-storage-1'))
       setCondition(achievement, gte('_observedBuilding.qty', 10))
     })
+    this.achievementPlan.set('Have 10 metal storage', (achievement) => {
+      achievement.setProperties({
+        description: 'You can now have metal storage in your templates',
+        templatePoint: 1,
+      })
+      defineProperty(achievement, '_observedBuilding', empireBuilding('metal-storage-1'))
+      setCondition(achievement, gte('_observedBuilding.qty', 10))
+    })
     this.achievementPlan.set('Have 10 store rooms', (achievement) => {
       achievement.setProperties({
         description: 'You can now have store rooms in your templates',
@@ -150,6 +158,20 @@ export default Service.extend({
       })
       setCondition(achievement, gte('game.empire.material', 1000))
     })
+    this.achievementPlan.set('Have 100 metal', (achievement) => {
+      achievement.setProperties({
+        description: 'Template Point gives 2x more metal',
+        templatePoint: 1,
+      })
+      setCondition(achievement, gte('game.empire.metal', 100))
+    })
+    this.achievementPlan.set('Have 1000 metal', (achievement) => {
+      achievement.setProperties({
+        description: 'Template Point gives 2x more metal',
+        templatePoint: 2,
+      })
+      setCondition(achievement, gte('game.empire.metal', 1000))
+    })
     this.achievementPlan.set('Reach 100 money', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',
@@ -157,12 +179,26 @@ export default Service.extend({
       })
       setCondition(achievement, gte('game.universe.money', 100))
     })
+    this.achievementPlan.set('Reach 100 strength', (achievement) => {
+      achievement.setProperties({
+        description: 'You can have one more empire template',
+        templatePoint: 1,
+      })
+      setCondition(achievement, gte('game.universe.strength', 100))
+    })
     this.achievementPlan.set('Reach 100 mana', (achievement) => {
       achievement.setProperties({
         description: 'You can have one more empire template',
         templatePoint: 1,
       })
       setCondition(achievement, gte('game.universe.mana', 100))
+    })
+    this.achievementPlan.set('Conquer land 10 times', (achievement) => {
+      achievement.setProperties({
+        description: 'Conquer land 10 times in a single empire',
+        templatePoint: 3,
+      })
+      setCondition(achievement, gte('game.empire.conquestCount', 10))
     })
     this.achievementPlan.set('Cast 100 spells', (achievement) => {
       achievement.setProperties({
@@ -188,6 +224,16 @@ export default Service.extend({
           &&   achievement.game.empire.food >= achievement.game.empire.foodStorage
           &&   achievement.game.empire.material >= achievement.game.empire.materialStorage
           &&   achievement.game.empire.capitalName == "cave"
+      }))
+    })
+    this.achievementPlan.set('Worth 100 money', (achievement) => {
+      achievement.setProperties({
+        description: 'Reach 100 money gain in a single empire! You can now choose to start new empires as a Village',
+        templatePoint: 10,
+      })
+      setCondition(achievement, computed('game.{rebirthPoints,rebirthPointsType}', function() {
+        return achievement.game.rebirthPoints >= 100
+          &&   achievement.game.rebirthPointsType == "money"
       }))
     })
     this.achievementPlan.set('Lose an empire', (achievement) => {

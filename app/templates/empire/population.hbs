@@ -21,12 +21,15 @@
              @maxOutputValue={{sub model.populationStorage model.population}}
              @step={{empireCtl.assignValue}}
              @onSpell={{action "genPopulation"}}>
-  Spontaneous Generation
+  Spontaneous Generation<br>
 </EmpireSpell>
 {{#if populationStorageBuildings}}
   <hr>
   <h3>Storage</h3>
   <div>
+    {{#if (not-eq model._populationStorageRatio 1)}}
+      Population housing bonus: {{populationStorageEfficiencyDisplay}}
+    {{/if}}
     {{#each populationStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
     {{/each}}

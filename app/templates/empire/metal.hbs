@@ -1,0 +1,41 @@
+<div>
+  {{model.name}} has <DisplayValue @type="metal" @value={{model.metal}}/>
+  and can store maximum of <DisplayValue @type="metal" @value={{model.metalStorage}}/>
+</div>
+{{#if model.metalProduction}}
+  <div>
+    You generate <DisplayValue @type="metal" @value={{model.metalProduction}}/> per turn
+  </div>
+{{/if}}
+<EmpireSpell @empire={{model}} @spellCost="1" @disabled={{empireCtl.isMaxMetal}}
+             @visible={{philosopherStoneUpgrade}}
+             @outputType="metal" @outputValue={{empireCtl.ressourceSpellEfficiency}}
+             @maxOutputValue={{sub model.metalStorage model.metal}} @step={{empireCtl.assignValue}}
+             @onSpell={{action "genMetal"}}>
+  Philosopher's Stone<br>
+</EmpireSpell>
+{{#if metalStorageBuildings}}
+  <hr>
+  <h3>Storage</h3>
+  <div>
+    {{#if (not-eq model.metalStorageBoost 1)}}
+      Metal storage bonus: {{storageEfficiencyDisplay}}
+    {{/if}}
+    {{#each metalStorageBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}
+{{#if displayProduction}}
+  <hr>
+  <h3>Production</h3>
+  <div>
+    Metal production efficiency: {{metalEfficiencyDisplay}}
+    {{#if model.capitalMetal.maxWorkers}}
+      <EmpireBuilding @building={{model.capitalMetal}} @step={{empireCtl.assignValue}}/>
+    {{/if}}
+    {{#each metalProductionBuildings as |building|}}
+      <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
+    {{/each}}
+  </div>
+{{/if}}

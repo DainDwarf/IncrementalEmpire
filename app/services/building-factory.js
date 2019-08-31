@@ -40,6 +40,14 @@ export default Service.extend({
         isTemplateAvailable: true,
       })
     })
+    this.buildingPlan.set("capital-metal-1", (building) => {
+      building.setProperties({
+        name: 'garden',
+        description: 'The garden of Eden is a small place where you can experiment with these strange animals called "humans"',
+        isEmpireAvailable: true,
+        isTemplateAvailable: true,
+      })
+    })
     this.buildingPlan.set("capital-population-2", (building) => {
       building.setProperties({
         name: 'cave',
@@ -74,6 +82,14 @@ export default Service.extend({
       })
       this._templateVisibility(building, 'Unlock Economical Empires')
     })
+    this.buildingPlan.set("capital-metal-2", (building) => {
+      building.setProperties({
+        name: 'cave',
+        description: 'A cave where your people can try to survive',
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Unlock Economical Empires')
+    })
     this.buildingPlan.set("capital-population-3", (building) => {
       building.setProperties({
         name: 'tribe',
@@ -83,6 +99,7 @@ export default Service.extend({
         populationProduction: 1,
         TPcost: 10,
         isEmpireAvailable: true,
+        buildingLimit: 5,
       })
       this._templateVisibility(building, 'Fill the cave')
     })
@@ -107,6 +124,63 @@ export default Service.extend({
         isEmpireAvailable: true,
       })
       this._templateVisibility(building, 'Fill the cave')
+    })
+    this.buildingPlan.set("capital-metal-3", (building) => {
+      building.setProperties({
+        name: 'tribe',
+        description: 'A small tribe settlement, capable of holding a few people.',
+        maxWorkers: 10,
+        metalStorage: 100,
+        metalProduction: 1,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Fill the cave')
+    })
+    this.buildingPlan.set("capital-population-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 40,
+        populationStorage: 1000,
+        populationProduction: 2,
+        TPcost: 30,
+        isEmpireAvailable: true,
+        buildingLimit: 15,
+      })
+      this._templateVisibility(building, 'Worth 100 money')
+    })
+    this.buildingPlan.set("capital-food-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 60,
+        foodStorage: 10000,
+        foodProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Worth 100 money')
+    })
+    this.buildingPlan.set("capital-material-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 60,
+        materialStorage: 10000,
+        materialProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Worth 100 money')
+    })
+    this.buildingPlan.set("capital-metal-4", (building) => {
+      building.setProperties({
+        name: 'village',
+        description: 'A settlement that can hold a few thousand of people',
+        maxWorkers: 20,
+        metalStorage: 5000,
+        metalProduction: 2,
+        isEmpireAvailable: true,
+      })
+      this._templateVisibility(building, 'Worth 100 money')
     })
     this.buildingPlan.set("population-storage-1", (building) => {
       building.setProperties({
@@ -168,6 +242,18 @@ export default Service.extend({
       this._empireVisibility(building)
       this._templateVisibility(building, 'Have 10 store rooms')
     })
+    this.buildingPlan.set("metal-storage-1", (building) => {
+      building.setProperties({
+        name: 'metal storage',
+        description: 'A building for storing precious metals',
+        materialCost: 300,
+        metalStorage: 30,
+        TPcost: 3,
+        spellCost: 20,
+      })
+      this._empireVisibility(building)
+      this._templateVisibility(building, 'Have 10 metal storage')
+    })
     this.buildingPlan.set("material-storage-2", (building) => {
       building.setProperties({
         name: 'storage building',
@@ -179,6 +265,17 @@ export default Service.extend({
       })
       this._empireVisibility(building, 'Storage 2')
       this._templateVisibility(building, 'Have 20 storage buildings')
+    })
+    this.buildingPlan.set("metal-storage-2", (building) => {
+      building.setProperties({
+        name: 'metal storage 2',
+        description: 'Another building for storing precious metals',
+        materialCost: 2000,
+        metalStorage: 500,
+        TPcost: 10,
+        spellCost: 50,
+      })
+      this._empireVisibility(building, 'Storage 2')
     })
     this.buildingPlan.set("population-production-1", (building) => {
       building.setProperties({
@@ -218,6 +315,18 @@ export default Service.extend({
       })
       this._empireVisibility(building, 'Production 1')
       this._templateVisibility(building, 'Have 10 woodcutters')
+    })
+    this.buildingPlan.set("metal-production-1", (building) => {
+      building.setProperties({
+        name: 'copper mine',
+        description: 'Mining some copper, which is easy to melt',
+        materialCost: 300,
+        maxWorkers: 20,
+        metalProduction: 1,
+        TPcost: 5,
+        spellCost: 50,
+      })
+      this._empireVisibility(building, 'Production 1')
     })
   },
 

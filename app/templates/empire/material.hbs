@@ -12,14 +12,14 @@
              @outputType="material" @outputValue={{empireCtl.ressourceSpellEfficiency}}
              @maxOutputValue={{sub model.materialStorage model.material}} @step={{empireCtl.assignValue}}
              @onSpell={{action "genMaterial"}}>
-  Magic Anvil
+  Magic Anvil<br>
 </EmpireSpell>
 {{#if materialStorageBuildings}}
   <hr>
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.ressourceStorageBoost 1)}}
-      Material storage bonus: {{model.ressourceStorageBoost}}x
+      Material storage bonus: {{empireCtl.storageEfficiencyDisplay}}
     {{/if}}
     {{#each materialStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>

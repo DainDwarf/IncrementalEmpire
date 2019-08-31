@@ -4,8 +4,34 @@ import { gt, lt, or } from '@ember/object/computed';
 import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
+  _religiousConquest: upgrade('Wrath of God'),
+  _economicalConquest: upgrade('Looting'),
+  conquestAvailable: computed('model.type', '_religiousConquest', '_economicalConquest', function() {
+    return this.model.type == "military"
+      ||  (this.model.type == "religious" && this._religiousConquest)
+      ||  (this.model.type == "economical" && this._economicalConquest)
+  }),
+  conquestPopulationCost: 0,
+  conquestFoodCost: 0,
+  conquestMaterialCost: 0,
+  _cassusBelli: upgrade('Cassus Belli'),
+  conquestMetalCost: computed('_cassusBelli', 'model.{conquestCount,type}', function() {
+    if (this._cassusBelli && this.model.type == "military") {
+      return 100*2**this.model.conquestCount
+    } else {
+      return 100*3**this.model.conquestCount
+    }
+  }),
+  canBuyConquest: computed('conquestAvailable', 'conquestPopulationCost', 'conquestFoodCost', 'conquestMaterialCost', 'conquestMetalCost', 'model.{population,food,material,metal}', function() {
+    return this.conquestAvailable
+      &&   this.model.population >= this.conquestPopulationCost
+      &&   this.model.food >= this.conquestFoodCost
+      &&   this.model.material >= this.conquestMaterialCost
+      &&   this.model.metal >= this.conquestMetalCost
+  }),
+
   tabRoute: 'empire.capital',
-  spellPointsDisplayed: gt('model.maxSpellPoints', 0),
+  spellPointsDisplayed: gt('model.spellPointsRegen', 0),
   deadModal: false,
   _dropdownAssignValue: '+1',
   _shortcutAssignValue: '',
@@ -32,6 +58,15 @@ export default Controller.extend({
   isMaxMaterial: computed('model.{material,materialStorage}', function() {
     return this.model.material >= this.model.materialStorage
   }),
+  isMaxMetal: computed('model.{metal,metalStorage}', function() {
+    return this.model.metal >= this.model.metalStorage
+  }),
+
+  storageEfficiencyDisplay: computed('model.ressourceStorageBoost', function() {
+    return (100*this.model.ressourceStorageBoost).toFixed(2) + "%"
+  }),
+
+  _builderActive: upgrade('Builder'),
 
   workerValueDisplay: computed('model.{population,availableWorkers}', function() {
     return this.model.availableWorkers + "/" + this.model.population
@@ -39,8 +74,19 @@ export default Controller.extend({
   populationValueDisplay: computed('model.{population,populationStorage}', function() {
     return this.model.population + "/" + this.model.populationStorage
   }),
+  buildingValueDisplay: computed('model.{buildingDestroyingQty,buildingPendingQty,buildingQty,buildingLimit}', function() {
+    let fullPending = this.model.buildingPendingQty - this.model.buildingDestroyingQty
+    if (fullPending > 0 ) {
+      return this.model.buildingQty + " (+" + fullPending + ") /" + this.model.buildingLimit
+    } else if (fullPending < 0 ) {
+      return this.model.buildingQty + " (" + fullPending + ") /" + this.model.buildingLimit
+    } else {
+      return this.model.buildingQty + "/" + this.model.buildingLimit
+    }
+  }),
 
   materialAvailable: upgrade('Material'),
+  metalAvailable: upgrade('Metal'),
 
   clickPowerActive: upgrade('Click Power'),
   ressourceSpellEfficiency: computed('game.universe.mana', 'clickPowerActive', function() {
@@ -52,6 +98,16 @@ export default Controller.extend({
   }),
 
   actions: {
+    async conquest() {
+      this.model.setProperties({
+          population: this.model.population - this.conquestPopulationCost,
+          food: this.model.food - this.conquestFoodCost,
+          material: this.model.material - this.conquestMaterialCost,
+          metal: this.model.metal - this.conquestMetalCost,
+          conquestCount: this.model.conquestCount+1,
+      })
+      this.model.save()
+    },
     setAssign(val) {
       this.set('_dropdownAssignValue', val)
     },

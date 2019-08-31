@@ -10,13 +10,13 @@ export default Controller.extend({
   templatePoints: computed('_templatePoints', function() {
     return 1+this._templatePoints
   }),
-  remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,spellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
+  remainingTemplatePoints: computed('templatePoints', 'model.{populationTP,foodTP,materialTP,metalTP,maxSpellTP}', 'model.empire.buildings.@each.{qty,TPcost}', function() {
     let buildingCost = 0
     for (let b of this.model.empire.buildings) {
       buildingCost = buildingCost + b.qty*b.TPcost
     }
     //TODO: Find a more dynamic way to compute this.
-    return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.spellTP) - buildingCost
+    return this.templatePoints - (this.model.populationTP+this.model.foodTP+this.model.materialTP+this.model.metalTP+this.model.maxSpellTP) - buildingCost
   }),
 
   _canAssignSpell: achievement('Cast 100 spells'),
@@ -25,6 +25,7 @@ export default Controller.extend({
   }),
 
   materialAvailable: upgrade('Material'),
+  metalAvailable: upgrade('Metal'),
 
   _TPratio10population: achievement('Have 10 population'),
   _TPratio100population: achievement('Have 100 population'),
@@ -76,9 +77,33 @@ export default Controller.extend({
       Math.ceil(this.model.empire.materialStorage/this._TPratioMaterial))
   }),
 
-  rebirthSpellPoints: computed('model.{empire.type,spellTP}', function() {
+  _TPratio100metal: achievement('Have 100 metal'),
+  _TPratio1000metal: achievement('Have 1000 metal'),
+  _TPratioMetal: computed('_TPratio100metal', '_TPratio1000metal', function() {
+    let TPratio = 10
+    if (this._TPratio100metal ) { TPratio = TPratio * 2 }
+    if (this._TPratio1000metal) { TPratio = TPratio * 2 }
+    return TPratio
+  }),
+  rebirthMetal: computed('model.{metalTP,empire.metalStorage}', '_TPratioMetal', function() {
+    return Math.min(this.model.metalTP*this._TPratioMetal, this.model.empire.metalStorage)
+  }),
+  maxMetalTP: computed('remainingTemplatePoints', 'model.{metalTP,empire.metalStorage}', '_TPratioMetal', function() {
+    return Math.min(this.remainingTemplatePoints+this.model.metalTP,
+      Math.ceil(this.model.empire.metalStorage/this._TPratioMetal))
+  }),
+
+  rebirthSpellPoints: computed('model.empire.type', function() {
     if (this.model.empire.type == "religious") {
-      return 5+this.model.spellTP
+      return 5
+    } else {
+      return 0
+    }
+  }),
+
+  rebirthMaxSpellPoints: computed('model.{empire.type,maxSpellTP}', function() {
+    if (this.model.empire.type == "religious") {
+      return 100*(1+this.model.maxSpellTP)
     } else {
       return 0
     }

@@ -148,8 +148,10 @@ export default Service.extend({
       population: sourceTemplate.rebirthPopulation,
       food: sourceTemplate.rebirthFood,
       material: sourceTemplate.rebirthMaterial,
+      metal: sourceTemplate.rebirthMetal,
       spellPoints: sourceTemplate.rebirthSpellPoints,
-      maxSpellPoints: sourceTemplate.rebirthSpellPoints,
+      spellPointsRegen: sourceTemplate.rebirthSpellPoints,
+      maxSpellPoints: sourceTemplate.rebirthMaxSpellPoints,
     })
     let empire_buildings = A()
     await this.buildingFactory.consolidate_all(empire_buildings, 'empire')
@@ -171,6 +173,12 @@ export default Service.extend({
     }
     if (this.universe.money > 0 && ! this.universe.moneyUnlocked) {
       this.universe.set('moneyUnlocked', true)
+    }
+    if (this.universe.science > 0 && ! this.universe.scienceUnlocked) {
+      this.universe.set('scienceUnlocked', true)
+    }
+    if (this.universe.strength > 0 && ! this.universe.strengthUnlocked) {
+      this.universe.set('strengthUnlocked', true)
     }
 
     // Destroy old empire and set the game with the new empire.
@@ -194,7 +202,7 @@ export default Service.extend({
     }
   },
 
-  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material}', function() {
+  rebirthPoints: computed('empire', 'empire.{type,turn,population,dead,food,material,metal,conquestCount}', function() {
     if (this.empire.type == "religious") {
       let pop = this.empire.population
       let turn = this.empire.turn
@@ -206,12 +214,18 @@ export default Service.extend({
         return 0
       }
     } else if (this.empire.type == "economical") {
-      let res = 0.5*this.empire.food + 3*this.empire.material //TODO: Add other ressources
+      let res = 0.5*this.empire.food + 3*this.empire.material + 50*this.empire.metal
       let turn = this.empire.turn
       if (turn >= 20) {
         return Math.max(0, Math.floor(
           Math.sqrt(res)*10/turn
         ))
+      } else {
+        return 0
+      }
+    } else if (this.empire.type == "military") {
+      if (this.empire.turn >= 20) {
+        return this.empire.conquestCount**2
       } else {
         return 0
       }
@@ -223,6 +237,7 @@ export default Service.extend({
       religious: 'mana',
       economical: 'money',
       scientific: 'science',
+      military: 'strength',
     }
     return typeTrans[this.empire.type]
   }),
