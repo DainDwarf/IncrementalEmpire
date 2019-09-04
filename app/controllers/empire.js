@@ -62,10 +62,6 @@ export default Controller.extend({
     return this.model.metal >= this.model.metalStorage
   }),
 
-  storageEfficiencyDisplay: computed('model.ressourceStorageBoost', function() {
-    return (100*this.model.ressourceStorageBoost).toFixed(2) + "%"
-  }),
-
   _builderActive: upgrade('Builder'),
 
   workerValueDisplay: computed('model.{population,availableWorkers}', function() {

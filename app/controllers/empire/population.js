@@ -20,14 +20,6 @@ export default Controller.extend({
       ||   (this.model.workerAssignAvailable && this.model.capitalPopulation.maxWorkers > 0)
   }),
 
-  populationEfficiencyDisplay: computed('model.populationEfficiency', function() {
-    return (100*this.model.populationEfficiency).toFixed(2) + "%"
-  }),
-
-  populationStorageEfficiencyDisplay: computed('model._populationStorageRatio', function() {
-    return (100*this.model._populationStorageRatio).toFixed(2) + "%"
-  }),
-
   actions: {
     async genPopulation(qty) {
       this.model.set('population', Math.min(this.model.population + qty, this.model.populationStorage))

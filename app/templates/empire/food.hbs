@@ -23,7 +23,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.ressourceStorageBoost 1)}}
-      Food storage bonus: {{empireCtl.storageEfficiencyDisplay}}
+      Food storage bonus: {{bonus model.foodStorageBoost}}
     {{/if}}
     {{#each foodStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
@@ -34,7 +34,7 @@
   <hr>
   <h3>Production</h3>
   <div>
-    Food production efficiency: {{foodEfficiencyDisplay}}
+    Food production efficiency: {{bonus model.foodEfficiency}}
     {{#if model.capitalFood.maxWorkers}}
       <EmpireBuilding @building={{model.capitalFood}} @step={{empireCtl.assignValue}}/>
     {{/if}}

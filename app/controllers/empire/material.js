@@ -20,10 +20,6 @@ export default Controller.extend({
       ||   (this.model.workerAssignAvailable && (this.model.capitalMaterial.maxWorkers > 0))
   }),
 
-  materialEfficiencyDisplay: computed('model.materialEfficiency', function() {
-    return (100*this.model.materialEfficiency).toFixed(2) + "%"
-  }),
-
   actions: {
     async genMaterial(qty) {
       this.model.set('material', Math.min(this.model.material + qty, this.model.materialStorage))

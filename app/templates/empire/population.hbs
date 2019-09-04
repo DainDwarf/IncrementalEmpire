@@ -28,7 +28,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model._populationStorageRatio 1)}}
-      Population housing bonus: {{populationStorageEfficiencyDisplay}}
+      Population housing bonus: {{bonus model._populationStorageRatio}}
     {{/if}}
     {{#each populationStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
@@ -39,7 +39,7 @@
   <hr>
   <h3>Production</h3>
   <div>
-    Population production efficiency: {{populationEfficiencyDisplay}}
+    Population production efficiency: {{bonus model.populationEfficiency}}
     {{#if model.capitalPopulation.maxWorkers}}
       <EmpireBuilding @building={{model.capitalPopulation}} @step={{empireCtl.assignValue}}/>
     {{/if}}
