@@ -1,3 +1,6 @@
+[![Travis (.com) branch](https://img.shields.io/travis/com/DainDwarf/IncrementalEmpire/master?label=Development)](https://travis-ci.com/DainDwarf/IncrementalEmpire)
+[![Travis (.com) branch](https://img.shields.io/travis/com/DainDwarf/IncrementalEmpire/gh-pages?label=Stable)](https://travis-ci.com/DainDwarf/IncrementalEmpire)
+
 # Incremental Empire
 
 [Incremental Empire](https://daindwarf.github.io/IncrementalEmpire) is a turn-based incremental game. Why should you have to wait for those numbers to go up?
