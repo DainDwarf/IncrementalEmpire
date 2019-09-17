@@ -18,10 +18,6 @@ export default Controller.extend({
       ||   (this.model.workerAssignAvailable && (this.model.capitalFood.maxWorkers > 0))
   }),
 
-  foodEfficiencyDisplay: computed('model.foodEfficiency', function() {
-    return (100*this.model.foodEfficiency).toFixed(2) + "%"
-  }),
-
   actions: {
     async genFood(qty) {
       this.model.set('food', Math.min(this.model.food + qty, this.model.foodStorage))

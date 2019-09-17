@@ -243,11 +243,12 @@ export default Model.extend({
     return sum
   }),
   foodStorageBuildings: filter('buildings', b => b.foodStorage != undefined),
-  foodStorage: computed('ressourceStorageBoost', 'foodStorageBuildings.@each.{qty,foodStorage}', function() {
+  foodStorageBoost: alias('ressourceStorageBoost'),
+  foodStorage: computed('foodStorageBoost', 'foodStorageBuildings.@each.{qty,foodStorage}', function() {
     let sum = 0
     for (let b of this.foodStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.foodStorage)
+        sum = sum + Math.floor(this.foodStorageBoost*b.qty*b.foodStorage)
       } else {
         sum = sum + b.qty*b.foodStorage
       }
@@ -255,11 +256,12 @@ export default Model.extend({
     return sum
   }),
   materialStorageBuildings: filter('buildings', b => b.materialStorage != undefined),
-  materialStorage: computed('ressourceStorageBoost', 'materialStorageBuildings.@each.{qty,materialStorage}', function() {
+  materialStorageBoost: alias('ressourceStorageBoost'),
+  materialStorage: computed('materialStorageBoost', 'materialStorageBuildings.@each.{qty,materialStorage}', function() {
     let sum = 0
     for (let b of this.materialStorageBuildings) {
       if (!b.isCapital) {
-        sum = sum + Math.floor(this.ressourceStorageBoost*b.qty*b.materialStorage)
+        sum = sum + Math.floor(this.materialStorageBoost*b.qty*b.materialStorage)
       } else {
         sum = sum + b.qty*b.materialStorage
       }

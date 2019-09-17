@@ -19,7 +19,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.ressourceStorageBoost 1)}}
-      Material storage bonus: {{empireCtl.storageEfficiencyDisplay}}
+      Material storage bonus: {{bonus model.materialStorageBoost}}
     {{/if}}
     {{#each materialStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
@@ -30,7 +30,7 @@
   <hr>
   <h3>Production</h3>
   <div>
-    Material production efficiency: {{materialEfficiencyDisplay}}
+    Material production efficiency: {{bonus model.materialEfficiency}}
     {{#if model.capitalMaterial.maxWorkers}}
       <EmpireBuilding @building={{model.capitalMaterial}} @step={{empireCtl.assignValue}}/>
     {{/if}}

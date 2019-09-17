@@ -193,7 +193,7 @@ export default Service.extend({
   },
 
   async checkAchievements() {
-    for (var achievement of this.achievements.values()) {
+    for (var achievement of this.achievements) {
       if (! achievement.isActive && achievement.condition) {
         achievement.set('isActive', true)
         this.notify.success(achievement.name, {radius: true})

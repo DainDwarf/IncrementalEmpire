@@ -19,7 +19,7 @@
   <h3>Storage</h3>
   <div>
     {{#if (not-eq model.metalStorageBoost 1)}}
-      Metal storage bonus: {{storageEfficiencyDisplay}}
+      Metal storage bonus: {{bonus model.metalStorageBoost}}
     {{/if}}
     {{#each metalStorageBuildings as |building|}}
       <EmpireBuilding @building={{building}} @step={{empireCtl.assignValue}}/>
@@ -30,7 +30,7 @@
   <hr>
   <h3>Production</h3>
   <div>
-    Metal production efficiency: {{metalEfficiencyDisplay}}
+    Metal production efficiency: {{bonus model.metalEfficiency}}
     {{#if model.capitalMetal.maxWorkers}}
       <EmpireBuilding @building={{model.capitalMetal}} @step={{empireCtl.assignValue}}/>
     {{/if}}
