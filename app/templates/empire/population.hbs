@@ -16,7 +16,7 @@
   </div>
 {{/if}}
 <EmpireSpell @empire={{model}} @spellCost="5" @disabled={{empireCtl.isMaxPopulation}}
-             @visible={{genPopUpgrade}}
+             @visible={{upgrade "Spontaneous Generation"}}
              @outputType="population" @outputValue="1"
              @maxOutputValue={{sub model.populationStorage model.population}}
              @step={{empireCtl.assignValue}}

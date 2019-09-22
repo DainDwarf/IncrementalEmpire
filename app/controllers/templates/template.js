@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { sort, sum, filter, filterBy, mapBy } from '@ember/object/computed';
-import { achievement, upgrade } from 'incremental-empire/utils/computed';
+import { achievement } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   activeAchievements: filterBy('game.achievements', 'isActive', true),
@@ -23,9 +23,6 @@ export default Controller.extend({
   canAssignSpell: computed('model.empire.type', '_canAssignSpell', function() {
     return this.model.empire.type == "religious" && this._canAssignSpell
   }),
-
-  materialAvailable: upgrade('Material'),
-  metalAvailable: upgrade('Metal'),
 
   _TPratio10population: achievement('Have 10 population'),
   _TPratio100population: achievement('Have 100 population'),

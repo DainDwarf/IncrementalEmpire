@@ -31,7 +31,7 @@
           <FaIcon class="float-right text-danger" @icon="exclamation" />
         {{/if}}
       {{/link-to}}
-      {{#if materialAvailable}}
+      {{#if (upgrade "Material")}}
         {{#link-to "empire.material" class="nav-link"}}
           Material <span class="badge badge-pill badge-light">{{model.material}}</span>
           {{#if isMaxMaterial}}
@@ -39,7 +39,7 @@
           {{/if}}
         {{/link-to}}
       {{/if}}
-      {{#if metalAvailable}}
+      {{#if (upgrade "Metal")}}
         {{#link-to "empire.metal" class="nav-link"}}
           Metal <span class="badge badge-pill badge-light">{{model.metal}}</span>
           {{#if isMaxMetal}}
@@ -56,7 +56,7 @@
             <DisplayValue @tagName="li" @class="nav-item mx-2" @type="worker" @value={{workerValueDisplay}}/>
           {{/if}}
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="population" @value={{populationValueDisplay}}/>
-          {{#if _builderActive}}
+          {{#if (upgrade "Builder")}}
             <DisplayValue @tagName="li" @class="nav-item mx-2" @type="building" @value={{buildingValueDisplay}}/>
           {{/if}}
           <DisplayValue @tagName="li" @class="nav-item mx-2" @type="magic" @visible={{spellPointsDisplayed}} @value="{{model.spellPoints}}/{{model.maxSpellPoints}} (+{{model.spellPointsRegen}})" />
