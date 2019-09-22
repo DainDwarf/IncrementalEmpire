@@ -34,14 +34,14 @@ Capital:
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="food" @value="{{rebirthFood}}/{{model.empire.foodStorage}}"/>
 </AssignPoint>
-<AssignPoint @class="ml-2" @hidden={{not materialAvailable}}
+<AssignPoint @class="ml-2" @hidden={{not (upgrade "Material")}}
              @value={{model.materialTP}} @onChange={{action "changeRessource" "materialTP"}}
              @max={{maxMaterialTP}}>
   <DisplayValue @type="template" @value={{model.materialTP}}/>
   <FaIcon @icon="arrow-right"/>
   <DisplayValue @type="material" @value="{{rebirthMaterial}}/{{model.empire.materialStorage}}"/>
 </AssignPoint>
-<AssignPoint @class="ml-2" @hidden={{not metalAvailable}}
+<AssignPoint @class="ml-2" @hidden={{not (upgrade "Metal")}}
              @value={{model.metalTP}} @onChange={{action "changeRessource" "metalTP"}}
              @max={{maxMetalTP}}>
   <DisplayValue @type="template" @value={{model.metalTP}}/>

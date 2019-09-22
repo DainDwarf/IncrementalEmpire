@@ -2,11 +2,9 @@ import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { computed } from '@ember/object';
 import { filter } from '@ember/object/computed';
-import { upgrade } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   empireCtl: controller('empire'),
-  philosopherStoneUpgrade: upgrade("Philosopher's Stone"),
 
   metalStorageBuildings: filter('model.metalStorageBuildings.@each.{isCapital,isEmpireAvailable}',
     b => ! b.isCapital && b.isEmpireAvailable

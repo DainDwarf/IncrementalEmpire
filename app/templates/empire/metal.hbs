@@ -8,7 +8,7 @@
   </div>
 {{/if}}
 <EmpireSpell @empire={{model}} @spellCost="1" @disabled={{empireCtl.isMaxMetal}}
-             @visible={{philosopherStoneUpgrade}}
+             @visible={{upgrade "Philosopher's Stone"}}
              @outputType="metal" @outputValue={{empireCtl.ressourceSpellEfficiency}}
              @maxOutputValue={{sub model.metalStorage model.metal}} @step={{empireCtl.assignValue}}
              @onSpell={{action "genMetal"}}>

@@ -11,12 +11,12 @@
     It can store a maximum of <DisplayValue @type="food" @value={{model.capitalFood.foodStorage}}/>
   </div>
 {{/if}}
-{{#if (and empireCtl.materialAvailable model.capitalMaterial.materialStorage)}}
+{{#if (and (upgrade "Material") model.capitalMaterial.materialStorage)}}
   <div>
     It can store a maximum of <DisplayValue @type="material" @value={{model.capitalMaterial.materialStorage}}/>
   </div>
 {{/if}}
-{{#if (and empireCtl.metalAvailable model.capitalMetal.metalStorage)}}
+{{#if (and (upgrade "Metal") model.capitalMetal.metalStorage)}}
   <div>
     It can store a maximum of <DisplayValue @type="metal" @value={{model.capitalMetal.metalStorage}}/>
   </div>
@@ -49,7 +49,7 @@
     </small>
   </div>
 {{/if}}
-{{#if sacredLandAvailable}}
+{{#if (upgrade "Sacred Land")}}
   <EmpireSpell @empire={{model}} @spellCost={{buildingLimitSpellCost}}
                @onSpell={{action "sacredLand"}}>
     Sacred Land<br>

@@ -2,15 +2,11 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { A } from '@ember/array';
-import { achievement, upgrade } from 'incremental-empire/utils/computed';
+import { achievement } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   buildingFactory: service(),
   tabRouteObj: undefined, //Instead of remembering the route to open, remember the template object
-  hasReligiousTemplates: true,
-  hasEconomicalTemplates: upgrade('Economical Empires'),
-  hasMilitaryTemplates: upgrade('Military Empires'),
-  hasScientificTemplates: false,
   template100mana: achievement('Reach 100 mana'),
   template100money: achievement('Reach 100 money'),
   template100strength: achievement('Reach 100 strength'),
