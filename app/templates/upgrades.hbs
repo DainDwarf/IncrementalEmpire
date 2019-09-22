@@ -1,7 +1,30 @@
-<div class="scrollable">
-  <div class="row mx-2 my-2">
-    {{#each model as |upgrade|}}
-      <UpgradeDisplay @model={{upgrade}}/>
-    {{/each}}
+<div class="container-fluid">
+  <div class="row">
+    <nav class="nav nav-pills flex-column border-right w-15">
+      {{#link-to "upgrades.religious" class="nav-link"}}
+        Religious
+      {{/link-to}}
+      {{#if (upgrade "Economical Empires")}}
+        {{#link-to "upgrades.economical" class="nav-link"}}
+          Economical
+        {{/link-to}}
+      {{/if}}
+      {{#if (upgrade "Military Empires")}}
+        {{#link-to "upgrades.military" class="nav-link"}}
+          Military
+        {{/link-to}}
+      {{/if}}
+      {{#if false}}
+        {{#link-to "upgrades.scientific" class="nav-link"}}
+          Scientific
+        {{/link-to}}
+      {{/if}}
+      {{#link-to "upgrades.others" class="nav-link"}}
+        Others
+      {{/link-to}}
+    </nav>
+    <div class="container-fluid border w-85 scrollable">
+      {{outlet}}
+    </div>
   </div>
 </div>

@@ -89,7 +89,7 @@ module('Acceptance | Navigation', function(hooks) {
     assert.equal(currentURL(), '/templates');
 
     await triggerKeyEvent('a', 'keyup', 'ArrowRight')
-    assert.equal(currentURL(), '/upgrades');
+    assert.equal(currentURL(), '/upgrades/religious');
 
     await triggerKeyEvent('a', 'keyup', 'ArrowRight')
     assert.equal(currentURL(), '/achievements');
@@ -107,7 +107,7 @@ module('Acceptance | Navigation', function(hooks) {
     assert.equal(currentURL(), '/achievements');
 
     await triggerKeyEvent('a', 'keyup', 'ArrowLeft')
-    assert.equal(currentURL(), '/upgrades');
+    assert.equal(currentURL(), '/upgrades/religious');
 
     await triggerKeyEvent('a', 'keyup', 'ArrowLeft')
     assert.equal(currentURL(), '/templates');
