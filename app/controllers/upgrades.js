@@ -9,4 +9,11 @@ export default Controller.extend({
   buyableMilitary: filterBy('buyableUpgrades', 'type', 'military'),
   buyableScientific: filterBy('buyableUpgrades', 'type', 'scientific'),
   buyableOther: filterBy('buyableUpgrades', 'type', 'other'),
+  showBought: false,
+
+  actions: {
+    toggleShowBought() {
+      this.toggleProperty('showBought')
+    },
+  },
 });

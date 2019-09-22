@@ -38,8 +38,15 @@
         {{/if}}
       {{/link-to}}
     </nav>
-    <div class="container-fluid border w-85 scrollable">
-      {{outlet}}
+    <div class="border w-85">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <BsButton @class="btn {{if showBought "btn-success" "btn-secondary"}}" @active={{showBought}} @onClick={{action "toggleShowBought"}}>
+          Show bought upgrades
+        </BsButton>
+      </nav>
+      <div class="container-fluid scrollable-empire">
+        {{outlet}}
+      </div>
     </div>
   </div>
 </div>
