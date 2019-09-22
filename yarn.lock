@@ -2847,7 +2847,7 @@ broccoli-stew@^2.0.0, broccoli-stew@^2.1.0:
     symlink-or-copy "^1.2.0"
     walk-sync "^0.3.3"
 
-broccoli-string-replace@^0.1.2:
+broccoli-string-replace@^0.1.1, broccoli-string-replace@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/broccoli-string-replace/-/broccoli-string-replace-0.1.2.tgz#1ed92f85680af8d503023925e754e4e33676b91f"
   integrity sha1-HtkvhWgK+NUDAjkl51Tk4zZ2uR8=
@@ -4395,6 +4395,18 @@ ember-local-storage@^1.7.0:
     ember-cli-string-utils "^1.1.0"
     ember-cli-version-checker "^2.1.0"
     ember-copy "^1.0.0"
+
+ember-lodash@^4.19.5:
+  version "4.19.5"
+  resolved "https://registry.yarnpkg.com/ember-lodash/-/ember-lodash-4.19.5.tgz#489293aceb25c8b165e9b0b802c4bd1e3a4cda37"
+  integrity sha512-3NMtKvEMpipaxRuf5jbihQ5iGWnZyYssxLd0xDbqzxTU/3rHhnDIVS3+qPnw5AT0iH+hjlFlk1M4Ekv/K8a+bw==
+  dependencies:
+    broccoli-debug "^0.6.1"
+    broccoli-funnel "^2.0.1"
+    broccoli-merge-trees "^3.0.0"
+    broccoli-string-replace "^0.1.1"
+    ember-cli-babel "^7.0.0"
+    lodash-es "^4.17.4"
 
 ember-math-helpers@^2.11.3:
   version "2.11.3"
@@ -6741,6 +6753,11 @@ locate-path@^3.0.0:
   dependencies:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
+
+lodash-es@^4.17.4:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
 
 lodash._baseassign@^3.0.0:
   version "3.2.0"

@@ -14,6 +14,7 @@ export default Service.extend({
         description: 'You can now create more humans',
         manaCost: 1,
         type: 'religious',
+        order: 1,
       })
     })
     this.upgradePlan.set('Click Power', (upgrade) => {
@@ -21,6 +22,7 @@ export default Service.extend({
         description: 'Your god powers for generating ressources is improved by your current mana',
         manaCost: 5,
         type: 'religious',
+        order: 2,
       })
     })
     this.upgradePlan.set('Economical Empires', (upgrade) => {
@@ -28,6 +30,7 @@ export default Service.extend({
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select economical empires',
         manaCost: 20,
         type: 'religious',
+        order: 3,
       })
     })
     this.upgradePlan.set('Military Empires', (upgrade) => {
@@ -35,6 +38,7 @@ export default Service.extend({
         description: 'Unlock a new empire type with different rules. You will need to set a new template to be able to select military empires',
         moneyCost: 500,
         type: 'economical',
+        order: 1,
       })
     })
     this.upgradePlan.set('Magic Anvil', (upgrade) => {
@@ -42,6 +46,7 @@ export default Service.extend({
         description: 'Generate some material through the power of your magic',
         manaCost: 20,
         type: 'religious',
+        order: 4,
       })
     })
     this.upgradePlan.set('Holy Building', (upgrade) => {
@@ -49,6 +54,7 @@ export default Service.extend({
         description: 'Magically make buildings appear',
         manaCost: 200,
         type: 'religious',
+        order: 5,
       })
     })
     this.upgradePlan.set('Builder', (upgrade) => {
@@ -56,6 +62,7 @@ export default Service.extend({
         description: 'Humans can use material to build new buildings',
         moneyCost: 10,
         type: 'economical',
+        order: 2,
       })
     })
     this.upgradePlan.set('Production 1', (upgrade) => {
@@ -63,6 +70,7 @@ export default Service.extend({
         description: 'Can build production buildings',
         moneyCost: 100,
         type: 'economical',
+        order: 3,
       })
     })
     this.upgradePlan.set('Hoarding', (upgrade) => {
@@ -70,6 +78,7 @@ export default Service.extend({
         description: 'Your ressource storage buildings provide 2x more storage',
         moneyCost: 100,
         type: 'economical',
+        order: 4,
       })
     })
     this.upgradePlan.set('Economical Efficiency', (upgrade) => {
@@ -77,6 +86,7 @@ export default Service.extend({
         description: 'Your ressource storage buildings provide more storage in economical empires based on your money amount',
         moneyCost: 100,
         type: 'economical',
+        order: 5,
       })
     })
     this.upgradePlan.set('Storage 2', (upgrade) => {
@@ -84,6 +94,7 @@ export default Service.extend({
         description: 'Can build better storage buildings',
         moneyCost: 200,
         type: 'economical',
+        order: 6,
       })
     })
     this.upgradePlan.set('Economical Overflow', (upgrade) => {
@@ -91,6 +102,7 @@ export default Service.extend({
         description: 'Your ressource production in other empires is also improved by your current money',
         moneyCost: 300,
         type: 'economical',
+        order: 7,
       })
     })
     this.upgradePlan.set('Economical Power', (upgrade) => {
@@ -98,6 +110,7 @@ export default Service.extend({
         description: 'Your ressource production in economical empires is improved by your current money',
         moneyCost: 5,
         type: 'economical',
+        order: 8,
       })
     })
     this.upgradePlan.set('Workers', (upgrade) => {
@@ -105,6 +118,7 @@ export default Service.extend({
         description: 'Workers are available in all empire types',
         moneyCost: 50, manaCost: 50,
         type: 'other',
+        order: 1,
       })
     })
     this.upgradePlan.set('Material', (upgrade) => {
@@ -112,6 +126,7 @@ export default Service.extend({
         description: 'Discover a new ressource for your people. Material is more precious than food for economical empires',
         moneyCost: 5,
         type: 'economical',
+        order: 9,
       })
     })
     this.upgradePlan.set('Metal', (upgrade) => {
@@ -119,6 +134,7 @@ export default Service.extend({
         description: 'Discover a new ressource for your people. Metal is even more precious than material for economical empires',
         moneyCost: 150,
         type: 'economical',
+        order: 10,
       })
     })
     this.upgradePlan.set('Building Reclamation', (upgrade) => {
@@ -126,6 +142,7 @@ export default Service.extend({
         description: 'Lets you destroy buildings so you can recover space for more advanced buildings',
         moneyCost: 200,
         type: 'economical',
+        order: 11,
       })
     })
     this.upgradePlan.set('Sacred Land', (upgrade) => {
@@ -133,6 +150,7 @@ export default Service.extend({
         description: 'Give some land to your people so that they can expand easily.',
         manaCost: 500,
         type: 'religious',
+        order: 6,
       })
     })
     this.upgradePlan.set('War Preparations', (upgrade) => {
@@ -140,6 +158,7 @@ export default Service.extend({
         description: 'Your military empires can store more metal based on your current money',
         strengthCost: 10,
         type: 'military',
+        order: 1,
       })
     })
     this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
@@ -147,6 +166,7 @@ export default Service.extend({
         description: 'Magically produces metal!',
         manaCost: 200,
         type: 'religious',
+        order: 7,
       })
     })
     this.upgradePlan.set('Aggressive Diplomacy', (upgrade) => {
@@ -154,6 +174,7 @@ export default Service.extend({
         description: 'Conquest in military empire give 5 times more building space',
         strengthCost: 100,
         type: 'military',
+        order: 2,
       })
     })
     this.upgradePlan.set('Weapon Forging', (upgrade) => {
@@ -161,6 +182,7 @@ export default Service.extend({
         description: 'Your metal production in military empires is increased based on your strength',
         strengthCost: 50,
         type: 'military',
+        order: 3,
       })
     })
     this.upgradePlan.set('Wrath of God', (upgrade) => {
@@ -169,6 +191,7 @@ export default Service.extend({
         manaCost: 200,
         strengthCost: 200,
         type: 'other',
+        order: 2,
       })
     })
     this.upgradePlan.set('Looting', (upgrade) => {
@@ -177,6 +200,7 @@ export default Service.extend({
         moneyCost: 200,
         strengthCost: 200,
         type: 'other',
+        order: 3,
       })
     })
     this.upgradePlan.set('Cassus Belli', (upgrade) => {
@@ -184,6 +208,7 @@ export default Service.extend({
         description: 'Conquests are cheaper in military empires',
         strengthCost: 30,
         type: 'military',
+        order: 4,
       })
     })
     this.upgradePlan.set('Community Spirit', (upgrade) => {
@@ -191,6 +216,7 @@ export default Service.extend({
         description: 'Housing buildings can hold 4x more people',
         manaCost: 50,
         type: 'religious',
+        order: 8,
       })
     })
   },

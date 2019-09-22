@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import resetStorages from 'ember-local-storage/test-support/reset-storage';
+import _ from 'lodash';
 
 module('Unit | Service | upgradeFactory', function(hooks) {
   setupTest(hooks);
@@ -118,5 +119,17 @@ module('Unit | Service | upgradeFactory', function(hooks) {
     await upgradeFactory.consolidate_all(upgrades)
 
     assert.equal(upgrades.length, upgradeFactory.upgradePlan.size)
+  })
+
+  test('unique order', async function(assert) {
+    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
+    let upgrades = []
+    await upgradeFactory.consolidate_all(upgrades)
+
+    _.forEach(_.groupBy(upgrades, u => u.type), function(typeGroup, type) {
+      _.forEach(_.groupBy(typeGroup, u => u.order), function(upgrade, order) {
+        assert.equal(upgrade.length, 1, `${upgrade.length} upgrades of type ${type} and order ${order}`)
+      })
+    })
   })
 });

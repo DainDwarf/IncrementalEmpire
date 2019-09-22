@@ -13,6 +13,7 @@ export default Model.extend({
   scienceCost: 0,
   strengthCost: 0,
   type: 'other',
+  order: 0,
 
   canBuy: computed('isActive', 'game.universe.{mana,money,science,strength}',
                       'manaCost', 'moneyCost', 'scienceCost', 'strengthCost', function() {
