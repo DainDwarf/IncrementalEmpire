@@ -10,8 +10,6 @@ export default Route.extend(EKMixin, {
 
   beforeModel() {
     this.set('keyboardActivated', true)
-    let route = this.controllerFor('upgrades').tabRoute
-    this.transitionTo(route)
   },
 
   actions: {
@@ -33,7 +31,7 @@ export default Route.extend(EKMixin, {
     if (this._military) {
       tabs.push('upgrades.military')
     }
-    tabs.push('upgrades.scientific')
+    // Not yet: tabs.push('upgrades.scientific')
     tabs.push('upgrades.others')
     return tabs
   }),

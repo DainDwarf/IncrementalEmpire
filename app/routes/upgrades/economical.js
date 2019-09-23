@@ -6,6 +6,12 @@ export default Route.extend({
   controllerName: 'upgrades',
   economical: filterBy('game.upgrades', 'type', 'economical'),
 
+  beforeModel() {
+    if (!this.game.getUpgrade('Economical Empires').isActive) {
+      this.transitionTo('upgrades'); // Don't allow people to go to economical if it is not available yet.
+    }
+  },
+
   model() {
     return this.economical
   },

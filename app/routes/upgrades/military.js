@@ -6,6 +6,12 @@ export default Route.extend({
   controllerName: 'upgrades',
   military: filterBy('game.upgrades', 'type', 'military'),
 
+  beforeModel() {
+    if (!this.game.getUpgrade('Military Empires').isActive) {
+      this.transitionTo('upgrades'); // Don't allow people to go to military if it is not available yet.
+    }
+  },
+
   model() {
     return this.military
   },

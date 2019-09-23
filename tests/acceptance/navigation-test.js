@@ -81,6 +81,18 @@ module('Acceptance | Navigation', function(hooks) {
     assert.equal(currentURL(), '/templates/'+template2.id)
   });
 
+  test('remember /upgrades subtab', async function(assert) {
+    await visit('/upgrades/others');
+    assert.equal(currentURL(), '/upgrades/others');
+    // Going to empire redirects to last known subtab
+    await visit('/upgrades');
+    assert.equal(currentURL(), '/upgrades/others');
+    await visit('/upgrades/religious');
+    assert.equal(currentURL(), '/upgrades/religious');
+    await visit('/upgrades');
+    assert.equal(currentURL(), '/upgrades/religious');
+  });
+
   test('left/right navigation', async function(assert) {
     await visit('/empire/food');
     assert.equal(currentURL(), '/empire/food');
@@ -268,5 +280,109 @@ module('Acceptance | Navigation', function(hooks) {
 
     await triggerKeyEvent('a', 'keyup', 'ArrowUp')
     assert.equal(currentURL(), '/empire/capital')
+  })
+
+  test('up/down upgrades navigation', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+
+    await store.createRecord('upgrade', {name: 'Economical Empires', isActive: true}).save()
+    await store.createRecord('upgrade', {name: 'Military Empires', isActive: true}).save()
+    await game.load()
+
+    await visit('/upgrades');
+
+    assert.ok(find('a[href="/upgrades/religious"]'))
+    assert.ok(find('a[href="/upgrades/economical"]'))
+    assert.ok(find('a[href="/upgrades/military"]'))
+    assert.ok(find('a[href="/upgrades/others"]'))
+
+    assert.equal(currentURL(), '/upgrades/religious');
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/economical')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/military')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/religious')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/military')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/economical')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/religious')
+  })
+
+  test('upgrades economical unreachable', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
+
+    await visit('/upgrades');
+
+    assert.ok(find('a[href="/upgrades/religious"]'))
+    assert.notOk(find('a[href="/upgrades/economical"]'))
+    assert.notOk(find('a[href="/upgrades/military"]'))
+    assert.ok(find('a[href="/upgrades/others"]'))
+
+    await visit('/upgrades/economical'); // Cannot go to economical by hand
+    assert.equal(currentURL(), '/upgrades/religious');
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/religious')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/religious')
+  })
+
+  test('upgrades military unreachable', async function(assert) {
+    let store = this.owner.lookup('service:store');
+    let game = this.owner.lookup('service:game');
+    await store.createRecord('upgrade', {name: 'Economical Empires', isActive: true}).save()
+    await game.load()
+
+    await visit('/upgrades');
+
+    assert.ok(find('a[href="/upgrades/religious"]'))
+    assert.ok(find('a[href="/upgrades/economical"]'))
+    assert.notOk(find('a[href="/upgrades/military"]'))
+    assert.ok(find('a[href="/upgrades/others"]'))
+
+    await visit('/upgrades/military'); // Cannot go to military by hand
+    assert.equal(currentURL(), '/upgrades/religious');
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/economical')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowDown')
+    assert.equal(currentURL(), '/upgrades/religious')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/others')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/economical')
+
+    await triggerKeyEvent('a', 'keyup', 'ArrowUp')
+    assert.equal(currentURL(), '/upgrades/religious')
   })
 });
