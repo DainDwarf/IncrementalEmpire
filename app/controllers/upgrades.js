@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
-import { filterBy } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import { filterBy, sort } from '@ember/object/computed';
 
 export default Controller.extend({
   tabRoute: 'upgrades.religious',
@@ -10,6 +11,17 @@ export default Controller.extend({
   buyableScientific: filterBy('buyableUpgrades', 'type', 'scientific'),
   buyableOther: filterBy('buyableUpgrades', 'type', 'other'),
   showBought: false,
+
+  _upgradeSort: computed(() => ['order:asc']),
+  _inactiveModel: filterBy('model', 'isActive', false),
+  displayModel: computed('showBought', 'model', '_inactiveModel', function() {
+    if (this.showBought) {
+      return this.model
+    } else {
+      return this._inactiveModel
+    }
+  }),
+  upgrades: sort('displayModel', '_upgradeSort'),
 
   actions: {
     toggleShowBought() {

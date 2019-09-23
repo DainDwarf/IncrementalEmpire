@@ -3,7 +3,7 @@ import { filterBy } from '@ember/object/computed';
 
 export default Route.extend({
   templateName: 'upgrades.by-type',
-  controllerName: 'upgrades.by-type',
+  controllerName: 'upgrades',
   economical: filterBy('game.upgrades', 'type', 'economical'),
 
   model() {
