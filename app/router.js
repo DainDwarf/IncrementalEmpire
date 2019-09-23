@@ -14,7 +14,13 @@ Router.map(function() {
     this.route('capital');
     this.route('metal');
   });
-  this.route('upgrades');
+  this.route('upgrades', function() {
+    this.route('religious');
+    this.route('economical');
+    this.route('military');
+    this.route('scientific');
+    this.route('others');
+  });
   this.route('templates', function() {
     this.route('template', { path: ':id' });
   });

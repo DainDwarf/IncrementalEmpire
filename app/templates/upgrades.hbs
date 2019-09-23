@@ -1,7 +1,52 @@
-<div class="scrollable">
-  <div class="row mx-2 my-2">
-    {{#each model as |upgrade|}}
-      <UpgradeDisplay @model={{upgrade}}/>
-    {{/each}}
+<div class="container-fluid">
+  <div class="row">
+    <nav class="nav nav-pills flex-column border-right w-15">
+      {{#link-to "upgrades.religious" class="nav-link"}}
+        Religious
+        {{#if buyableReligious}}
+          <span class="badge badge-pill badge-primary float-right">{{buyableReligious.length}}</span>
+        {{/if}}
+      {{/link-to}}
+      {{#if (upgrade "Economical Empires")}}
+        {{#link-to "upgrades.economical" class="nav-link"}}
+          Economical
+          {{#if buyableEconomical}}
+            <span class="badge badge-pill badge-primary float-right">{{buyableEconomical.length}}</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
+      {{#if (upgrade "Military Empires")}}
+        {{#link-to "upgrades.military" class="nav-link"}}
+          Military
+          {{#if buyableMilitary}}
+            <span class="badge badge-pill badge-primary float-right">{{buyableMilitary.length}}</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
+      {{#if false}}
+        {{#link-to "upgrades.scientific" class="nav-link"}}
+          Scientific
+          {{#if buyableScientific}}
+            <span class="badge badge-pill badge-primary float-right">{{buyableScientific.length}}</span>
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
+      {{#link-to "upgrades.others" class="nav-link"}}
+        Others
+        {{#if buyableOther}}
+          <span class="badge badge-pill badge-primary float-right">{{buyableOther.length}}</span>
+        {{/if}}
+      {{/link-to}}
+    </nav>
+    <div class="border w-85">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <BsButton @class="btn {{if showBought "btn-success" "btn-secondary"}}" @active={{showBought}} @onClick={{action "toggleShowBought"}}>
+          Show bought upgrades
+        </BsButton>
+      </nav>
+      <div class="container-fluid scrollable-empire">
+        {{outlet}}
+      </div>
+    </div>
   </div>
 </div>

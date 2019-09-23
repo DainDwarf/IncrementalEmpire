@@ -1,0 +1,9 @@
+<div class="row mx-2 my-2">
+  {{#if upgrades}}
+    {{#each upgrades as |upgrade|}}
+      <UpgradeDisplay @model={{upgrade}}/>
+    {{/each}}
+  {{else}}
+    There is no upgrade to buy!
+  {{/if}}
+</div>
