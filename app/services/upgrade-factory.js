@@ -1,5 +1,16 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
+import { computed, defineProperty } from '@ember/object';
+
+function setBonus(upgrade, macro) {
+  defineProperty(upgrade, 'bonus', macro)
+}
+
+function setDescription(upgrade, format_string) {
+  defineProperty(upgrade, 'description', computed('bonus', function() {
+    return format_string.replace('{bonus}', upgrade.bonus)
+  }))
+}
 
 export default Service.extend({
   store: service(),
@@ -19,11 +30,14 @@ export default Service.extend({
     })
     this.upgradePlan.set('Click Power', (upgrade) => {
       upgrade.setProperties({
-        description: 'Your god powers for generating ressources is improved by your current mana',
         manaCost: 5,
         type: 'religious',
         order: 2,
       })
+      setBonus(upgrade, computed('game.universe.mana', function() {
+        return Math.max(1, Math.floor(Math.sqrt(upgrade.game.universe.mana)))
+      }))
+      setDescription(upgrade, "Your god powers for generating ressources is improved by your current mana. Current bonus: {bonus}x")
     })
     this.upgradePlan.set('Economical Empires', (upgrade) => {
       upgrade.setProperties({
