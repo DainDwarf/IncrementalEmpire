@@ -5,9 +5,17 @@ import { computed } from '@ember/object';
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),
   isActive: attr('boolean', {defaultValue: false}),
+  description: computed('isActive', 'inactiveDescription', 'activeDescription', function() {
+    if (this.isActive) {
+      return this.activeDescription
+    } else {
+      return this.inactiveDescription
+    }
+  }),
 
   // Set in game-template service
-  description: '',
+  inactiveDescription: '',
+  activeDescription: '',
   manaCost: 0,
   moneyCost: 0,
   scienceCost: 0,
