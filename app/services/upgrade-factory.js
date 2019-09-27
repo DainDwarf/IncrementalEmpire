@@ -124,7 +124,7 @@ export default Service.extend({
       setDisplayBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
         let money = upgrade.game.universe.money
         if (! upgrade.isActive ) { money -= upgrade.moneyCost }
-        return Math.max(1, 1+Math.log10(upgrade.game.universe.money))
+        return Math.max(1, 1+Math.log10(money))
       }))
       setActualBonus(upgrade, computed('game.{universe.money,empire.type}', 'isActive', function() {
         if (upgrade.isActive && upgrade.game.empire.type == "economical") {

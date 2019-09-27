@@ -8,10 +8,10 @@ module('Integration | Helper | bonus', function(hooks) {
 
   // Replace this with your real tests.
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
+    this.set('inputValue', 1234);
 
     await render(hbs`{{bonus inputValue}}`);
 
-    assert.equal(this.element.textContent.trim(), '123400.00%');
+    assert.equal(this.element.textContent.trim(), '1234.00');
   });
 });

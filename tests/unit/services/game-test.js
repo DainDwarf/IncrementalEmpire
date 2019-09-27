@@ -93,9 +93,7 @@ module('Unit | Service | game', function(hooks) {
     // Click Power has bad cost in save, already unlocked
     await store.createRecord('upgrade', {
       name: 'Click Power',
-      manaCost: 12,
       isActive: true,
-      description: 'Bad description',
     }).save()
     await game.load()
     assert.ok(game.universe)
