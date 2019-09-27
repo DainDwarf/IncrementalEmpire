@@ -2,8 +2,12 @@ import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
 
-function setBonus(upgrade, macro) {
-  defineProperty(upgrade, 'bonus', macro)
+function setDisplayBonus(upgrade, macro) {
+  defineProperty(upgrade, 'displayBonus', macro)
+}
+
+function setActualBonus(upgrade, macro) {
+  defineProperty(upgrade, 'actualBonus', macro)
 }
 
 function setDescription(upgrade, format_string) {
@@ -13,13 +17,13 @@ function setDescription(upgrade, format_string) {
 
 function setInactiveDescription(upgrade, format_string) {
   defineProperty(upgrade, 'inactiveDescription', computed('bonus', function() {
-    return format_string.replace('{bonus}', upgrade.bonus)
+    return format_string.replace('{bonus}', upgrade.displayBonus)
   }))
 }
 
 function setActiveDescription(upgrade, format_string) {
   defineProperty(upgrade, 'activeDescription', computed('bonus', function() {
-    return format_string.replace('{bonus}', upgrade.bonus)
+    return format_string.replace('{bonus}', upgrade.displayBonus)
   }))
 }
 
@@ -45,11 +49,9 @@ export default Service.extend({
         type: 'religious',
         order: 2,
       })
-      setBonus(upgrade, computed('game.universe.mana', 'isActive', 'manaCost', function() {
+      setDisplayBonus(upgrade, computed('game.universe.mana', 'isActive', 'manaCost', function() {
         let mana = upgrade.game.universe.mana
-        if (! upgrade.isActive ){
-          mana -= upgrade.manaCost
-        }
+        if (! upgrade.isActive ) { mana -= upgrade.manaCost }
         return Math.max(1, Math.floor(Math.sqrt(mana)))
       }))
       setInactiveDescription(upgrade, "Your god powers for generating ressources will be improved by your current mana. Expected bonus: {bonus}x")
@@ -108,8 +110,9 @@ export default Service.extend({
         moneyCost: 100,
         type: 'economical',
         order: 4,
+        displayBonus: 2,
       })
-      setDescription(upgrade, 'Your ressource storage buildings provide 2x more storage')
+      setDescription(upgrade, 'Your ressource storage buildings provide {bonus}x more storage')
     })
     this.upgradePlan.set('Economical Efficiency', (upgrade) => {
       upgrade.setProperties({
@@ -117,7 +120,20 @@ export default Service.extend({
         type: 'economical',
         order: 5,
       })
-      setDescription(upgrade, 'Your ressource storage buildings provide more storage in economical empires based on your money amount')
+      setDisplayBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
+        let money = upgrade.game.universe.money
+        if (! upgrade.isActive ) { money -= upgrade.moneyCost }
+        return Math.max(1, 1+Math.log10(upgrade.game.universe.money))
+      }))
+      setActualBonus(upgrade, computed('game.{universe.money,empire.type}', 'isActive', function() {
+        if (upgrade.isActive && upgrade.game.empire.type == "economical") {
+          return Math.max(1, 1+Math.log10(upgrade.game.universe.money))
+        } else {
+          return 1
+        }
+      }))
+      setInactiveDescription(upgrade, "Your ressource storage buildings will provide more storage in economical empires based on your money amount. Expected bonus: {bonus}x")
+      setActiveDescription(upgrade, "Your ressource storage buildings provide more storage in economical empires based on your money amount. Current bonus: {bonus}x")
     })
     this.upgradePlan.set('Storage 2', (upgrade) => {
       upgrade.setProperties({

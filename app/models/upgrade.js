@@ -22,7 +22,18 @@ export default Model.extend({
   strengthCost: 0,
   type: 'other',
   order: 0,
-  bonus: 1,
+  // I know, this is bad to have two fields to compute something that should be the same...
+  // Bonus used for display, does not check conditions to do the computation
+  displayBonus: 1,
+  // Bonus used for computation, adding actual conditions.
+  // Default behaviour is to return display value if active, and 1 otherwise.
+  actualBonus: computed('isActive', 'displayBonus', function() {
+    if (this.isActive) {
+      return this.displayBonus
+    } else {
+      return 1
+    }
+  }),
 
   canBuy: computed('isActive', 'game.universe.{mana,money,science,strength}',
                       'manaCost', 'moneyCost', 'scienceCost', 'strengthCost', function() {

@@ -6,6 +6,12 @@ export function upgrade(upgradeKey) {
   })
 }
 
+export function upgradeBonus(upgradeKey) {
+  return computed('game.upgrades.@each.actualBonus', function() {
+    return this.game.getUpgrade(upgradeKey).actualBonus
+  })
+}
+
 export function achievement(achievementKey) {
   return computed('game.achievements.@each.isActive', function() {
     return this.game.getAchievement(achievementKey).isActive

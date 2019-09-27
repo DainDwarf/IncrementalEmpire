@@ -2,7 +2,7 @@ import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
 import { alias, filter, mapBy, sum } from '@ember/object/computed';
-import { upgrade } from 'incremental-empire/utils/computed';
+import { upgrade, upgradeBonus } from 'incremental-empire/utils/computed';
 
 export default Model.extend({
   template_id: attr('string', {defaultValue: 'universe'}), // Template ID, or "universe" if this is the main empire.
@@ -209,16 +209,12 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
-  hoarding: upgrade('Hoarding'),
-  hoardingEco: upgrade('Economical Efficiency'),
-  ressourceStorageBoost: computed('type', 'hoarding', 'hoardingEco', function() {
+  hoarding: upgradeBonus('Hoarding'),
+  hoardingEco: upgradeBonus('Economical Efficiency'),
+  ressourceStorageBoost: computed('hoarding', 'hoardingEco', function() {
     let ratio = 1
-    if (this.type == "economical" && this.hoardingEco) {
-      ratio *= Math.max(1, 1+Math.log10(this.game.universe.money))
-    }
-    if (this.hoarding) {
-      ratio *= 2
-    }
+    ratio *= this.hoardingEco
+    ratio *= this.hoarding
     return ratio
   }),
 
