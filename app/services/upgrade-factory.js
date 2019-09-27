@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { computed, defineProperty } from '@ember/object';
+import { bonusDisplay } from 'incremental-empire/utils/bonus';
 
 function setDisplayBonus(upgrade, macro) {
   defineProperty(upgrade, 'displayBonus', macro)
@@ -17,13 +18,13 @@ function setDescription(upgrade, format_string) {
 
 function setInactiveDescription(upgrade, format_string) {
   defineProperty(upgrade, 'inactiveDescription', computed('bonus', function() {
-    return format_string.replace('{bonus}', upgrade.displayBonus)
+    return format_string.replace('{bonus}', bonusDisplay(upgrade.displayBonus))
   }))
 }
 
 function setActiveDescription(upgrade, format_string) {
   defineProperty(upgrade, 'activeDescription', computed('bonus', function() {
-    return format_string.replace('{bonus}', upgrade.displayBonus)
+    return format_string.replace('{bonus}', bonusDisplay(upgrade.displayBonus))
   }))
 }
 
@@ -54,8 +55,8 @@ export default Service.extend({
         if (! upgrade.isActive ) { mana -= upgrade.manaCost }
         return Math.max(1, Math.floor(Math.sqrt(mana)))
       }))
-      setInactiveDescription(upgrade, "Your god powers for generating ressources will be improved by your current mana. Expected bonus: {bonus}x")
-      setActiveDescription(upgrade, "Your god powers for generating ressources is improved by your current mana. Current bonus: {bonus}x")
+      setInactiveDescription(upgrade, "Your god powers for generating ressources will be improved by your current mana. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your god powers for generating ressources is improved by your current mana. Current multiplier: {bonus}")
     })
     this.upgradePlan.set('Economical Empires', (upgrade) => {
       upgrade.setProperties({
@@ -112,7 +113,7 @@ export default Service.extend({
         order: 4,
         displayBonus: 2,
       })
-      setDescription(upgrade, 'Your ressource storage buildings provide {bonus}x more storage')
+      setDescription(upgrade, 'Your ressource storage is multiplied by {bonus}')
     })
     this.upgradePlan.set('Economical Efficiency', (upgrade) => {
       upgrade.setProperties({
@@ -132,8 +133,8 @@ export default Service.extend({
           return 1
         }
       }))
-      setInactiveDescription(upgrade, "Your ressource storage buildings will provide more storage in economical empires based on your money amount. Expected bonus: {bonus}x")
-      setActiveDescription(upgrade, "Your ressource storage buildings provide more storage in economical empires based on your money amount. Current bonus: {bonus}x")
+      setInactiveDescription(upgrade, "Your ressource storage buildings will provide more storage in economical empires based on your money amount. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your ressource storage buildings provide more storage in economical empires based on your money amount. Current multiplier: {bonus}")
     })
     this.upgradePlan.set('Storage 2', (upgrade) => {
       upgrade.setProperties({
