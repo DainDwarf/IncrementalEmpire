@@ -51,10 +51,8 @@ export default Service.extend({
         type: 'religious',
         order: 2,
       })
-      setBonus(upgrade, computed('game.universe.mana', 'isActive', 'manaCost', function() {
-        let mana = upgrade.game.universe.mana
-        if (! upgrade.isActive ) { mana = Math.max(mana-upgrade.manaCost, 0) }
-        return Math.max(1, Math.floor(Math.sqrt(mana)))
+      setBonus(upgrade, computed('mana', function() {
+        return Math.max(1, Math.floor(Math.sqrt(upgrade.mana)))
       }))
       setInactiveDescription(upgrade, "Your god powers for generating ressources will be improved by your current mana. Expected multiplier: {bonus}")
       setActiveDescription(upgrade, "Your god powers for generating ressources is improved by your current mana. Current multiplier: {bonus}")
@@ -122,10 +120,8 @@ export default Service.extend({
         type: 'economical',
         order: 5,
       })
-      setBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
-        let money = upgrade.game.universe.money
-        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
-        return Math.max(1, 1+Math.log10(money))
+      setBonus(upgrade, computed('money', function() {
+        return Math.max(1, 1+Math.log10(upgrade.money))
       }))
       setBonusCondition(upgrade, equal('game.empire.type', 'economical'))
       setInactiveDescription(upgrade, "Your ressource storage buildings will provide more storage in economical empires based on your money amount. Expected multiplier: {bonus}")
@@ -145,10 +141,8 @@ export default Service.extend({
         type: 'economical',
         order: 7,
       })
-      setBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
-        let money = upgrade.game.universe.money
-        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
-        return Math.max(1, Math.log10(money))
+      setBonus(upgrade, computed('money', function() {
+        return Math.max(1, Math.log10(upgrade.money))
       }))
       setBonusCondition(upgrade, computed('game.empire.type', function() {
         return upgrade.game.empire.type != "economical"
@@ -162,10 +156,8 @@ export default Service.extend({
         type: 'economical',
         order: 8,
       })
-      setBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
-        let money = upgrade.game.universe.money
-        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
-        return Math.max(1, 1+Math.log10(money))
+      setBonus(upgrade, computed('money', function() {
+        return Math.max(1, 1+Math.log10(upgrade.money))
       }))
       setBonusCondition(upgrade, equal('game.empire.type', 'economical'))
       setInactiveDescription(upgrade, "Your ressource production in economical empires is improved by your current money. Expected multiplier: {bonus}")

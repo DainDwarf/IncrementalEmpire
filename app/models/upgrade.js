@@ -25,6 +25,28 @@ export default Model.extend({
   bonus: 1,
   bonusCondition: true,
 
+  // Use these instead of universe.{rebirhtPoint} for computing bonus formula
+  // This will automatically display the correct expected bonus for inactive upgrades.
+  mana: computed('isActive', 'manaCost', 'game.universe.mana', function() {
+    let mana = this.game.universe.mana
+    if (! this.isActive ) { mana = Math.max(mana-this.manaCost, 0) }
+    return mana
+  }),
+  money: computed('isActive', 'moneyCost', 'game.universe.money', function() {
+    let money = this.game.universe.money
+    if (! this.isActive ) { money = Math.max(money-this.moneyCost, 0) }
+    return money
+  }),
+  science: computed('isActive', 'scienceCost', 'game.universe.science', function() {
+    let science = this.game.universe.science
+    if (! this.isActive ) { science = Math.max(science-this.scienceCost, 0) }
+    return science
+  }),
+  strength: computed('isActive', 'strengthCost', 'game.universe.strength', function() {
+    let strength = this.game.universe.strength
+    if (! this.isActive ) { strength = Math.max(strength-this.strengthCost, 0) }
+    return strength
+  }),
 
   // private:
   _actualBonus: computed('isActive', 'bonus', 'bonusCondition', function() {
