@@ -7,8 +7,8 @@ export function upgrade(upgradeKey) {
 }
 
 export function upgradeBonus(upgradeKey) {
-  return computed('game.upgrades.@each.actualBonus', function() {
-    return this.game.getUpgrade(upgradeKey).actualBonus
+  return computed('game.upgrades.@each._actualBonus', function() {
+    return this.game.getUpgrade(upgradeKey)._actualBonus
   })
 }
 

@@ -22,14 +22,14 @@ export default Model.extend({
   strengthCost: 0,
   type: 'other',
   order: 0,
-  // I know, this is bad to have two fields to compute something that should be the same...
-  // Bonus used for display, does not check conditions to do the computation
-  displayBonus: 1,
-  // Bonus used for computation, adding actual conditions.
-  // Default behaviour is to return display value if active, and 1 otherwise.
-  actualBonus: computed('isActive', 'displayBonus', function() {
-    if (this.isActive) {
-      return this.displayBonus
+  bonus: 1,
+  bonusCondition: true,
+
+
+  // private:
+  _actualBonus: computed('isActive', 'bonus', 'bonusCondition', function() {
+    if (this.isActive && this.bonusCondition) {
+      return this.bonus
     } else {
       return 1
     }
