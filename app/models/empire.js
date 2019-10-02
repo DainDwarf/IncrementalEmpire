@@ -46,16 +46,13 @@ export default Model.extend({
     return this.type == "economical" || this._workerUpgrade
   }),
 
-  economicalPower: upgrade('Economical Power'),
-  economicalOverflow: upgrade('Economical Overflow'),
+  economicalPower: upgradeBonus('Economical Power'),
+  economicalOverflow: upgradeBonus('Economical Overflow'),
   ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'economicalOverflow', 'type', function() {
-    if (this.economicalPower && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else if (this.economicalOverflow && this.type != "economical") {
-      return Math.max(1, Math.log10(this.game.universe.money))
-    } else{
-      return 1
-    }
+    let ratio = 1
+    ratio *= this.economicalPower
+    ratio *= this.economicalOverflow
+    return ratio
   }),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),

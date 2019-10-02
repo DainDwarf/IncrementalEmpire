@@ -52,7 +52,7 @@ export default Service.extend({
       })
       setDisplayBonus(upgrade, computed('game.universe.mana', 'isActive', 'manaCost', function() {
         let mana = upgrade.game.universe.mana
-        if (! upgrade.isActive ) { mana -= upgrade.manaCost }
+        if (! upgrade.isActive ) { mana = Math.max(mana-upgrade.manaCost, 0) }
         return Math.max(1, Math.floor(Math.sqrt(mana)))
       }))
       setInactiveDescription(upgrade, "Your god powers for generating ressources will be improved by your current mana. Expected multiplier: {bonus}")
@@ -123,7 +123,7 @@ export default Service.extend({
       })
       setDisplayBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
         let money = upgrade.game.universe.money
-        if (! upgrade.isActive ) { money -= upgrade.moneyCost }
+        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
         return Math.max(1, 1+Math.log10(money))
       }))
       setActualBonus(upgrade, computed('game.{universe.money,empire.type}', 'isActive', function() {
@@ -150,7 +150,20 @@ export default Service.extend({
         type: 'economical',
         order: 7,
       })
-      setDescription(upgrade, 'Your ressource production in other empires is also improved by your current money')
+      setDisplayBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
+        let money = upgrade.game.universe.money
+        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
+        return Math.max(1, Math.log10(money))
+      }))
+      setActualBonus(upgrade, computed('game.{universe.money,empire.type}', 'isActive', function() {
+        if (upgrade.isActive && upgrade.game.empire.type != "economical") {
+          return Math.max(1, Math.log10(upgrade.game.universe.money))
+        } else {
+          return 1
+        }
+      }))
+      setInactiveDescription(upgrade, "Your ressource production in other empires is also improved by your current money. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your ressource production in other empires is also improved by your current money. Current multiplier: {bonus}")
     })
     this.upgradePlan.set('Economical Power', (upgrade) => {
       upgrade.setProperties({
@@ -158,7 +171,20 @@ export default Service.extend({
         type: 'economical',
         order: 8,
       })
-      setDescription(upgrade, 'Your ressource production in economical empires is improved by your current money')
+      setDisplayBonus(upgrade, computed('game.universe.money', 'isActive', 'moneyCost', function() {
+        let money = upgrade.game.universe.money
+        if (! upgrade.isActive ) { money = Math.max(money-upgrade.moneyCost, 0) }
+        return Math.max(1, 1+Math.log10(money))
+      }))
+      setActualBonus(upgrade, computed('game.{universe.money,empire.type}', 'isActive', function() {
+        if (upgrade.isActive && upgrade.game.empire.type == "economical") {
+          return Math.max(1, 1+Math.log10(upgrade.game.universe.money))
+        } else {
+          return 1
+        }
+      }))
+      setInactiveDescription(upgrade, "Your ressource production in economical empires is improved by your current money. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your ressource production in economical empires is improved by your current money. Current multiplier: {bonus}")
     })
     this.upgradePlan.set('Workers', (upgrade) => {
       upgrade.setProperties({
