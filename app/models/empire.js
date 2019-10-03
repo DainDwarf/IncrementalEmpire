@@ -56,13 +56,11 @@ export default Model.extend({
   }),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),
-  _conquestAggressive: upgrade('Aggressive Diplomacy'),
-  _conquestRatio: computed('type', '_conquestAggressive', function() {
-    if (this.type == "military" && this._conquestAggressive) {
-      return 5
-    } else {
-      return 1
-    }
+  _conquestAggressive: upgradeBonus('Aggressive Diplomacy'),
+  _conquestRatio: computed('_conquestAggressive', function() {
+    let ratio = 1
+    ratio *= this._conquestAggressive
+    return ratio
   }),
   buildingLimitFromConquest: computed('conquestCount', '_conquestRatio', function() {
     return this.conquestCount*this._conquestRatio
@@ -158,16 +156,12 @@ export default Model.extend({
     }
     return sum
   }),
-  _forgingAvailable: upgrade('Weapon Forging'),
-  _forgingEfficiency: computed('_forgingAvailable', 'type', 'game.universe.strength', function() {
-    if (this._forgingAvailable && this.type == "military") {
-      return Math.max(1, 1+Math.sqrt(this.game.universe.strength))
-    } else {
-      return 1
-    }
-  }),
-  metalEfficiency: computed('ressourceEfficiency', '_forgingEfficiency', function() {
-    return this.ressourceEfficiency*this._forgingEfficiency
+  _forging: upgradeBonus('Weapon Forging'),
+  metalEfficiency: computed('ressourceEfficiency', '_forging', function() {
+    let ratio = 1
+    ratio *= this.ressourceEfficiency
+    ratio *= this._forging
+    return ratio
   }),
   metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
     return Math.floor(this.baseMetalProduction*this.metalEfficiency)
@@ -216,13 +210,11 @@ export default Model.extend({
   }),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  _communityUpgrade: upgrade('Community Spirit'),
+  _communityUpgrade: upgradeBonus('Community Spirit'),
   _populationStorageRatio: computed('_communityUpgrade', function() {
-    if (this._communityUpgrade) {
-      return 4
-    } else {
-      return 1
-    }
+    let ratio = 1
+    ratio *= this._communityUpgrade
+    return ratio
   }),
   populationStorage: computed('_populationStorageRatio', 'populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
@@ -261,12 +253,10 @@ export default Model.extend({
     }
     return sum
   }),
-  _warPreparation: upgrade('War Preparations'),
-  metalStorageBoost: computed('ressourceStorageBoost', 'type', 'game.universe.money', '_warPreparation', function() {
+  _warPreparation: upgradeBonus('War Preparations'),
+  metalStorageBoost: computed('ressourceStorageBoost', '_warPreparation', function() {
     let ratio = this.ressourceStorageBoost
-    if (this._warPreparation && this.type == "military") {
-      ratio *= Math.max(1, Math.log10(this.game.universe.money))
-    }
+    ratio *= this._warPreparation
     return ratio
   }),
   metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),

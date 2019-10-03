@@ -209,7 +209,12 @@ export default Service.extend({
         type: 'military',
         order: 1,
       })
-      setDescription(upgrade, 'Your military empires can store more metal based on your current money')
+      setBonus(upgrade, computed('money', function() {
+        return Math.max(1, Math.log10(upgrade.money))
+      }))
+      setBonusCondition(upgrade, equal('game.empire.type', 'military'))
+      setInactiveDescription(upgrade, "Your military empires can store more metal based on your current money. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your military empires can store more metal based on your current money. Current multiplier: {bonus}")
     })
     this.upgradePlan.set("Philosopher's Stone", (upgrade) => {
       upgrade.setProperties({
@@ -224,8 +229,10 @@ export default Service.extend({
         strengthCost: 100,
         type: 'military',
         order: 2,
+        bonus: 5,
       })
-      setDescription(upgrade, 'Conquest in military empire give 5 times more building space')
+      setBonusCondition(upgrade, equal('game.empire.type', 'military'))
+      setDescription(upgrade, 'Conquest in military empire give {bonus} times more building space')
     })
     this.upgradePlan.set('Weapon Forging', (upgrade) => {
       upgrade.setProperties({
@@ -233,7 +240,12 @@ export default Service.extend({
         type: 'military',
         order: 3,
       })
-      setDescription(upgrade, 'Your metal production in military empires is increased based on your strength')
+      setBonus(upgrade, computed('strength', function() {
+        return Math.max(1, 1+Math.sqrt(upgrade.strength))
+      }))
+      setBonusCondition(upgrade, equal('game.empire.type', 'military'))
+      setInactiveDescription(upgrade, "Your metal production in military empires is increased based on your strength. Expected multiplier: {bonus}")
+      setActiveDescription(upgrade, "Your metal production in military empires is increased based on your strength. Current multiplier: {bonus}")
     })
     this.upgradePlan.set('Wrath of God', (upgrade) => {
       upgrade.setProperties({
@@ -266,8 +278,9 @@ export default Service.extend({
         manaCost: 50,
         type: 'religious',
         order: 8,
+        bonus: 4,
       })
-      setDescription(upgrade, 'Housing buildings can hold 4x more people')
+      setDescription(upgrade, 'Housing buildings can hold {bonus} times more people')
     })
   },
 
