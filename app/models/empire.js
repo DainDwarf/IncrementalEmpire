@@ -48,7 +48,7 @@ export default Model.extend({
 
   economicalPower: upgradeBonus('Economical Power'),
   economicalOverflow: upgradeBonus('Economical Overflow'),
-  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'economicalOverflow', 'type', function() {
+  ressourceEfficiency: computed('economicalPower', 'economicalOverflow', function() {
     let ratio = 1
     ratio *= this.economicalPower
     ratio *= this.economicalOverflow
