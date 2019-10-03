@@ -6,9 +6,11 @@ export function upgrade(upgradeKey) {
   })
 }
 
-export function upgradeBonus(upgradeKey) {
+export function upgradeBonus(...upgradeKeys) {
   return computed('game.upgrades.@each._actualBonus', function() {
-    return this.game.getUpgrade(upgradeKey)._actualBonus
+    return upgradeKeys.reduce((ratio, key) => {
+      return ratio * this.game.getUpgrade(key)._actualBonus
+    }, 1)
   })
 }
 

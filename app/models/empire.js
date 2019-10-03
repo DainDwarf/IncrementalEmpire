@@ -46,22 +46,11 @@ export default Model.extend({
     return this.type == "economical" || this._workerUpgrade
   }),
 
-  economicalPower: upgradeBonus('Economical Power'),
-  economicalOverflow: upgradeBonus('Economical Overflow'),
-  ressourceEfficiency: computed('economicalPower', 'economicalOverflow', function() {
-    let ratio = 1
-    ratio *= this.economicalPower
-    ratio *= this.economicalOverflow
-    return ratio
-  }),
+  ressourceEfficiency: upgradeBonus('Economical Power', 'Economical Overflow'),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),
-  _conquestAggressive: upgradeBonus('Aggressive Diplomacy'),
-  _conquestRatio: computed('_conquestAggressive', function() {
-    let ratio = 1
-    ratio *= this._conquestAggressive
-    return ratio
-  }),
+  _conquestRatio: upgradeBonus('Aggressive Diplomacy'),
+
   buildingLimitFromConquest: computed('conquestCount', '_conquestRatio', function() {
     return this.conquestCount*this._conquestRatio
   }),
@@ -200,22 +189,10 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
-  hoarding: upgradeBonus('Hoarding'),
-  hoardingEco: upgradeBonus('Economical Efficiency'),
-  ressourceStorageBoost: computed('hoarding', 'hoardingEco', function() {
-    let ratio = 1
-    ratio *= this.hoardingEco
-    ratio *= this.hoarding
-    return ratio
-  }),
+  ressourceStorageBoost: upgradeBonus('Hoarding', 'Economical Efficiency'),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  _communityUpgrade: upgradeBonus('Community Spirit'),
-  _populationStorageRatio: computed('_communityUpgrade', function() {
-    let ratio = 1
-    ratio *= this._communityUpgrade
-    return ratio
-  }),
+  _populationStorageRatio: upgradeBonus('Community Spirit'),
   populationStorage: computed('_populationStorageRatio', 'populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
