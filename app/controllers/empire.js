@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { gt, lt, or } from '@ember/object/computed';
-import { upgrade } from 'incremental-empire/utils/computed';
+import { upgrade, upgradeBonus } from 'incremental-empire/utils/computed';
 
 export default Controller.extend({
   _religiousConquest: upgrade('Wrath of God'),
@@ -79,14 +79,7 @@ export default Controller.extend({
     }
   }),
 
-  clickPowerActive: upgrade('Click Power'),
-  ressourceSpellEfficiency: computed('game.universe.mana', 'clickPowerActive', function() {
-    let eff = 1
-    if (this.clickPowerActive) {
-      eff = Math.max(1, Math.floor(Math.sqrt(this.game.universe.mana)))
-    }
-    return eff
-  }),
+  ressourceSpellEfficiency: upgradeBonus('Click Power'),
 
   actions: {
     async conquest() {

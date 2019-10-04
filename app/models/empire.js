@@ -2,7 +2,7 @@ import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
 import { alias, filter, mapBy, sum } from '@ember/object/computed';
-import { upgrade } from 'incremental-empire/utils/computed';
+import { upgrade, upgradeBonus } from 'incremental-empire/utils/computed';
 
 export default Model.extend({
   template_id: attr('string', {defaultValue: 'universe'}), // Template ID, or "universe" if this is the main empire.
@@ -46,27 +46,11 @@ export default Model.extend({
     return this.type == "economical" || this._workerUpgrade
   }),
 
-  economicalPower: upgrade('Economical Power'),
-  economicalOverflow: upgrade('Economical Overflow'),
-  ressourceEfficiency: computed('game.universe.money', 'economicalPower', 'economicalOverflow', 'type', function() {
-    if (this.economicalPower && this.type == "economical") {
-      return Math.max(1, 1+Math.log10(this.game.universe.money))
-    } else if (this.economicalOverflow && this.type != "economical") {
-      return Math.max(1, Math.log10(this.game.universe.money))
-    } else{
-      return 1
-    }
-  }),
+  ressourceEfficiency: upgradeBonus('Economical Power', 'Economical Overflow'),
 
   buildingLimitFromSpell: alias('buildingLimitSpellCount'),
-  _conquestAggressive: upgrade('Aggressive Diplomacy'),
-  _conquestRatio: computed('type', '_conquestAggressive', function() {
-    if (this.type == "military" && this._conquestAggressive) {
-      return 5
-    } else {
-      return 1
-    }
-  }),
+  _conquestRatio: upgradeBonus('Aggressive Diplomacy'),
+
   buildingLimitFromConquest: computed('conquestCount', '_conquestRatio', function() {
     return this.conquestCount*this._conquestRatio
   }),
@@ -161,16 +145,9 @@ export default Model.extend({
     }
     return sum
   }),
-  _forgingAvailable: upgrade('Weapon Forging'),
-  _forgingEfficiency: computed('_forgingAvailable', 'type', 'game.universe.strength', function() {
-    if (this._forgingAvailable && this.type == "military") {
-      return Math.max(1, 1+Math.sqrt(this.game.universe.strength))
-    } else {
-      return 1
-    }
-  }),
-  metalEfficiency: computed('ressourceEfficiency', '_forgingEfficiency', function() {
-    return this.ressourceEfficiency*this._forgingEfficiency
+  _forging: upgradeBonus('Weapon Forging'),
+  metalEfficiency: computed('ressourceEfficiency', '_forging', function() {
+    return this.ressourceEfficiency * this._forging
   }),
   metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
     return Math.floor(this.baseMetalProduction*this.metalEfficiency)
@@ -209,28 +186,10 @@ export default Model.extend({
   }),
 
   capitalName: alias('capitalPopulation.name'),
-  hoarding: upgrade('Hoarding'),
-  hoardingEco: upgrade('Economical Efficiency'),
-  ressourceStorageBoost: computed('type', 'hoarding', 'hoardingEco', function() {
-    let ratio = 1
-    if (this.type == "economical" && this.hoardingEco) {
-      ratio *= Math.max(1, 1+Math.log10(this.game.universe.money))
-    }
-    if (this.hoarding) {
-      ratio *= 2
-    }
-    return ratio
-  }),
+  ressourceStorageBoost: upgradeBonus('Hoarding', 'Economical Efficiency'),
 
   populationStorageBuildings: filter('buildings', b => b.populationStorage != undefined),
-  _communityUpgrade: upgrade('Community Spirit'),
-  _populationStorageRatio: computed('_communityUpgrade', function() {
-    if (this._communityUpgrade) {
-      return 4
-    } else {
-      return 1
-    }
-  }),
+  _populationStorageRatio: upgradeBonus('Community Spirit'),
   populationStorage: computed('_populationStorageRatio', 'populationStorageBuildings.@each.{qty,populationStorage}', function() {
     let sum = 0
     for (let b of this.populationStorageBuildings) {
@@ -268,13 +227,9 @@ export default Model.extend({
     }
     return sum
   }),
-  _warPreparation: upgrade('War Preparations'),
-  metalStorageBoost: computed('ressourceStorageBoost', 'type', 'game.universe.money', '_warPreparation', function() {
-    let ratio = this.ressourceStorageBoost
-    if (this._warPreparation && this.type == "military") {
-      ratio *= Math.max(1, Math.log10(this.game.universe.money))
-    }
-    return ratio
+  _warPreparation: upgradeBonus('War Preparations'),
+  metalStorageBoost: computed('ressourceStorageBoost', '_warPreparation', function() {
+    return this.ressourceStorageBoost * this._warPreparation
   }),
   metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),
   metalStorage: computed('metalStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {

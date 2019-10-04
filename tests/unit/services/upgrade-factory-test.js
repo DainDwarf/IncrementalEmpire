@@ -33,6 +33,8 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   });
 
   test('generate OK', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let clickPower = await upgradeFactory.generate('Click Power')
     assert.equal(clickPower.name, 'Click Power')
@@ -50,6 +52,8 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   })
 
   test('generate BAD', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     assert.rejects(upgradeFactory.generate('Sbleurlk'))
 
@@ -64,9 +68,11 @@ module('Unit | Service | upgradeFactory', function(hooks) {
 
   test('consolidate OK', async function(assert) {
     let store = this.owner.lookup('service:store');
-    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let clickPower = await store.createRecord('upgrade', {name: 'Click Power', isActive: true}).save()
+    let game = this.owner.lookup('service:game');
+    await game.load()
 
+    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     upgradeFactory.consolidate(clickPower)
 
     assert.equal(clickPower.name, 'Click Power')
@@ -78,14 +84,18 @@ module('Unit | Service | upgradeFactory', function(hooks) {
 
   test('consolidate BAD', async function(assert) {
     let store = this.owner.lookup('service:store');
-    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let badOne = await store.createRecord('upgrade', {name: 'Sbleurlk'}).save()
+    let game = this.owner.lookup('service:game');
+    await game.load()
+
+    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     assert.throws(() => upgradeFactory.consolidate(badOne))
   })
 
   test('consolidate_all | Existing upgrades', async function(assert) {
     let store = this.owner.lookup('service:store');
-    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
+    let game = this.owner.lookup('service:game');
+    await game.load()
 
     // This already defined existing upgrade should keep its activated status
     // But replace non-saved values like description and cost.
@@ -100,6 +110,7 @@ module('Unit | Service | upgradeFactory', function(hooks) {
 
     assert.notOk(clickPower.description)
 
+    let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let upgrades = [clickPower, badOne]
     await upgradeFactory.consolidate_all(upgrades)
 
@@ -113,6 +124,8 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   })
 
   test('consolidate_all | Empty upgrades', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let upgrades = []
 
@@ -122,6 +135,8 @@ module('Unit | Service | upgradeFactory', function(hooks) {
   })
 
   test('unique order', async function(assert) {
+    let game = this.owner.lookup('service:game');
+    await game.load()
     let upgradeFactory = this.owner.lookup('service:upgrade-factory');
     let upgrades = []
     await upgradeFactory.consolidate_all(upgrades)
