@@ -147,10 +147,7 @@ export default Model.extend({
   }),
   _forging: upgradeBonus('Weapon Forging'),
   metalEfficiency: computed('ressourceEfficiency', '_forging', function() {
-    let ratio = 1
-    ratio *= this.ressourceEfficiency
-    ratio *= this._forging
-    return ratio
+    return this.ressourceEfficiency * this._forging
   }),
   metalProduction: computed('baseMetalProduction', 'metalEfficiency', function() {
     return Math.floor(this.baseMetalProduction*this.metalEfficiency)
@@ -232,9 +229,7 @@ export default Model.extend({
   }),
   _warPreparation: upgradeBonus('War Preparations'),
   metalStorageBoost: computed('ressourceStorageBoost', '_warPreparation', function() {
-    let ratio = this.ressourceStorageBoost
-    ratio *= this._warPreparation
-    return ratio
+    return this.ressourceStorageBoost * this._warPreparation
   }),
   metalStorageBuildings: filter('buildings', b => b.metalStorage != undefined),
   metalStorage: computed('metalStorageBoost', 'metalStorageBuildings.@each.{qty,metalStorage}', function() {

@@ -1,15 +1,16 @@
 import DS from 'ember-data';
 const { Model, attr } = DS;
 import { computed } from '@ember/object';
+import { bonusDisplay } from 'incremental-empire/utils/bonus';
 
 export default Model.extend({
   name: attr('string', {defaultValue: ''}),
   isActive: attr('boolean', {defaultValue: false}),
-  description: computed('isActive', 'inactiveDescription', 'activeDescription', function() {
+  description: computed('isActive', 'bonus', 'inactiveDescription', 'activeDescription', function() {
     if (this.isActive) {
-      return this.activeDescription
+      return this.activeDescription.replace('{bonus}', bonusDisplay(this.bonus))
     } else {
-      return this.inactiveDescription
+      return this.inactiveDescription.replace('{bonus}', bonusDisplay(this.bonus))
     }
   }),
 
